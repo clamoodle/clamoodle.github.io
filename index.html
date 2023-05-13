@@ -1,119 +1,17 @@
 <!DOCTYPE html>
-<!--
-  Author: Pearl Chen
-  Date: May 9, 2023
-  HTML for the landing welcome/login page of Set World, a game where I hopefully will eventually
-  make it so that players can play variations of the Set game and buy stuff as a cute lil' pixel
-  guy! (Yes, Set Penguin.)
-  So far right now it has a welcome page which leads to a version of the chrome dino game
--->
-
 <html>
     <head>
-        <title>Set World</title>
-        <link rel="stylesheet" href="css/styles.css" />
-        <link rel="stylesheet" href="css/keyframes.css" />
-        <link rel="stylesheet" href="css/index.css" />
-        <link rel="stylesheet" href="css/game.css" />
-        <script src="script/utils.js"></script>
-        <script defer src="script/welcome.js"></script>
-        <script defer src="script/game.js"></script>
+        <title>Pearl's Stuffs</title>
+        <link rel="icon" type="image/x-icon" href="set-wrold/media/dog.png" />
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <header>
-            <input type="image" id="menu-button" src="media/menu-button.png" alt="menu button" />
-            <!-- using div instead of img/input/button for music toggle for easier image source 
-                control with toggle across pages with different .js modules. Here, title is used 
-                instead of alt for accesibility -->
-            <div id="music-toggle" class="muted" title="music toggle button"></div>
-            <audio id="music" preload loop src="media/genius-soft-adventurous-theme.wav"></audio>
-        </header>
-        <!-- Each section here in <main></main> is a page view -->
-        <main>
-            <!-- Landing page, where user selects whether yes/no music -->
-            <section id="sound-menu" class="foreground">
-                <h2>Would you like music?</h2>
-                <div>
-                    <button id="music-button">Yes Please</button>
-                    <button id="mute-button">No It's 3 a.m.</button>
-                </div>
-            </section>
-
-            <!-- Welcome page, where user chooses to log-in or create account -->
-            <section id="welcome-view" class="hidden">
-                <!-- background sliding layers of lil' mountains -->
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-
-                <h1>Set World</h1>
-                <!-- foreground titles/buttons floating over mountains -->
-                <div class="foreground">
-                    <button id="login-button">Log In</button>
-                    <button id="create-button">Create New Character</button>
-                </div>
-            </section>
-
-            <!-- Log-in form, overlays the welcome page -->
-            <section id="login-window" class="hidden foreground">
-                <form>
-                    <label>
-                        Username:
-                        <input type="text" required />
-                    </label>
-
-                    <label>
-                        Password:
-                        <input type="password" required />
-                    </label>
-                    <button type="button" class="start-game-button">Start Game</button>
-                </form>
-            </section>
-
-            <!-- Character selection / creation view, leads to the game view afterwards -->
-            <section id="char-creation-view" class="hidden">
-                Oop! Still under construction!
-                <button type="button" class="back-button">back</button>
-                <button type="button" class="start-game-button">Start Game</button>
-            </section>
-
-            <!-- The actual "dino" game view, clears everything else -->
-            <section id="dino-game" class="hidden">
-                <!-- background sliding layers of lil' mountains -->
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-                <div class="bg sliding-layer"></div>
-
-                <section id="game-start-msg">
-                    <h4>Press space to start jumping!</h4>
-                    <p>It's so much easier if your viewport is wider than tall</p>
-                    <p>
-                        I'm working on incorporating a set game up here to help clear obstacles and
-                        stuff hence the name of the game, but it's taking a lil while :')
-                    </p>
-                </section>
-
-                <!-- avatar and obstacles (which are to-be-added by game.js) -->
-                <div id="avatar"></div>
-                <h3 id="obstacle-count"></h3>
-
-                <!-- the goal div will start sliding towards avatar once obstacles are all cleared -->
-                <div class="goal">
-                    <img src="media/goal.png" alt="goal" />
-                    <img src="media/sparkle-1.png" alt="sparkles" />
-                    <img src="media/sparkle-2.png" alt="more sparkles" />
-                </div>
-            </section>
-
-            <!-- Popup message, includes game end message -->
-            <section id="popup-window" class="foreground">
-                <form>
-                    <label id="popup-msg">Game over!</label>
-                    <button type="button" class="back-button">back</button>
-                </form>
-            </section>
-        </main>
+        <h1>Welcome to Pearl's Page of Web Stuffs!</h1>
+        <p>Click on the GIFs to go to their webpages!</p>
+        <article>
+            <a href="set-wrold/index.html">
+                <img src="gifs/set-game-preview.gif" />
+            </a>
+        </article>
     </body>
 </html>

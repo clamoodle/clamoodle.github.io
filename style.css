@@ -1,0 +1,7 @@
+article {
+    display: flex;
+}
+
+article img {
+    width: 400px;
+}
