@@ -1,0 +1,39 @@
+/*
+  NAME: Pearl Chen
+  CS 132 Spring 2023
+  DATE: May 9, 2023
+
+  Animation and specific styles for #welcome-view, #sound-menu, and #login-view in index.html
+*/
+
+#welcome-view {
+    background-image: linear-gradient(rgb(21 112 116), rgb(198 221 255), rgb(235, 235, 235));
+}
+
+/* small faraway background mountains */
+#welcome-view .sliding-layer:first-child {
+    background-image: url(../media/hindground.png);
+}
+
+/* mid-ground mountains */
+#welcome-view .sliding-layer:nth-child(2) {
+    background-image: url(../media/midground.png);
+    background-position: -5% 90%; /* starting on my fav part of the drawing */
+    animation-duration: 100s;
+}
+
+/* snow-like thing in the background */
+#welcome-view .sliding-layer:nth-child(3) {
+    background-image: url(../media/snow-ish-thing.png);
+    animation-duration: 8s;
+}
+
+/* big closeup background cards */
+#welcome-view .sliding-layer:nth-child(4) {
+    background-image: url(../media/foreground-pixel-cards.png);
+    animation-duration: 50s;
+}
+
+#sound-menu {
+    background-color: black;
+}
