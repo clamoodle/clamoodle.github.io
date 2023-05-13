@@ -1,0 +1,181 @@
+/*
+    Name: Pearl Chen
+    CS 132 Spring 2023
+    Date: April 10, 2023
+    This is the styles.css page for my silly website.
+    It is used by all pages in the site to give the it a consistent
+    look and feel.
+*/
+
+/* Big Shoulders Display, Light 200 */
+/* Be Vietnam Pro, Black 900 Italic, Thin 100 Italic */
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@1,100;1,900&family=Big+Shoulders+Display:wght@200&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    font-style: italic;
+    font-family: "Be Vietnam Pro", sans-serif;
+}
+
+*,
+h1 {
+    font-weight: 200;
+}
+
+*,
+button {
+    text-transform: uppercase;
+}
+
+*,
+header > a,
+header > a:visited {
+    color: antiquewhite;
+}
+
+.tab,
+button {
+    background-color: black;
+}
+
+button,
+button:hover,
+a:hover {
+    color: brown;
+}
+
+body {
+    width: 100lvw;
+    min-height: 100svh;
+    overflow-x: hidden;
+    background-image: linear-gradient(black, rgb(51, 0, 9));
+}
+
+/* Gradient rectangle */
+#filler {
+    width: 100%;
+    height: 51svh;
+    background-image: linear-gradient(black 87%, rgba(0, 0, 0, 0));
+    position: absolute;
+    z-index: 3;
+}
+
+header > a,
+header > a:visited {
+    font-size: 140%;
+    font-weight: 100;
+    position: fixed;
+    margin: 2% 5%;
+    z-index: 2;
+}
+
+#title {
+    padding-top: 45svh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#title > * {
+    margin: 0 0% 50svh;
+}
+
+.rellax {
+    display: flex;
+    justify-content: center;
+}
+
+.foreground {
+    position: absolute;
+    top: 175svh;
+    z-index: 1;
+}
+
+.foreground > img {
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+button {
+    text-align: center;
+}
+
+h1 {
+    letter-spacing: 2rem;
+    font-family: "Big Shoulders Display", sans-serif;
+    font-style: normal;
+    font-size: 300%;
+}
+
+h2 {
+    font-size: 26svw;
+}
+
+h2,
+h3,
+button {
+    letter-spacing: 0.7rem;
+    font-weight: 900;
+}
+
+h3,
+button {
+    text-align: left;
+    font-size: 1500%;
+    margin-top: 0;
+    line-height: 90%;
+}
+
+p {
+    padding: 30%;
+    margin-top: -10%;
+    padding-bottom: 0%;
+    margin-bottom: -10%;
+}
+
+h3 > a {
+    font-size: 80%;
+}
+
+.bar {
+    margin: 20% -5% 0%;
+    display: flex;
+    padding-right: 6%;
+    align-items: center;
+    justify-content: end;
+}
+
+.tab {
+    padding-top: 3%;
+}
+
+.pic {
+    width: 20%;
+    top: 40%;
+}
+
+#container {
+    background-color: white;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border: none;
+    text-align: center;
+    font-size: 300%;
+    margin: 0.5%;
+}
+
+button:hover,
+a:hover {
+    background-color: darkblue;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+    Name: Pearl Chen
+    CS 132 Spring 2023
+    Date: April 10, 2023
+    This is the index.html page for a silly website with a focus on the design/fun aspect. It also
+    has a link to my old high school art portfoilio.
+-->
+<html>
+    <head>
+        <title>Before, During, and After</title>
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://pngimg.com/uploads/dough/dough_PNG4.png"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <!-- Source: Rellax by Dixon and Moe on Github -->
+        <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+        <script defer src="tabs.js"></script>
+        <script defer src="rellax.js"></script>
+    </head>
+    <body>
+        <header>
+            <a
+                href="https://zhuzhuchen.wordpress.com/2020/09/13/20162019-catalogue/"
+                target="_blank"
+                >old art plug</a
+            >
+            <!-- filler rectangle -->
+            <div id="filler"></div>
+        </header>
+        <main>
+            <!-- Title section -->
+            <section id="title">
+                <div class="rellax" data-rellax-speed="-5">
+                    <h1>Before</h1>
+                </div>
+                <div class="rellax" data-rellax-speed="-3">
+                    <h2>During</h2>
+                </div>
+                <!-- Bread foreground -->
+                <div class="foreground rellax" data-rellax-speed="25">
+                    <img src="imgs/foreground.png" alt="foreground breds" />
+                </div>
+                <div class="rellax" data-rellax-speed="-2">
+                    <h1>&amp;After</h1>
+                </div>
+            </section>
+
+            <!-- Filler text section -->
+            <section>
+                <p>
+                    Try clicky click the "tabs" below with more clicky links! Choose "Witness" or
+                    "NECESSITIES" to witness the craft of before, during, and after! You will be
+                    directed back home after your journey. Here's another line to make this block of
+                    text look more aesthetic.
+                </p>
+            </section>
+
+            <!-- Linkey tabs section -->
+            <section>
+                <!-- BUTTONS FOR NAV TABS -->
+                <div class="bar">
+                    <button onclick="openTab('saw')">WITNESS</button>
+                    <button onclick="openTab('need')">NECESSITIES</button>
+                </div>
+
+                <!-- TAB CONTENTS -->
+                <div id="saw" class="tab">
+                    <h3>NOW, <br /><a href="wood.html">YOU KNOW WHAT I SAW?</a></h3>
+                </div>
+
+                <div id="need" class="tab" style="display: none">
+                    <h3>THEN, <br /><a href="bred.html">WHAT DO YOU NEED?</a></h3>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
