@@ -78,6 +78,10 @@ h2 {
     top: 14lvw;
 }
 
+.background {
+    width: 100%;
+}
+
 header,
 footer,
 button {
@@ -118,6 +122,7 @@ main > section > section {
     margin: 50px;
 }
 article {
+    flex-wrap: wrap;
     margin-bottom: 100px;
 }
 
