@@ -6,25 +6,41 @@
 
 section * :not(img) {
     text-align: center;
-    /* color: rgb(59, 42, 34); */
 }
 
 main {
     color: rgb(66, 66, 66);
 }
 
+body,
+main > section,
+.banner,
+header,
+#header-tabs,
+footer,
+article {
+    display: flex;
+}
+
+body,
+main > section,
+.banner {
+    flex-direction: column;
+}
+
+header,
+#header-tabs,
+footer,
+.banner,
+article {
+    align-items: center;
+}
+
 body {
     min-height: 100svh;
     margin: 0;
     background-image: linear-gradient(antiquewhite, white);
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
-}
-
-body::before {
-    width: 100%;
-    height: 100%;
 }
 
 h1,
@@ -58,19 +74,12 @@ h2 {
     font-style: italic;
 }
 
-/* section {
-    display: grid;
-} */
-
 .banner > img {
     width: 100%;
     position: absolute;
 }
 
 .banner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 
@@ -78,8 +87,10 @@ h2 {
     top: 14lvw;
 }
 
-.background {
-    width: 100%;
+#contact {
+    background-image: url(imgs/bamboos.png);
+    background-position: bottom;
+    background-size: 100%;
 }
 
 header,
@@ -105,21 +116,17 @@ header {
     height: 50px;
 }
 
-/* main {
-    position: absolute;
-    top: 100px;
-} */
-
 footer {
     bottom: 0;
 }
 
 .banner {
-    height: 50lvw;
+    height: 20lvw;
+    background-image: linear-gradient(blanchedalmond, transparent);
 }
 
 main > section > section {
-    margin: 50px;
+    margin: 50px 30svw;
 }
 article {
     flex-wrap: wrap;
@@ -141,13 +148,6 @@ button,
     text-decoration: underline;
 }
 
-header,
-#header-tabs,
-footer {
-    display: flex;
-    align-items: center;
-}
-
 header > *,
 footer > * {
     margin: 20px 50px;
@@ -162,9 +162,7 @@ footer > * {
 }
 
 article {
-    display: flex;
     justify-content: space-around;
-    align-items: center;
 }
 
 article img {
