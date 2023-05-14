@@ -1,0 +1,168 @@
+/* The style page for curewithin to give its contents a consistent look */
+/* Playfair Display 400, 600, 900 */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600;1,900&display=swap");
+/* Be Vietnam Pro, 100, 900 */
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,500;1,100;1,500&display=swap");
+
+section * :not(img) {
+    text-align: center;
+    /* color: rgb(59, 42, 34); */
+}
+
+main {
+    color: rgb(66, 66, 66);
+}
+
+body {
+    min-height: 100svh;
+    margin: 0;
+    background-image: linear-gradient(antiquewhite, white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body::before {
+    width: 100%;
+    height: 100%;
+}
+
+h1,
+h4 {
+    font-family: "Playfair Display", "Times New Roman", Times, serif;
+    font-size: 2lvw;
+    margin: 0;
+}
+
+h1 {
+    letter-spacing: 0.35em;
+}
+
+h2,
+h3,
+p,
+li,
+button {
+    font-family: "Be Vietnam Pro", Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 100;
+}
+
+p,
+li {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 2lvw;
+    font-style: italic;
+}
+
+/* section {
+    display: grid;
+} */
+
+.banner > img {
+    width: 100%;
+    position: absolute;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner > img {
+    top: 14lvw;
+}
+
+header,
+footer,
+button {
+    color: white;
+    justify-content: space-between;
+    z-index: 1;
+    /* background-image: linear-gradient(rgb(5, 31, 20) ); */
+    background-color: rgb(66, 66, 66);
+}
+
+header,
+footer {
+    width: 100%;
+}
+
+header {
+    align-self: flex-start;
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+    height: 50px;
+}
+
+/* main {
+    position: absolute;
+    top: 100px;
+} */
+
+footer {
+    bottom: 0;
+}
+
+.banner {
+    height: 50lvw;
+}
+
+main > section > section {
+    margin: 50px;
+}
+article {
+    margin-bottom: 100px;
+}
+
+main > section > section > *:not(img) {
+    padding: 0px 100px;
+}
+
+.clickable,
+button,
+#header-tabs > * {
+    cursor: pointer;
+}
+
+.clickable:hover,
+#header-tabs > *:hover {
+    text-decoration: underline;
+}
+
+header,
+#header-tabs,
+footer {
+    display: flex;
+    align-items: center;
+}
+
+header > *,
+footer > * {
+    margin: 20px 50px;
+}
+
+#header-tabs > * {
+    margin: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+article {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+article img {
+    border-radius: 50%;
+    width: 300px;
+}
