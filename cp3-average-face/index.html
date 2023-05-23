@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+  Author: Pearl Chen
+  CS 132 Spring 2023
+
+  HTML for the webpage which shows the picture of a random celebrity with the specified traits.
+  Uses API Ninjas Celebrity API and Bing image search API.
+-->
+
+<html>
+    <head>
+        <title>Average Face</title>
+        <link rel="stylesheet" href="style.css" />
+        <!-- Source: Clipart Library -->
+        <link
+            rel="icon"
+            href="data:image/jpeg;base64,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"
+        />
+        <script src="utils.js"></script>
+        <script defer src="show-celeb.js"></script>
+    </head>
+    <body>
+        <main>
+            <section>
+                <h1>Show the Average Caltech Face of:</h1>
+                <form>
+                    <div class="filter-item">
+                        <!-- Source: https://donut.caltech.edu/directory -->
+                        <label for="option_id">Major</label>
+                        <select id="option_id" name="option_id">
+                            <option value="">Any option</option>
+                            <option value="48">Applied &amp; Computational Math</option>
+                            <option value="1">Applied &amp; Computational Mathematics</option>
+                            <option value="2">Applied Physics</option>
+                            <option value="3">Astronomy</option>
+                            <option value="26">Astrophysics</option>
+                            <option value="30">Bioengineering</option>
+                            <option value="4">Biology</option>
+                            <option value="49">Business Economics &amp; Managemen</option>
+                            <option value="5">Business Economics &amp; Management</option>
+                            <option value="6">Chemical Engineering</option>
+                            <option value="36">Chemical Engineering (BM)</option>
+                            <option value="44">Chemical Engineering (CMP)</option>
+                            <option value="41">Chemical Engineering (Env)</option>
+                            <option value="43">Chemical Engineering (MS)</option>
+                            <option value="42">Chemical Engineering (PS)</option>
+                            <option value="50">Chemical Engineering (SUS)</option>
+                            <option value="7">Chemistry</option>
+                            <option value="38">Computation and Neural Systems</option>
+                            <option value="25">Computer Science</option>
+                            <option value="8">Economics</option>
+                            <option value="9">Electrical &amp; Computer Engineering</option>
+                            <option value="10">Electrical Engineering</option>
+                            <option value="11">Engineering &amp; Applied Science</option>
+                            <option value="12">Engineering &amp; Applied Science: Ae</option>
+                            <option value="29">English</option>
+                            <option value="40">Engrg. &amp; Applied Science (CNS)</option>
+                            <option value="53">Environmental Sci &amp; Eng (Ch)</option>
+                            <option value="52">Environmental Sci &amp; Eng (Ph)</option>
+                            <option value="13">Geobiology</option>
+                            <option value="14">Geochemistry</option>
+                            <option value="15">Geology</option>
+                            <option value="16">Geophysics</option>
+                            <option value="17">History</option>
+                            <option value="32">History &amp; Philosophy of Science</option>
+                            <option value="24">Independent Studies Program</option>
+                            <option value="35">Information and Data Science</option>
+                            <option value="33">Interdisciplinary Studies</option>
+                            <option value="27">Literature</option>
+                            <option value="34">Materials Science</option>
+                            <option value="18">Mathematics</option>
+                            <option value="19">Mechanical Engineering</option>
+                            <option value="31">Philosophy</option>
+                            <option value="20">Physics</option>
+                            <option value="21">Planetary Science</option>
+                            <option value="28">Political Science</option>
+                            <option value="22">SES/HPS</option>
+                            <option value="23">Social Science</option>
+                            <option value="51">Undecided</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="house_id">House</label>
+                        <select id="house_id" name="house_id">
+                            <option value="">Any house</option>
+                            <option value="6">Avery</option>
+                            <option value="4">Blacker</option>
+                            <option value="5">Dabney</option>
+                            <option value="8">Fleming</option>
+                            <option value="3">Lloyd</option>
+                            <option value="7">Page</option>
+                            <option value="1">Ricketts</option>
+                            <option value="2">Venerable</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="grad_year">Graduating in</label>
+                        <select id="grad_year" name="grad_year">
+                            <option value="">Any year</option>
+                            <option>2024</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <input type="submit" value="Search" />
+                    </div>
+                </form>
+            </section>
+            <section id="message" class="hidden">
+                <h3></h3>
+            </section>
+            <section id="celeb-info" class="hidden">
+                <img src="IMG_4031.jpg" />
+                <div>
+                    <h3 id="name">Pearl Chen</h3>
+                    <ul>
+                        <li>Occupation(s): <output id="occupation">CS Student</output></li>
+                        <li>Height: <output id="height"></output></li>
+                        <li>Nationality: <output id="nationality"></output></li>
+                        <li>Net worth: <output id="net-worth"></output></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

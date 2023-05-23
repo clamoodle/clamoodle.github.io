@@ -1,0 +1,64 @@
+/*
+  NAME: Pearl Chen
+  CS 132 Spring 2023
+  DATE: May 21, 2023
+
+  Style page mostly for positioning in index.html
+*/
+
+body {
+    margin: 0 100px;
+    min-height: 100svh;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+}
+
+section,
+form,
+.filter-item {
+    display: flex;
+}
+
+section,
+.filter-item {
+    flex-direction: column;
+    align-items: center;
+}
+
+form,
+#celeb-info {
+    flex-direction: row;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+.filter-item {
+    margin: 10px;
+}
+
+#celeb-info {
+    justify-content: center;
+}
+
+#name,
+#message {
+    text-transform: capitalize;
+}
+
+#celeb-info > img {
+    height: 300px;
+    margin-right: 75px;
+}
+
+#ideas > h3 {
+    margin-bottom: 0;
+}
+
+.hidden {
+    display: none;
+}
