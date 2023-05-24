@@ -15,8 +15,9 @@
 
 body {
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     background-size: 300svw 100svh;
+    height: 100svh;
 }
 
 body,
@@ -25,21 +26,11 @@ h3 {
     margin: 0;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-/* Source: https://www.w3schools.com/howto/howto_css_hide_scrollbars.asp */
-*::-webkit-scrollbar {
-    display: none;
-}
-
 * {
     font-family: "Silkscreen", "Courier New", Courier, monospace;
     font-weight: 400;
     color: rgb(45, 108, 133);
     text-align: center;
-
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
 
     /* No selection highlight */
     /* Source: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
@@ -64,16 +55,39 @@ section,
     position: absolute;
 }
 
+main,
 header,
 div,
 section,
 form,
 #login-window,
 #popup-window,
-form label {
+form label,
+#user-info,
+#users-list > div {
     display: flex;
 }
 
+li {
+    text-align: left;
+}
+
+main,
+#music-toggle {
+    height: 100%;
+}
+
+.add-friends-page {
+    justify-content: space-evenly;
+    height: 80%;
+    margin: 50px;
+}
+
+#user-info > img {
+    width: 30%;
+}
+
+main,
 div,
 section,
 form,
@@ -114,9 +128,9 @@ h1 {
     letter-spacing: 2rem;
 }
 
-h2 {
+/* h2 {
     color: aliceblue;
-}
+} */
 
 button,
 #sound-menu * {
@@ -129,7 +143,6 @@ button,
 }
 
 #music-toggle {
-    height: 100%;
     width: 47.26px;
     background-image: url(../media/music-on-button.png);
     background-size: 47.26px;
@@ -153,9 +166,32 @@ button:hover {
 }
 
 section,
-form,
-form label {
+#login-window > form,
+form label,
+#user-info > div,
+#users-list {
     flex-direction: column;
+}
+
+#user-info,
+#users-list > div {
+    flex-direction: row;
+}
+
+#users-list > div {
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    width: 90%;
+    height: 70%;
+}
+
+#users-list article {
+    width: 200px;
+    margin: 10px;
+}
+
+#users-list article > img {
+    width: 100%;
 }
 
 section,
@@ -174,10 +210,14 @@ section {
     background-color: rgba(235, 235, 235, 0.5);
 }
 
-form {
-    padding: 5svh 10lvw 3svh;
+#login-window > form,
+.add-friends-page {
     background-color: rgba(248, 248, 248, 0.8);
     border-radius: 10px;
+}
+
+form {
+    padding: 5svh 10lvw 3svh;
 }
 
 form label {
