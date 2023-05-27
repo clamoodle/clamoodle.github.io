@@ -50,7 +50,7 @@ h3 {
 }
 
 header,
-section,
+main > section,
 .bg.sliding-layer {
     position: absolute;
 }
@@ -58,13 +58,13 @@ section,
 main,
 header,
 div,
-section,
+section:not(#chat-content),
 form,
-#login-window,
-#popup-window,
+.popup,
 form label,
 #user-info,
-#users-list > div {
+#users-list,
+#uesrs-icons {
     display: flex;
 }
 
@@ -73,11 +73,18 @@ li {
 }
 
 main,
-#music-toggle {
+#add-friends-page > section,
+#music-toggle,
+#chats-list,
+#chat {
     height: 100%;
 }
 
-.add-friends-page {
+#chat > * {
+    margin-left: 20px;
+}
+
+#add-friends-page {
     justify-content: space-evenly;
     height: 80%;
     margin: 50px;
@@ -85,6 +92,7 @@ main,
 
 #user-info > img {
     width: 30%;
+    margin-right: 10%;
 }
 
 main,
@@ -92,7 +100,7 @@ div,
 section,
 form,
 #login-window,
-#popup-window {
+.popup {
     align-items: center;
     justify-content: center;
 }
@@ -138,7 +146,10 @@ button,
 }
 
 button,
-#music-toggle {
+#music-toggle,
+.close-button,
+#chats-list > div,
+#user-icons article {
     cursor: pointer;
 }
 
@@ -153,36 +164,121 @@ button,
     background-image: url(../media/music-off-button.png);
 }
 
+.user-msg > p,
 button {
     background-color: rgb(60, 134, 156);
+}
+
+button {
     border: none;
     padding: 7px 10px;
     margin: 20px;
 }
 
 button:hover {
-    color: white;
     background-color: rgba(141, 202, 252);
 }
 
-section,
+button:hover,
+.user-msg > p {
+    color: white;
+}
+
+.friend-msg > p {
+    background-color: white;
+}
+
+img.close-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 28px;
+    width: 28px;
+}
+
+main > section,
 #login-window > form,
 form label,
 #user-info > div,
-#users-list {
+#users-list,
+#chat,
+#chats-list,
+#messenger,
+#chat-content {
     flex-direction: column;
 }
 
+#chats-list {
+    width: 30%;
+    justify-content: flex-start;
+}
+
+#chat-content div {
+    width: 100%;
+}
+
+#chat-content p {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    width: fit-content;
+    border-radius: 7px;
+}
+
+.user-msg {
+    justify-content: flex-end;
+}
+
+.friend-msg {
+    justify-content: flex-start;
+}
+
+#chats-list > div:first-child,
+#chat {
+    background-color: rgb(238, 238, 238);
+}
+
+#chats-list > div {
+    background-color: rgba(248, 248, 248);
+}
+
+#chat,
+#chat-content,
+#messenger > section,
+#typebox > input {
+    flex-grow: 1;
+}
+
+#chats-list img {
+    width: 20%;
+    margin-right: 10%;
+}
+
 #user-info,
-#users-list > div {
+#user-icons {
     flex-direction: row;
 }
 
-#users-list > div {
-    flex-wrap: wrap;
+#user-info button,
+#menu button {
+    width: 100%;
+    margin: 8px;
+}
+
+.filter-item,
+#typebox > input {
+    border-radius: 0%;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+#user-icons,
+#chat-content {
     overflow-y: scroll;
-    width: 90%;
-    height: 70%;
+}
+
+#user-icons {
+    flex-wrap: wrap;
 }
 
 #users-list article {
@@ -190,41 +286,50 @@ form label,
     margin: 10px;
 }
 
-#users-list article > img {
+#users-list article > img,
+#chat-content,
+#typebox {
     width: 100%;
 }
 
-section,
+main > section,
 .bg.sliding-layer {
     top: 0;
 }
 
-section {
+main > section:not(.popup) {
     height: 100lvh;
     width: 100lvw;
 }
 
-/* Log-in window */
-#login-window,
-#popup-window {
-    background-color: rgba(235, 235, 235, 0.5);
-}
-
-#login-window > form,
-.add-friends-page {
+.popup {
     background-color: rgba(248, 248, 248, 0.8);
     border-radius: 10px;
+    padding: 3svh 10lvw 3svh;
 }
 
-form {
-    padding: 5svh 10lvw 3svh;
+#login-window > form {
+    padding-top: 5svh;
+}
+
+#user-icons {
+    flex-grow: 1;
 }
 
 form label {
     margin-bottom: 15px;
 }
 
-.foreground {
+/* Leaderboard styling */
+#leaderboard > table {
+    width: 450px;
+}
+small {
+    text-align: right;
+}
+
+.foreground,
+.popup {
     position: relative;
     z-index: 2;
 }

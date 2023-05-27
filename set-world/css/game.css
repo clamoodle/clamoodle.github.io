@@ -16,6 +16,10 @@ h3 {
     background-size: 2svw 100svh;
 }
 
+#game-start-msg {
+    flex-direction: column;
+}
+
 div.goal img,
 img.obstacle,
 div.goal,

@@ -52,11 +52,13 @@
                 <div class="foreground">
                     <button id="login-button">Log In</button>
                     <button id="create-button">Create New Character</button>
+                    <button class="start-game-button">Play as Guest</button>
                 </div>
             </section>
 
             <!-- Log-in form, overlays the welcome page -->
-            <section id="login-window" class="hidden foreground">
+            <section id="login-window" class="hidden popup foreground">
+                <img class="close-button" src="media/close-button.png" alt="close popup button" />
                 <form>
                     <label>
                         Username:
@@ -86,7 +88,7 @@
                 <div class="bg sliding-layer"></div>
                 <div class="bg sliding-layer"></div>
 
-                <section id="game-start-msg">
+                <section id="game-start-msg" class="foreground">
                     <h4>Press space to start jumping!</h4>
                     <p>It's so much easier if your viewport is wider than tall</p>
                     <p>
@@ -108,82 +110,157 @@
             </section>
 
             <!-- Popup message, includes game end message -->
-            <section id="popup-window" class="foreground">
-                <form>
-                    <label id="popup-msg">Game over!</label>
-                    <button type="button" class="back-button">back</button>
-                </form>
+            <section id="popup-window" class="hidden popup">
+                <label id="popup-msg">Game over!</label>
+                <button type="button" class="back-button">back</button>
+            </section>
+
+            <!-- Menu floaty page -->
+            <section id="menu" class="hidden popup">
+                <img class="close-button" src="media/close-button.png" alt="close popup button" />
+                <h2>Menu</h2>
+                <button type="button" id="my-info">My Profile</button>
+                <button type="button" id="add-friends-button">Add friends</button>
+                <button type="button" id="show-leaderboard">Leaderboard</button>
             </section>
 
             <!-- add friends page -->
-            <section id="users-list" class="foreground add-friends-page">
-                <h2>Find friends</h2>
-                <form>
-                    <input list="users" placeholder="Type Username" />
-                    <datalist id="users">
-                        <option>clamoodle</option>
-                    </datalist>
-                    <button type="button">Search</button>
-                </form>
-                <div>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                    <article>
-                        <img src="media/dog.png" />
-                        <p>clamoodle</p>
-                    </article>
-                </div>
+            <section id="add-friends-page" class="hidden popup">
+                <img class="close-button" src="media/close-button.png" alt="close popup button" />
+                <!-- Shows list of users -->
+                <section id="users-list">
+                    <h2>Find friends</h2>
+                    <form>
+                        <select name="friend-status" class="filter-item">
+                            <option value="">Friends</option>
+                            <option value="false">Not Friends</option>
+                            <option value="any">All</option>
+                        </select>
+                        <input list="users" class="filter-item" placeholder="Type Username" />
+                        <datalist id="users">
+                            <option>clamoodle</option>
+                        </datalist>
+                        <button type="button">Search</button>
+                    </form>
+                    <div id="user-icons">
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                        <article>
+                            <img src="media/dog.png" />
+                            <p>clamoodle</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- user info page -->
+                <section id="user-info" class="hidden">
+                    <img src="media/dog.png" />
+                    <div>
+                        <h2 id="username">clamoodle</h2>
+                        <ul>
+                            <li>High score: <output id="high-score"></output></li>
+                            <li>Friends: <output id="num-friends"></output></li>
+                        </ul>
+                        <button id="send-request">Send Friend Request</button>
+                        <button id="send-message">Message</button>
+                        <button id="back-to-friends">Back</button>
+                    </div>
+                </section>
+
+                <!-- Messaging friends page -->
+                <section id="messenger" class="hidden">
+                    <h2>Set World Messenger</h2>
+                    <section>
+                        <!-- Thumbnail of each friend user is chatting with -->
+                        <section id="chats-list">
+                            <div>
+                                <img src="media/dog.png" alt="friend" />
+                                <p>clamoodle</p>
+                            </div>
+                            <div>
+                                <img src="media/dog.png" alt="friend" />
+                                <p>clamoodle</p>
+                            </div>
+                        </section>
+
+                        <!-- Actual chat -->
+                        <section id="chat">
+                            <section id="chat-content">
+                                <div class="user-msg">
+                                    <p>Hi!</p>
+                                </div>
+                                <div class="friend-msg">
+                                    <p>Hi! How are you?</p>
+                                </div>
+                                <div class="user-msg">
+                                    <p>Hi! I'm good how are you???</p>
+                                </div>
+                            </section>
+                            <section id="typebox">
+                                <input type="text" placeholder="Type your message here..." />
+                                <button type="button">send</button>
+                            </section>
+                        </section>
+                    </section>
+                </section>
             </section>
 
-            <!-- user info page -->
-            <section id="user-info" class="hidden foreground add-friends-page">
-                <img src="media/dog.png" />
-                <div>
-                    <h2 id="username">clamoodle</h2>
-                    <ul>
-                        <li>High score: <output id="high-score"></output></li>
-                        <li>Friends: <output id="num-friends"></output></li>
-                    </ul>
-                    <button id="send-request">Send Friend Request</button>
-                </div>
+            <!-- Leaderboard window -->
+            <section id="leaderboard" class="hidden popup">
+                <img class="close-button" src="media/close-button.png" alt="close popup button" />
+                <h2>Top 10 of Set World</h2>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>clamoodle</td>
+                            <td>150</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>odle</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </main>
     </body>
