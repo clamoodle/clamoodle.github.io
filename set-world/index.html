@@ -15,9 +15,11 @@
         <link rel="stylesheet" href="css/keyframes.css" />
         <link rel="stylesheet" href="css/index.css" />
         <link rel="stylesheet" href="css/game.css" />
+        <link rel="stylesheet" href="css/set.css" />
         <script src="script/utils.js"></script>
         <script defer src="script/welcome.js"></script>
         <script defer src="script/game.js"></script>
+        <script defer src="script/set.js"></script>
     </head>
     <body>
         <header>
@@ -100,6 +102,10 @@
                 <!-- avatar and obstacles (which are to-be-added by game.js) -->
                 <div id="avatar"></div>
                 <h3 id="obstacle-count"></h3>
+                
+                <!-- Set board!! -->
+                <section id="board" class="popup">
+                </section>
 
                 <!-- the goal div will start sliding towards avatar once obstacles are all cleared -->
                 <div class="goal">

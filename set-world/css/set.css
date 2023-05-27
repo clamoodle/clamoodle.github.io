@@ -1,0 +1,55 @@
+/*
+  NAME: Pearl Chen
+  DATE: Apr 24, 2023
+
+  style page for milestone.html
+ */
+
+.card,
+#board {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card {
+    align-items: center;
+}
+
+.hidden,
+.hide-imgs img {
+    display: none;
+}
+
+.card {
+    background-color: white;
+    width: 8lvw;
+    height: 4.5lvw;
+    box-shadow: 0px 0px 5px black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    
+    z-index: 150;
+}
+
+.card p {
+    font-weight: bold;
+}
+
+.card > img {
+    height: 85%;
+}
+
+.card.selected {
+    box-shadow: 0px 0px 5px azure;
+}
+
+#board {
+    position: absolute;
+    top: 4lvw;
+    width: 43lvw;
+    height: 17lvw;
+    flex-wrap: wrap;
+    padding: 20px;
+    z-index: 1;
+}

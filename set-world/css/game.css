@@ -40,7 +40,7 @@ h3 {
 /* small faraway background mountains */
 #dino-game .sliding-layer:first-child {
     background-image: url(../media/red-hindground.png);
-    background-position-y: 100%;
+    background-position-y: 65%;
 }
 
 /* mid-ground mountains */
@@ -65,7 +65,7 @@ div.goal,
 
 h3 {
     font-size: 15lvw;
-    bottom: 15lvw;
+    bottom: 11lvw;
 }
 
 h4 {

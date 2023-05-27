@@ -1,5 +1,18 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+5/26/2023:
+implemented:
+    - factor out pop-up style
+    - close button for popups and js
+    - style for leaderboard, menu, friends, message
+        - friends search bar filter
+    - buttons/js directions for those pages
+    - close popup button
+    - added set board to in-game
+todo:
+    - set board bug
+
+
 5/23-24/2023
 implemented:
     - html/css for find friends page

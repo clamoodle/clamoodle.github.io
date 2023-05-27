@@ -38,6 +38,7 @@
     function init() {
         qs("#create-button").addEventListener("click", showCreateChar);
         addEventListenerToAll(".start-game-button", "click", initGame);
+        initGame();
         addEventListenerToAll(".back-button", "click", showWelcome);
     }
 
