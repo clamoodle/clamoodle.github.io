@@ -1,7 +1,18 @@
-article {
+body,
+section {
     display: flex;
 }
 
-article img {
+body {
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    flex-wrap: wrap;
+}
+
+section img {
     width: 400px;
+    margin: 10px;
 }
