@@ -21,15 +21,11 @@
 }
 
 .card {
-    background-color: white;
     width: 8lvw;
     height: 4.5lvw;
-    box-shadow: 0px 0px 5px black;
-    border-radius: 5px;
+    border-radius: 0.5lvw;
     cursor: pointer;
-    margin: 5px;
-    
-    z-index: 150;
+    margin: 0.5lvw;
 }
 
 .card p {
@@ -37,19 +33,14 @@
 }
 
 .card > img {
-    height: 85%;
-}
-
-.card.selected {
-    box-shadow: 0px 0px 5px azure;
+    height: 80%;
 }
 
 #board {
     position: absolute;
-    top: 4lvw;
-    width: 43lvw;
+    top: 2.5lvw;
+    width: 40lvw;
     height: 17lvw;
     flex-wrap: wrap;
     padding: 20px;
-    z-index: 1;
 }

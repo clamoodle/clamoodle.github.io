@@ -11,9 +11,14 @@
     const NUM_OBSTACLES = 11;
     const BUFFER_TIME_BEFORE_GAME_ENDS_MS = 2000; // The time between the last obstacle and the goal
     const COLLISION_LENIENCY_PX = 20;
+    // The amount that the avatar is pushed back by undodged obstacle in ratio to lvw (e.g. 0.1)
+    const PENALTY_SETBACK = 0.1;
     // Minimum and maximum time in MS between each obstacle
-    const OBSTACLE_MIN_TIME_GAP_MS = 1000;
-    const OBSTACLE_MAX_TIME_GAP_MS = 7000;
+    const OBSTACLE_MIN_TIME_GAP_MS = 3000;
+    const OBSTACLE_MAX_TIME_GAP_MS = 10000;
+
+    const SCORE_INCREMENT_INTERVAL_MS = 100;
+    const SCORE_IF_REACH_GOAL = 300;
 
     // Images
     const IMG_PATH = "media/";
@@ -30,26 +35,27 @@
     // https://developer.mozilla.org/en-US/docs/Web/Performance/Animation_performance_and_frame_rate
     const FRAME_RATE_FPS = 60;
 
-    let obstacleCount = NUM_OBSTACLES;
     let gameOver = false;
-    let timerId = null;
-    let timeOutId = null;
+    let collisionTimerId = null;
+    let scoreTimerId = null;
+    let obstacleGenTimeOutId = null;
 
     function init() {
         qs("#create-button").addEventListener("click", showCreateChar);
         addEventListenerToAll(".start-game-button", "click", initGame);
-        initGame();
         addEventListenerToAll(".back-button", "click", showWelcome);
     }
 
     function initGame() {
         pauseAllSlidingAnimation();
         window.addEventListener("keydown", avatarControl);
-        obstacleCount = NUM_OBSTACLES;
         gameOver = false;
 
         // Initial obstacle count text
-        qs("#obstacle-count").textContent = "Obstacles left: " + obstacleCount;
+        qs("#obstacle-count").textContent = NUM_OBSTACLES;
+
+        // Initial score
+        qs("#score-count > span").textContent = 0;
 
         // Shows the view of the game, but every sliding animation paused
         openGame();
@@ -66,7 +72,10 @@
         // Reset the goal in case we came from a previous game
         qs(".goal").classList.remove("sliding-layer");
         generateMap();
-        timerId = setInterval(handleCollision, 1000 / FRAME_RATE_FPS);
+        collisionTimerId = setInterval(handleCollision, 1000 / FRAME_RATE_FPS);
+        scoreTimerId = setInterval(() => {
+            qs("#score-count > span").textContent++;
+        }, SCORE_INCREMENT_INTERVAL_MS);
     }
 
     /**
@@ -90,7 +99,7 @@
                 jump(avatar);
 
                 // To start game with first keydown if not yet tracking collisions
-                if (!timerId) {
+                if (!collisionTimerId && !gameOver) {
                     startGame();
                 }
         }
@@ -144,18 +153,32 @@
      * Handles the event of game over
      * @param {boolean} won - whether the player cleared the game
      */
-    function didPlayerWin(won) {
+    function endGame(won) {
         gameOver = true;
-        clearInterval(timerId); // Stop the collision checker timer
-        clearTimeout(timeOutId); // Stop generating obstacles
-        timerId = null; // Reset for checking game start next time
+        clearInterval(collisionTimerId); // Stop the collision checker timer
+        clearInterval(scoreTimerId);
+        clearTimeout(obstacleGenTimeOutId); // Stop generating obstacles
+        collisionTimerId = null; // Reset for checking game start next time
+        scoreTimerId = null;
 
+        // Unselect selected cards
+        qsa(".selected").forEach((card) => {
+            card.classList.remove("selected");
+        });
+
+        // Disable card selection, removing event listeners from set.js
+        // Source: https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+        // Clone elements don't have event listeners
+        qsa(".card").forEach((card) => {
+            let clone_card = card.cloneNode(true);
+            card.replaceWith(clone_card);
+        });
+
+        // Message & music
         if (won) {
             changeMusic(GAME_END_SONG);
         }
-        qs("#popup-msg").textContent = won
-            ? "You won! Yayayy!"
-            : "Game over! Better luck next time :,(";
+        qs("#popup-msg").textContent = won ? "You reached the goal! Yayayy!" : "Game over!";
         qs("#popup-window").classList.remove("hidden");
     }
 
@@ -165,13 +188,20 @@
      * - wins game when hit goal
      */
     function handleCollision() {
-        let avatar = qs("#avatar");
+        const avatar = qs("#avatar");
+        // Source: https://stackoverflow.com/questions/1248081/how-to-get-the-browser-viewport-dimensions
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 
         // Checking collisions for each obstacle
         qsa(".obstacle").forEach((element) => {
             if (isColliding(avatar, element)) {
+                // // Push avatar back by 10 lvw
+                // let left = avatar.getBoundingClientRect.left - PENALTY_SETBACK * vw;
+                // avatar.style.left = left + 'px';
+                // console.log("colliding!");
+
                 pauseAllSlidingAnimation();
-                didPlayerWin(false);
+                endGame(false);
                 /**
                  * Collision handling TODO:
                  * invincible function: flash avatar, no collisions
@@ -183,8 +213,10 @@
 
         // Wins game if collides with goal!
         if (isColliding(avatar, qs(".goal"))) {
+            qs("#score-count > span").textContent =
+                parseInt(qs("#score-count > span").textContent) + SCORE_IF_REACH_GOAL;
             pauseAllSlidingAnimation();
-            didPlayerWin(true);
+            endGame(true);
         }
     }
 
@@ -256,7 +288,7 @@
 
     // Generating obstacles sliding across the screen
     function generateObstacle() {
-        if (gameOver || obstacleCount === 0) {
+        if (gameOver || qs("#obstacle-count").textContent === 0) {
             return;
         }
 
@@ -269,8 +301,7 @@
         qs("#dino-game").appendChild(newObstacle);
 
         // Update obstacle count
-        obstacleCount--;
-        qs("#obstacle-count").textContent = "Obstacles left: " + obstacleCount;
+        qs("#obstacle-count").textContent--;
 
         // Remove them once outside of the viewport
         newObstacle.addEventListener("animationend", () => {
@@ -291,8 +322,8 @@
             OBSTACLE_MIN_TIME_GAP_MS;
 
         // Recursion
-        if (obstacleCount > 0) {
-            timeOutId = setTimeout(generateMap, obstacleTimeGapMS);
+        if (qs("#obstacle-count").textContent > 0) {
+            obstacleGenTimeOutId = setTimeout(generateMap, obstacleTimeGapMS);
         } else if (!gameOver) {
             // Start sliding the final goal/finish line after the obstacles
             setTimeout(() => {

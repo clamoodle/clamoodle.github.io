@@ -26,6 +26,7 @@
     function showWelcome() {
         hideAll("main>section"); // clears all page views in index.html
         showView("#welcome-view");
+        showView("header");
     }
 
     /**

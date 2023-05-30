@@ -29,7 +29,6 @@ h3 {
 * {
     font-family: "Silkscreen", "Courier New", Courier, monospace;
     font-weight: 400;
-    color: rgb(45, 108, 133);
     text-align: center;
 
     /* No selection highlight */
@@ -110,7 +109,6 @@ header {
     left: 10px;
     height: 40px;
     align-items: stretch;
-    z-index: 1;
 }
 
 header * {
@@ -121,28 +119,11 @@ h1,
 h3 {
     text-transform: uppercase;
     font-family: "Foldit", sans-serif;
-
-    /* Making the text have a gradient clipping mask fill */
-    /* Source: https://cssgradient.io/blog/css-gradient-text/ */
-    background: -webkit-linear-gradient(rgb(255, 249, 249) 5%, transparent);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
 }
 
 h1 {
     font-size: 35svh;
     letter-spacing: 2rem;
-}
-
-/* h2 {
-    color: aliceblue;
-} */
-
-button,
-#sound-menu * {
-    color: blanchedalmond;
 }
 
 button,
@@ -164,10 +145,7 @@ button,
     background-image: url(../media/music-off-button.png);
 }
 
-.user-msg > p,
-button {
-    background-color: rgb(60, 134, 156);
-}
+
 
 button {
     border: none;
@@ -175,18 +153,6 @@ button {
     margin: 20px;
 }
 
-button:hover {
-    background-color: rgba(141, 202, 252);
-}
-
-button:hover,
-.user-msg > p {
-    color: white;
-}
-
-.friend-msg > p {
-    background-color: white;
-}
 
 img.close-button {
     position: absolute;
@@ -233,14 +199,6 @@ form label,
     justify-content: flex-start;
 }
 
-#chats-list > div:first-child,
-#chat {
-    background-color: rgb(238, 238, 238);
-}
-
-#chats-list > div {
-    background-color: rgba(248, 248, 248);
-}
 
 #chat,
 #chat-content,
@@ -303,7 +261,6 @@ main > section:not(.popup) {
 }
 
 .popup {
-    background-color: rgba(248, 248, 248, 0.8);
     border-radius: 10px;
     padding: 3svh 10lvw 3svh;
 }
@@ -328,12 +285,6 @@ small {
     text-align: right;
 }
 
-.foreground,
-.popup {
-    position: relative;
-    z-index: 2;
-}
-
 /* animation made for images 3x screen width to loop */
 .sliding-layer {
     animation: slide linear;
@@ -344,7 +295,6 @@ small {
     left: 0;
     width: 600svw;
     height: 100svh;
-    z-index: 0;
     background-size: 300svw;
     background-position: 0% 100%;
     animation-iteration-count: infinite;

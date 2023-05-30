@@ -16,13 +16,15 @@
         <link rel="stylesheet" href="css/index.css" />
         <link rel="stylesheet" href="css/game.css" />
         <link rel="stylesheet" href="css/set.css" />
+        <link rel="stylesheet" href="css/z-index.css" />
+        <link rel="stylesheet" href="css/palette.css" />
         <script src="script/utils.js"></script>
         <script defer src="script/welcome.js"></script>
         <script defer src="script/game.js"></script>
         <script defer src="script/set.js"></script>
     </head>
     <body>
-        <header>
+        <header class="hidden">
             <input type="image" id="menu-button" src="media/menu-button.png" alt="menu button" />
             <!-- using div instead of img/input/button for music toggle for easier image source 
                 control with toggle across pages with different .js modules. Here, title is used 
@@ -92,20 +94,19 @@
 
                 <section id="game-start-msg" class="foreground">
                     <h4>Press space to start jumping!</h4>
-                    <p>It's so much easier if your viewport is wider than tall</p>
-                    <p>
-                        I'm working on incorporating a set game up here to help clear obstacles and
-                        stuff hence the name of the game, but it's taking a lil while :')
-                    </p>
+                    <p>Try to get as many sets as you can while avoiding obstacles!</p>
+                    <p>Hit 'G' to refresh board but avoid it!</p>
                 </section>
+
+                <!-- Score counter -->
+                <h4 id="score-count">Score: <span>0</span></h4>
 
                 <!-- avatar and obstacles (which are to-be-added by game.js) -->
                 <div id="avatar"></div>
-                <h3 id="obstacle-count"></h3>
-                
+                <h3>Obstacles Left: <span id="obstacle-count"></span></h3>
+
                 <!-- Set board!! -->
-                <section id="board" class="popup">
-                </section>
+                <section id="board" class="popup"></section>
 
                 <!-- the goal div will start sliding towards avatar once obstacles are all cleared -->
                 <div class="goal">

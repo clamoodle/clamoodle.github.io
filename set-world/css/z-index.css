@@ -1,0 +1,42 @@
+/*
+  NAME: Pearl Chen
+  CS 132 Spring 2023
+
+  Factoring out all z-index styles to keep track of stacking, in ascending order
+*/
+
+main,
+body {
+    /* To prevent blocking interactive elements */
+    position: relative;
+    z-index: -2;
+}
+
+/* In game, so that title text is behind foregrounds/backgrounds */
+#dino-game,
+h3 {
+    z-index: -1;
+}
+
+.bg.sliding-layer {
+    z-index: 0;
+}
+
+header {
+    z-index: 1;
+}
+
+/* In game, keeping blinking message above set board */
+#board {
+    z-index: 1;
+}
+
+.bg.sliding-layer:nth-child(4) {
+    z-index: 2;
+}
+
+.foreground,
+.popup {
+    position: relative;
+    z-index: 2;
+}

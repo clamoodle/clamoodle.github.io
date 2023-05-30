@@ -11,21 +11,42 @@
     const COUNTS = [1, 2, 3];
     const ATTRIBUTES = [STYLES, SHAPES, COLORS, COUNTS];
     const NUM_CARDS_IN_BOARD = 12;
+    const KEY_TO_CARD_IDX = {
+        KeyQ: 1,
+        KeyW: 2,
+        KeyE: 3,
+        KeyR: 4,
+        KeyA: 5,
+        KeyS: 6,
+        KeyD: 7,
+        KeyF: 8,
+        KeyZ: 9,
+        KeyX: 10,
+        KeyC: 11,
+        KeyV: 12,
+    };
+
+    const SCORE_PER_SET = 200;
+    const PENALTY_PER_REFRESH = 10;
 
     const IMG_PATH = "media/set-cards/";
+
+    // Boolean checking whether the game started (if not we don't want to increment score)
+    let playing;
 
     /**
      * Initializes all eventlisteners to be added to elements in the page
      */
     function init() {
         addEventListenerToAll(".start-game-button", "click", startGame);
-        startGame();
     }
 
     /**
      * Handles all events that happen when a game is supposed to start
      */
     function startGame() {
+        playing = false; // Waiting until space is pressed
+
         // Remove previous cards if any
         while (qs("#board .card")) {
             qs("#board").removeChild(qs("#board .card"));
@@ -36,6 +57,12 @@
             let card = generateUniqueCard();
             qs("#board").appendChild(card);
         }
+        while (!ExistSetOnBoard) {
+            refreshBoard();
+        }
+
+        // Keyboard card select event listener
+        window.addEventListener("keydown", keyboardCardSelect);
     }
 
     /**
@@ -46,58 +73,10 @@
         qsa(".card:not(.hide_imgs)").forEach((card) => {
             card.replaceWith(generateUniqueCard());
         });
-    }
 
-    /**
-     * Handles all events that happen after a game ends
-     */
-    function endGame() {
-        // Unselect selected cards
-        qsa(".selected").forEach((card) => {
-            card.classList.remove("selected");
-        });
-
-        // Disable card selection
-        qsa(".card").forEach((card) => {
-            card.removeEventListener("click", cardSelected);
-        });
-
-        // Disable refresh button
-        qs("#refresh-btn").disabled = true;
-
-        clearInterval(timerId);
-        timerId = null;
-    }
-
-    /**
-     * Displays timer view for MM:SS in the timer text content
-     */
-    function displayTime() {
-        // Calculating timer view for MM:SS
-        let minutes = Math.floor(secondsRemaining / 60);
-        let seconds = secondsRemaining % 60;
-
-        // Make <= 2 digits
-        let minPrefix = minutes < 10 ? "0" : "";
-        let secPrefix = seconds < 10 ? "0" : "";
-        minutes = minPrefix + minutes;
-        seconds = secPrefix + seconds;
-
-        // Display time
-        qs("#time").textContent = minutes + ":" + seconds;
-    }
-
-    /**
-     * Updates the game timer (module global and #time shown on page) by 1 second. No return value.
-     */
-    function advanceTimer() {
-        // Update module global variable
-        secondsRemaining--;
-        displayTime();
-
-        // Check time remaining is not negative (checked immediately after displaying text)
-        if (secondsRemaining === 0) {
-            endGame();
+        // Guarantees set on board upon refresh
+        if (!ExistSetOnBoard()) {
+            refreshBoard();
         }
     }
 
@@ -147,7 +126,9 @@
         let card = gen("div");
         card.classList.add("card"); // For styling
         card.setAttribute("id", cardId);
-        card.addEventListener("click", cardSelected);
+        if (playing) {
+            card.addEventListener("click", cardSelected);
+        }
 
         // Appending the child images COUNT times
         for (let i = 0; i < count; i++) {
@@ -158,6 +139,36 @@
         }
 
         return card;
+    }
+
+    function keyboardCardSelect(e) {
+        // Checking game over (to 'remove' listener) from end game popup from game.js
+        if (!qs("#popup-window").classList.contains("hidden")) {
+            return;
+        }
+
+        if (e.code in KEY_TO_CARD_IDX && playing) {
+            const idx = KEY_TO_CARD_IDX[e.code];
+            const card = qs(".card:nth-child(" + idx + ")");
+            cardSelected(card);
+            return;
+        }
+
+        switch (e.code) {
+            case "Space":
+                if (!playing) {
+                    addEventListenerToAll(".card", "click", cardSelected);
+                    playing = true;
+                }
+                break;
+            case "KeyG":
+                if (playing) {
+                    refreshBoard();
+                    qs("#score-count > span").textContent =
+                        parseInt(qs("#score-count > span").textContent) - PENALTY_PER_REFRESH;
+                }
+                break;
+        }
     }
 
     /**
@@ -195,45 +206,58 @@
 
     /**
      * Handles whatever happens to each card after a set of 3 cards are selected
+     * Different from HW2, we don't display 'not a set' message
      * @param {boolean} isSet - whether the selected cards make a set
      * @param {DOMList} selectedCards - A DOM list of 3 properly generated card div elements that
      * are selected.
      */
     function handleSelectedCards(isSet, selectedCards) {
-        let isEasy = qs("input[name='diff'][value='easy']").checked;
-
-        let message = isSet ? "SET!" : "Not a Set :(";
+        let message = "SET!";
 
         selectedCards.forEach((card) => {
-            // Unselecting card
-            card.classList.remove("selected");
-
-            // Hide images in card
-            card.classList.add("hide-imgs");
-
-            // Show message
-            let messageNode = gen("p");
-            messageNode.textContent = message;
-            card.appendChild(messageNode);
-
-            // After 1 second returning to card or replacing with a new card if there was a set
+            // Unselecting card after a tiny bit (so that selected cards show)
             setTimeout(() => {
-                if (isSet) {
-                    card.replaceWith(generateUniqueCard(isEasy));
-                } else {
-                    card.classList.remove("hide-imgs");
-                    messageNode.remove();
-                }
-            }, 1000);
+                card.classList.remove("selected");
+            }, 100);
+
+            if (isSet) {
+                // Hide images in card
+                card.classList.add("hide-imgs");
+
+                // Show message
+                let messageNode = gen("p");
+                messageNode.textContent = message;
+                card.appendChild(messageNode);
+            }
         });
+
+        if (isSet) {
+            // Increment score!
+            const score = qs("#score-count > span");
+            score.textContent = parseInt(score.textContent) + SCORE_PER_SET;
+
+            // After 0.5 second replacing cards if set found
+            setTimeout(() => {
+                selectedCards.forEach((card) => {
+                    card.replaceWith(generateUniqueCard());
+                });
+                // Refreshes the board if there are no sets (guarantees set on board)
+                while (!ExistSetOnBoard) {
+                    refreshBoard();
+                }
+            }, 500);
+        }
     }
 
     /**
      * Used when a card is selected, checking how many cards are currently selected. If 3 cards are
      * selected, uses isASet to handle "correct" and "incorrect" cases. No return value.
      */
-    function cardSelected() {
-        this.classList.toggle("selected");
+    function cardSelected(card) {
+        if (typeof card !== "object") {
+            card = this;
+        }
+        card.classList.toggle("selected");
 
         let selectedCards = qsa(".selected");
         if (selectedCards.length === 3) {
@@ -249,19 +273,6 @@
     }
 
     /**
-     * Applies the timer penalty by deducting seconds from time remaining until game ends.
-     */
-    function applyPenalty() {
-        if (secondsRemaining > PENALTY_S) {
-            secondsRemaining -= PENALTY_S;
-        } else {
-            secondsRemaining = 0;
-            endGame();
-        }
-        displayTime();
-    }
-
-    /**
      * Checks whether there exists sets on the board
      * @returns {boolean} whether there are sets on the board
      */
@@ -273,6 +284,7 @@
                 for (let k = j + 1; k < cards.length; k++) {
                     let selectedCards = [cards[i], cards[j], cards[k]];
                     if (isASet(selectedCards)) {
+                        console.log(i, j, k);
                         return true;
                     }
                 }

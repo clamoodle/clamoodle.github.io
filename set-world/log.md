@@ -1,5 +1,24 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+5/30/2023:
+implemented:
+    SET IS PLAYABLE NOW!!!
+    - fixed z-index set board bug
+    - added keyboard card select
+    - added score count
+        - increment with each set found
+        - increase with timer (like chrome dino game)
+    - sped up walk rate (like chrome dino)
+    - factored out z-index and color palette for css
+    - tried to add obstacle pushes avatar back but style.left not working
+    - guarantee sets in board, refresh with penalty
+    - disabling card select after game ends and before game starts
+
+todo:
+    - z-index of foregroudn grass bug (passing behind doggo)
+    - click card not selecting bug
+
+
 5/26/2023:
 implemented:
     - factor out pop-up style
