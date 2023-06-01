@@ -15,7 +15,8 @@
     text-align: center;
 }
 
-body, header {
+body,
+header {
     margin: 0;
 }
 
@@ -30,12 +31,15 @@ header {
 }
 
 header {
+    position: fixed;
+    width: 100%;
     background-color: black;
     padding: 10px;
     font-size: 30px;
 }
 
-header a, header a:visited {
+header a,
+header a:visited {
     color: white;
     margin: 10px;
 }
@@ -52,14 +56,19 @@ section {
 main {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 section {
     flex-wrap: wrap;
+    width: 90%;
 }
 
-article,
+article {
+    width: 30%;
+}
+
 article img {
-    width: 400px;
+    width: 100%;
     margin: 10px;
 }
