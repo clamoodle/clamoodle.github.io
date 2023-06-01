@@ -1,9 +1,55 @@
-body,
+/*
+  NAME: Pearl Chen
+  CS 132 Spring 2023
+
+  Style page for index.html
+*/
+
+/* Big Shoulders Display, Light 200 */
+/* Be Vietnam Pro, Black 900 Italic, Thin 100 Italic */
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@1,100;1,900&family=Big+Shoulders+Display:wght@200&display=swap");
+
+* {
+    font-style: italic;
+    font-family: "Be Vietnam Pro", sans-serif;
+    text-align: center;
+}
+
+body, header {
+    margin: 0;
+}
+
+h1 {
+    font-size: 9lvw;
+    line-height: 0.9em;
+}
+
+li,
+header {
+    text-align: left;
+}
+
+header {
+    background-color: black;
+    padding: 10px;
+    font-size: 30px;
+}
+
+header a, header a:visited {
+    color: white;
+    margin: 10px;
+}
+
+a:hover {
+    font-weight: 900;
+}
+
+main,
 section {
     display: flex;
 }
 
-body {
+main {
     flex-direction: column;
     align-items: center;
 }
@@ -12,7 +58,8 @@ section {
     flex-wrap: wrap;
 }
 
-section img {
+article,
+article img {
     width: 400px;
     margin: 10px;
 }
