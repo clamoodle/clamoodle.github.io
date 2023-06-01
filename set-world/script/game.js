@@ -8,7 +8,7 @@
     const JUMP_COOLDOWN_MS = 700; // Time in MS, double the time in game-styles.css to jump up
 
     // Obstacle constants
-    const NUM_OBSTACLES = 11;
+    const NUM_OBSTACLES = 30;
     const BUFFER_TIME_BEFORE_GAME_ENDS_MS = 2000; // The time between the last obstacle and the goal
     const COLLISION_LENIENCY_PX = 20;
     // The amount that the avatar is pushed back by undodged obstacle in ratio to lvw (e.g. 0.1)

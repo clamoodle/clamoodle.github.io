@@ -82,7 +82,7 @@
      * Shows all friends / users view for user to add friends
      */
     function showFriends() {
-        hideAll(".popup");
+        qs("#menu").classList.add("hidden");
         qs("#add-friends-page").classList.remove("hidden");
         
         hideAll("#add-friends-page > section");
@@ -109,7 +109,7 @@
      * Shows the leaderboard window popup
      */
     function showLeaderboard() {
-        hideAll(".popup");
+        qs("#menu").classList.add("hidden");
         qs("#leaderboard").classList.remove("hidden");
     }
 
