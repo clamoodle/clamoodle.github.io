@@ -6,10 +6,6 @@
   Animation and specific styles for #welcome-view, #sound-menu, and #login-view in index.html
 */
 
-#welcome-view {
-    background-image: linear-gradient(rgb(21 112 116), rgb(198 221 255), rgb(235, 235, 235));
-}
-
 /* small faraway background mountains */
 #welcome-view .sliding-layer:first-child {
     background-image: url(../media/hindground.png);

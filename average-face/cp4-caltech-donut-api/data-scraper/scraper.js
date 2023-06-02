@@ -122,7 +122,7 @@ import fs from "fs/promises";
             );
 
             // Screenshot and save image path
-            const userId = url.slice(-5); // e.g. '5821'
+            const userId = url.slice(-4); // e.g. '5821'
             const imgPath = IMG_SAVE_TO_PATH + userId + ".png";
 
             const rect = await page.evaluate(() => {
