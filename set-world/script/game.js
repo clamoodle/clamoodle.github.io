@@ -57,6 +57,9 @@
         // Initial score
         qs("#score-count > span").textContent = 0;
 
+        // Show start message
+        qs("#game-start-msg").classList.remove("hidden");
+
         // Shows the view of the game, but every sliding animation paused
         openGame();
     }
@@ -65,7 +68,7 @@
      * Starts moving everything in the game, and collision listeners and obstacle timers start
      */
     function startGame() {
-        // Hide start message, never to be shown again in the same session
+        // Hide start message, to be shown again in the same session later
         qs("#game-start-msg").classList.add("hidden");
 
         pauseAllSlidingAnimation(false, false);
