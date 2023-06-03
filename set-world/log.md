@@ -5,6 +5,9 @@ implemented:
     - fixed bugs from last time of z-index and click card
 
 todo:
+    - level select (slider for obstacle frequency, which also affects SCORE_INCREMENT_INTERVAL_MS)
+    - character creation screen
+    - leaderboard (POST everytime game finishes)
     - messaging, friends API w. passwords
     - at some point: password/img privacy (also for avg face)
     - multiplayer? race of 2 tracks (left/right screens or top/bottom screens or main/thumb screens)

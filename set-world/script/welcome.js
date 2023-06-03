@@ -12,6 +12,7 @@
         qs("#music-toggle").addEventListener("click", toggleMusic);
         qs("#login-button").addEventListener("click", showLogin);
         qs("#menu-button").addEventListener("click", showMenu);
+        qs("#show-my-info").addEventListener("click", showUser);
         qs("#add-friends-button").addEventListener("click", showFriends);
         qs("#show-leaderboard").addEventListener("click", showLeaderboard);
         addEventListenerToAll("#user-icons > article", "click", toggleUserInfoView);
@@ -79,12 +80,23 @@
     }
 
     /**
+     * Shows user information profile page
+     */
+    function showUser() {
+        qs("#menu").classList.add("hidden");
+        qs("#add-friends-page").classList.remove("hidden");
+
+        hideAll("#add-friends-page > section");
+        qs("#user-info").classList.remove("hidden");
+    }
+
+    /**
      * Shows all friends / users view for user to add friends
      */
     function showFriends() {
         qs("#menu").classList.add("hidden");
         qs("#add-friends-page").classList.remove("hidden");
-        
+
         hideAll("#add-friends-page > section");
         qs("#users-list").classList.remove("hidden");
     }
