@@ -27,16 +27,17 @@ header {
 }
 
 /* In game, keeping blinking message above set board */
-#board {
-    z-index: 1;
+
+.bg.sliding-layer:nth-child(3) {
+    z-index: 2;
 }
 
-.bg.sliding-layer:nth-child(4) {
-    z-index: 2;
+#board {
+    z-index: 3;
 }
 
 .foreground,
 .popup {
     position: relative;
-    z-index: 2;
+    z-index: 4;
 }

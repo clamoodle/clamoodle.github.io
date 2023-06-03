@@ -1,5 +1,16 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+6/2/2023:
+implemented:
+    - fixed bugs from last time of z-index and click card
+
+todo:
+    - messaging, friends API w. passwords
+    - at some point: password/img privacy (also for avg face)
+    - multiplayer? race of 2 tracks (left/right screens or top/bottom screens or main/thumb screens)
+      and/or colab mode (where one user jumps and one user clicks cards)
+
+
 5/30/2023:
 implemented:
     SET IS PLAYABLE NOW!!!

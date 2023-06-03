@@ -31,7 +31,8 @@
 
     const IMG_PATH = "media/set-cards/";
 
-    // Boolean checking whether the game started (if not we don't want to increment score)
+    // Boolean checking whether the game started
+    // (if not we don't want to refresh board, select cards, etc)
     let playing;
 
     /**
@@ -57,7 +58,7 @@
             let card = generateUniqueCard();
             qs("#board").appendChild(card);
         }
-        while (!ExistSetOnBoard) {
+        if (!ExistSetOnBoard()) {
             refreshBoard();
         }
 
@@ -126,9 +127,7 @@
         let card = gen("div");
         card.classList.add("card"); // For styling
         card.setAttribute("id", cardId);
-        if (playing) {
-            card.addEventListener("click", cardSelected);
-        }
+        card.addEventListener("click", cardSelected);
 
         // Appending the child images COUNT times
         for (let i = 0; i < count; i++) {
@@ -150,14 +149,13 @@
         if (e.code in KEY_TO_CARD_IDX && playing) {
             const idx = KEY_TO_CARD_IDX[e.code];
             const card = qs(".card:nth-child(" + idx + ")");
-            cardSelected(card);
+            keyboardCardSelected(card);
             return;
         }
 
         switch (e.code) {
             case "Space":
                 if (!playing) {
-                    addEventListenerToAll(".card", "click", cardSelected);
                     playing = true;
                 }
                 break;
@@ -242,7 +240,7 @@
                     card.replaceWith(generateUniqueCard());
                 });
                 // Refreshes the board if there are no sets (guarantees set on board)
-                while (!ExistSetOnBoard) {
+                if (!ExistSetOnBoard()) {
                     refreshBoard();
                 }
             }, 500);
@@ -250,15 +248,29 @@
     }
 
     /**
-     * Used when a card is selected, checking how many cards are currently selected. If 3 cards are
+     * Used when a card is selected by clicking, toggles style and checking selected cards using
+     * checkSelectedCards().
+     */
+    function cardSelected() {
+        this.classList.toggle("selected");
+        checkSelectedCards();
+    }
+
+    /**
+     * Used when a card is selected by keyboard, toggles style and checking selected cards using
+     * checkSelectedCards(). Separate function from click since e.target for clicks cause lags.
+     * @param {object} - DOM object associated with the card we want to be selecting
+     */
+    function keyboardCardSelected(card) {
+        card.classList.toggle("selected");
+        checkSelectedCards();
+    }
+
+    /**
+     * Checking how many cards are currently selected. If 3 cards are
      * selected, uses isASet to handle "correct" and "incorrect" cases. No return value.
      */
-    function cardSelected(card) {
-        if (typeof card !== "object") {
-            card = this;
-        }
-        card.classList.toggle("selected");
-
+    function checkSelectedCards() {
         let selectedCards = qsa(".selected");
         if (selectedCards.length === 3) {
             if (isASet(selectedCards)) {
@@ -284,6 +296,7 @@
                 for (let k = j + 1; k < cards.length; k++) {
                     let selectedCards = [cards[i], cards[j], cards[k]];
                     if (isASet(selectedCards)) {
+                        // Hacking my own game!
                         console.log(i, j, k);
                         return true;
                     }
