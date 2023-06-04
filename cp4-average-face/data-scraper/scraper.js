@@ -5,13 +5,14 @@
  * Data scraper for Donut director page, returns a csv table of users, image URLs, majors, houses,
  * and respective id values.
  *
+ * Refs:
  * https://www.scrapingbee.com/blog/web-scraping-javascript/
  * https://github.com/puppeteer/puppeteer/blob/v3.0.2/docs/api.md
  * https://www.npmjs.com/package/puppeteer
  */
 
 import puppeteer from "puppeteer";
-import fs from "fs/promises";
+import fsp from "fs/promises";
 
 (function () {
     const LOGIN_URL = "https://donut.caltech.edu/login";
@@ -82,7 +83,7 @@ import fs from "fs/promises";
 
         // Getting login credentials
         // Reference: https://nodejs.dev/en/learn/reading-files-with-nodejs/
-        const content = await fs.readFile(credsPath, { encoding: "utf8" });
+        const content = await fsp.readFile(credsPath, { encoding: "utf8" });
         const login = JSON.parse(content);
 
         // Typing Login credentials
@@ -228,7 +229,7 @@ import fs from "fs/promises";
      * @param {JSON} data - the JSON data to be saved
      */
     async function saveData(saveToPath, data) {
-        await fs.writeFile(saveToPath, JSON.stringify(data), { encoding: "utf8" });
+        await fsp.writeFile(saveToPath, JSON.stringify(data), { encoding: "utf8" });
 
         console.log("\n Data saved to " + SAVE_TO_PATH + "!");
     }
