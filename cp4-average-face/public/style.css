@@ -40,7 +40,7 @@ section {
 
 #name,
 #message {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 #avg-face > img {
