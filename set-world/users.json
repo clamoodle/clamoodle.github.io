@@ -1,0 +1,9 @@
+[
+    {
+        "username": "clamoodle",
+        "imagePath": "media/dog.png",
+        "species": "not-eel",
+        "friends": [],
+        "highScore": 7000
+    }
+]

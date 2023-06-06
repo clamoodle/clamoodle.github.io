@@ -34,15 +34,6 @@
         const gradYear = qs("#grad-year").value;
 
         try {
-            throw Error(
-                DONUT_BASE_URL +
-                    new URLSearchParams({
-                        option: option.toLowerCase(),
-                        house: house.toLowerCase(),
-                        gender: gender.toLowerCase(),
-                        graduation: gradYear,
-                    })
-            );
             let resp = await fetch(
                 DONUT_BASE_URL +
                     new URLSearchParams({

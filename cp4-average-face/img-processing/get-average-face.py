@@ -21,7 +21,7 @@ import os
 
 # Parsing input parameter image-paths from string to JSON list
 INPUT = sys.argv[1] # E.g. ["user-imgs/4857.png", "user-imgs/2262.png", ...]
-IMG_PATHS = INPUT[1:-1].split(',')
+IMG_PATHS = INPUT[2:-2].split(',')
 SAVE_TO_PATH = sys.argv[2]
 
 # Paths to get from and save to
@@ -43,7 +43,6 @@ out_points = np.array([(NORMALIZED_EYES_LEFT, NORMALIZED_EYES_Y),
 # Facial morphing
 faces = []
 pts_normalized = []
-print("running")
 for i in range(len(IMG_PATHS)):
     # Open facial landmarks file and get landmark coordinates
     landmark_path = LANDMARK_FOLDER_PATH + IMG_PATHS[i][-8:-4] + '.json'

@@ -22,7 +22,8 @@ section,
     align-items: center;
 }
 
-form {
+form,
+#avg-face {
     flex-direction: row;
 }
 
@@ -43,8 +44,8 @@ section {
     /* text-transform: capitalize; */
 }
 
-#avg-face > img {
-    height: 500px;
+#avg-face img {
+    height: 300px;
     margin-right: 75px;
 }
 

@@ -4,24 +4,15 @@
  * @author Pearl Chen
  * CS 132 Spring 2023
  *
- * Node/Express for Caltech Donut API
- *
- * CS132 Node.js/Express "Cheat Sheet":
- * https://docs.google.com/document/d/11w4ZkW5S1vTilJm5HXIDeetjd-JmvkJMO22X8o31m64/edit
- *
- * Refs:
- * https://expressjs.com/en/4x/api.html
+ * Get/Post endpoints for Set World user data API
+ * Includes user scores, login info, etc
  */
 
 const express = require("express");
-const { exec } = require("child_process");
 const fsp = require("fs/promises");
 const app = express();
 
-const USER_DATA_PATH = "data-scraper/scraped-data.json";
-const IMG_FOLDER_PATH = "data-scraper/";
-const PYTHON_SCRIPT_PATH = "get-average-face.py";
-const PYTHON_OUTPUT_IMG_PATH = "../public/average-faces/";
+const USER_DATA_PATH = "users.json";
 
 // if serving front-end files in public/
 app.use(express.static("public"));
@@ -68,29 +59,27 @@ app.get("/average-face/", readData, getFilteredUserData, (req, res) => {
     const gender = req.query.gender;
     const graduation = req.query.graduation;
     const saveToPath =
-        PYTHON_OUTPUT_IMG_PATH + [encodeURI(option), house, gender, graduation].join("-") + "-face.png";
+        PYTHON_OUTPUT_IMG_PATH + [option, house, gender, graduation].join("-") + "-face.png";
 
-    try {
-        // spawn new child process to call the python script
-        const stringToExec = `Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(
-            imgPaths
-        )}' ${saveToPath}`;
-        const python = exec(stringToExec, {
+    // spawn new child process to call the python script
+    const python = exec(
+        `Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`,
+        {
             cwd: "img-processing",
-        });
+        }
+    );
+    const string = `Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`;
 
-        // console.log(`Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`);
+    // console.log(`Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`);
 
-        // in close event we are sure that stream from child process is closed
-        python.on("close", (code) => {
-            console.log(`child process close all stdio with code ${code}`);
-            // send data to browser
-            res.type("text");
-            res.send(saveToPath.slice(10)); // E.g. "average-face/-avery--2023-face.png"
-        });
-    } catch (err) {
-        console.log(err);
-    }
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        res.type("text");
+        res.send(string);
+        // res.send(saveToPath.slice(10)); // E.g. "average-face/-avery--2023-face.png"
+    });
 });
 
 /*----------------------- Middleware Functions ----------------------- */
@@ -102,7 +91,7 @@ async function readData(req, res, next) {
     try {
         let data = await fsp.readFile(USER_DATA_PATH, "utf8");
         data = JSON.parse(data);
-        res.locals.users = data.users;
+        res.locals.users = data;
         next();
     } catch (error) {
         console.log(error);
@@ -117,15 +106,19 @@ async function readData(req, res, next) {
  */
 function getFilteredUserData(req, res, next) {
     for (const param in req.query) {
-        // Check params valid for filtering
-        if (!["option", "house", "gender", "graduation"].includes(param)) {
-            continue;
-        }
+        switch (req.query) {
+            case "friends":
+                break;
 
-        // Filter
-        const filterValue = req.query[param];
-        if (filterValue) {
-            res.locals.users = filterUserList(res.locals.users, param, filterValue);
+            case "species":
+                // Filter species
+                const filterValue = req.query.species;
+                if (filterValue) {
+                    res.locals.users = filterUserList(res.locals.users, "species", filterValue);
+                }
+                break;
+
+            case "min-highscore":
         }
     }
     next();
@@ -174,9 +167,7 @@ function filterUserList(list, filterItem, filterVal) {
                 // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
                 (user) =>
                     user[filterItem].some((entry) => {
-                        const targetVal = filterVal.toLowerCase();
-                        const entryVal = entry.toLowerCase();
-                        return entryVal === targetVal;
+                        return entry.toLowerCase() === filterVal.toLowerCase();
                     })
             );
         } else {
