@@ -55,13 +55,13 @@ app.get("/users/", readData, getFilteredUserData, (req, res) => {
 });
 
 /**
- * Returns the image path string of the average face of a list of students matching the specified
- * filter parameters.
+ * Makes an image of the average of faces of users with the specified filter parameters, and saves
+ * the resulting image to public/average-faces. Returns the image path and description in JSON.
  */
 app.get("/average-face/", readData, getFilteredUserData, getAverageFace, (req, res) => {
     const imgInfo = {
         description: res.locals.imgDescription,
-        imgPath: res.locals.saveToPath.slice(10), // E.g. "average-face/-avery--2023-face.png"
+        imgPath: res.locals.saveToPath.slice(10), // E.g. "average-face/avery-2023-face.png"
     };
     res.json(imgInfo);
 });
