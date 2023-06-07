@@ -21,7 +21,7 @@ import os
 
 # Parsing input parameter image-paths from string to JSON list
 INPUT = sys.argv[1] # E.g. ["user-imgs/4857.png", "user-imgs/2262.png", ...]
-IMG_PATHS = INPUT[2:-2].split(',')
+IMG_PATHS = INPUT[1:-1].split(',')
 SAVE_TO_PATH = sys.argv[2]
 
 # Paths to get from and save to
@@ -78,6 +78,10 @@ for i in range(len(IMG_PATHS)):
     pts_normalized.append(new_pts)
     
     f.close()
+
+# In case no image has a matching face
+if (not faces):
+    raise Exception('MediaPipe says there are no faces detected!')
 
 # Calculate location of average landmark points.
 pts_avg = np.mean(pts_normalized, axis=0)
@@ -148,6 +152,7 @@ def warpTriangle(img1, img2, t1, t2) :
     img2[r2[1]:r2[1]+r2[3], r2[0]:r2[0]+r2[2]] = img2[r2[1]:r2[1]+r2[3], r2[0]:r2[0]+r2[2]] * ( (1.0, 1.0, 1.0) - mask )
      
     img2[r2[1]:r2[1]+r2[3], r2[0]:r2[0]+r2[2]] = img2[r2[1]:r2[1]+r2[3], r2[0]:r2[0]+r2[2]] + img2Rect
+
 
 # Triangulation of target average facial_landmarks
 tri = Delaunay(pts_avg).simplices

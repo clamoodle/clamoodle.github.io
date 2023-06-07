@@ -6,7 +6,7 @@
 */
 
 body {
-    margin: 0 100px;
+    margin: 0 50px;
     min-height: 100svh;
 }
 
@@ -37,16 +37,19 @@ section {
 
 #avg-face {
     justify-content: center;
+    flex-wrap: wrap;
 }
 
-#name,
-#message {
-    /* text-transform: capitalize; */
+#message, figcaption {
+    text-transform: capitalize;
 }
 
 #avg-face img {
-    height: 300px;
-    margin-right: 75px;
+    width: 200px;
+}
+
+figcaption {
+    text-align: center;
 }
 
 #ideas > h3 {

@@ -12,6 +12,10 @@
     const DONUT_BASE_URL = "/average-face?";
     const IMGS_FOLDER_PATH = "/";
 
+    // Source: Wikimedia Commons
+    const LOADING_ICON_SRC =
+        "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921";
+
     /**
      * Initialize the fetch (submit) button to call the correct function when pressed.
      */
@@ -24,6 +28,8 @@
      */
     async function fetchAverageFace(e) {
         e.preventDefault(); // So that page doesn't reload
+
+        const figure = showLoadingIcon();
 
         // Our Caltech Donut API supports optional parameters
         const optionId = qs("#option").value;
@@ -47,39 +53,67 @@
                 }
             );
             resp = checkStatus(resp);
-            const imgPath = await resp.text();
-            showAverageFace(imgPath);
+            const imgInfo = await resp.json();
+            console.log(imgInfo);
+            showAverageFace(figure, imgInfo);
         } catch (err) {
-            handleRequestError(err);
+            handleRequestError(err.message);
         }
+    }
+
+    /**
+     * Generates a figure with a loading GIF image in it.
+     * @returns {Object} - DOM element Node of the figure generated
+     */
+    function showLoadingIcon() {
+        const figure = gen("figure");
+        const image = gen("img");
+
+        // Update and show image
+        image.src = LOADING_ICON_SRC;
+        image.alt = "Loading Icon";
+        figure.appendChild(image);
+
+        qs("#avg-face").prepend(figure);
+        qs("#avg-face").classList.remove("hidden");
+
+        // Hide messages
+        qs("#message").classList.add("hidden");
+
+        return figure;
     }
 
     /**
      * Handles erros in fetch request by displaying the error message in console and screen.
      * @param {Error} err - the error
      */
-    function handleRequestError(err) {
-        console.log(err.message);
+    function handleRequestError(errMsg) {
+        console.log(errMsg);
 
         // Hide face image section
         qs("#avg-face").classList.add("hidden");
 
         // Show message
-        qs("#message > h3").textContent = err.message;
+        qs("#message > h3").textContent = errMsg;
         qs("#message").classList.remove("hidden");
     }
 
     /**
      * Displays the average face of an array of user profile images
-     * @param {Array} imgPath - the image path of the average face we got from fetchAverageFace()
+     * @param {Object} figure - the HTML DOM node to display the image and caption
+     * @param {JSON} imgInfo - the image info of the average face we got from fetchAverageFace()
      */
-    function showAverageFace(imgPath) {
-        const img_url = imgPath;
-        const image = qs("#avg-face > img");
+    function showAverageFace(figure, imgInfo) {
+        const imgSrc = imgInfo.imgPath;
+        const imgDescription = imgInfo.description;
+        const image = figure.firstElementChild;
+        const caption = gen("figcaption");
 
         // Update and show image
-        image.src = img_url;
-        image.alt = "average face of Caltech student with specified parameters";
+        image.src = imgSrc;
+        image.alt = imgDescription;
+        caption.textContent = imgDescription;
+        figure.appendChild(caption);
         qs("#avg-face").classList.remove("hidden");
 
         // Hide messages
