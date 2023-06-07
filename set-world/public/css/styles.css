@@ -67,6 +67,10 @@ form label,
     display: flex;
 }
 
+input[type="range"] {
+    width: 150%;
+}
+
 li {
     text-align: left;
 }
@@ -145,14 +149,11 @@ button,
     background-image: url(../media/music-off-button.png);
 }
 
-
-
 button {
     border: none;
     padding: 7px 10px;
     margin: 20px;
 }
-
 
 img.close-button {
     position: absolute;
@@ -199,7 +200,6 @@ form label,
     justify-content: flex-start;
 }
 
-
 #chat,
 #chat-content,
 #messenger > section,
@@ -218,7 +218,8 @@ form label,
 }
 
 #user-info button,
-#menu button {
+#menu button,
+input[type="range"] {
     width: 100%;
     margin: 8px;
 }
@@ -301,7 +302,7 @@ small {
 }
 
 /* small faraway background mountains */
-.sliding-layer:first-child {
+.bg.sliding-layer:first-child {
     background-position: 55% 100%; /* starting on my fav part of the drawing */
     background-size: 310svw;
     animation-duration: 200s;

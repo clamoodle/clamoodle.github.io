@@ -19,6 +19,11 @@
         qs("#back-to-friends").addEventListener("click", toggleUserInfoView);
         qs("#send-message").addEventListener("click", openMessenger);
         addEventListenerToAll(".close-button", "click", dismissParent);
+
+        // Obstacle rate range sliders in menu
+        qs("#obstacle-rate-input").addEventListener("input", (e) => {
+            displayInput(e, "#obstacle-rate");
+        });
     }
 
     /**
@@ -70,6 +75,16 @@
      */
     function showMenu() {
         qs("#menu").classList.remove("hidden");
+    }
+
+    /**
+     * Displays the value in a range slider input element
+     * @param {Event} e - the slider event
+     * @param {String} value - CSS query selector string for where value is displayed
+     */
+    function displayInput(e, value) {
+        const val = qs(value);
+        val.textContent = e.target.value;
     }
 
     /**

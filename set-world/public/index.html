@@ -86,11 +86,18 @@
 
             <!-- The actual "dino" game view, clears everything else -->
             <section id="dino-game" class="hidden">
-                <!-- background sliding layers of lil' mountains -->
+                <!-- Bckground sliding layers of lil' mountains -->
                 <div class="bg sliding-layer"></div>
                 <div class="bg sliding-layer"></div>
                 <div class="bg sliding-layer"></div>
                 <div class="bg sliding-layer"></div>
+
+                <!-- avatar -->
+                <div id="avatar"></div>
+                <h3>Obstacles Left: <span id="obstacle-count"></span></h3>
+
+                <!-- Obstacles will appear here (to-be-added by game.js) -->
+                <section id="obstacles"></section>
 
                 <section id="game-start-msg" class="foreground">
                     <h4>Press space to start jumping!</h4>
@@ -100,10 +107,6 @@
 
                 <!-- Score counter -->
                 <h4 id="score-count">Score: <span>0</span></h4>
-
-                <!-- avatar and obstacles (which are to-be-added by game.js) -->
-                <div id="avatar"></div>
-                <h3>Obstacles Left: <span id="obstacle-count"></span></h3>
 
                 <!-- Set board!! -->
                 <div id="board" class="popup"></div>
@@ -126,6 +129,9 @@
             <section id="menu" class="hidden popup">
                 <img class="close-button" src="media/close-button.png" alt="close popup button" />
                 <h2>Menu</h2>
+                <label>Obstacle Rate</label>
+                <input type="range" id="obstacle-rate-input" min="0" max="10" value="6" step="2" />
+                <output id="obstacle-rate">6</output>
                 <button type="button" id="show-my-info">My Profile</button>
                 <button type="button" id="add-friends-button">Add friends</button>
                 <button type="button" id="show-leaderboard">Leaderboard</button>

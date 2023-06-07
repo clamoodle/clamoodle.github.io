@@ -24,6 +24,12 @@
     right: 30px;
 }
 
+#obstacles {
+    /* Full size for calculation for obstacle positions */
+    width: 100%;
+    height: 100%;
+}
+
 div.goal img,
 img.obstacle,
 div.goal,
@@ -42,7 +48,7 @@ h3 {
 }
 
 /* small faraway background mountains */
-#dino-game .sliding-layer:first-child {
+#dino-game>.sliding-layer:first-child {
     background-image: url(../media/red-hindground.png);
     /* For the h3 title to rest comfortably on top */
     background-position-y: bottom;
@@ -50,18 +56,18 @@ h3 {
 }
 
 /* mid-ground mountains */
-#dino-game .sliding-layer:nth-child(2) {
+#dino-game>.sliding-layer:nth-child(2) {
     background-image: url(../media/red-midground.png);
 }
 
 img.obstacle,
 div.goal,
-#dino-game .sliding-layer:nth-child(2) {
+#dino-game>.sliding-layer:nth-child(2) {
     animation-duration: 15s;
 }
 
 /* big closeup foreground grass */
-#dino-game .sliding-layer:nth-child(3) {
+#dino-game>.sliding-layer:nth-child(3) {
     background-image: url(../media/red-foreground.png);
     background-position: bottom;
     margin-bottom: -10%;

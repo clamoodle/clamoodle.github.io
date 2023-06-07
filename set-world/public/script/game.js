@@ -8,17 +8,11 @@
     const JUMP_COOLDOWN_MS = 700; // Time in MS, double the time in game-styles.css to jump up
 
     // Obstacle constants
-    const NUM_OBSTACLES = 30;
+    const TOTAL_GAME_TIME_MS = 210000;
     const BUFFER_TIME_BEFORE_GAME_ENDS_MS = 2000; // The time between the last obstacle and the goal
     const COLLISION_LENIENCY_PX = 20;
-    // The amount that the avatar is pushed back by undodged obstacle in ratio to lvw (e.g. 0.1)
-    const PENALTY_SETBACK = 0.1;
-    // Minimum and maximum time in MS between each obstacle
-    const OBSTACLE_MIN_TIME_GAP_MS = 3000;
-    const OBSTACLE_MAX_TIME_GAP_MS = 10000;
 
-    const SCORE_INCREMENT_INTERVAL_MS = 100;
-    const SCORE_IF_REACH_GOAL = 300;
+    const SCORE_IF_REACH_GOAL = 500;
 
     // Images
     const IMG_PATH = "media/";
@@ -52,7 +46,8 @@
         gameOver = false;
 
         // Initial obstacle count text
-        qs("#obstacle-count").textContent = NUM_OBSTACLES;
+        const numObstacles = qs("#obstacle-rate-input").value * 5; // Pretty much arbitrary, by exp.
+        qs("#obstacle-count").textContent = numObstacles;
 
         // Initial score
         qs("#score-count > span").textContent = 0;
@@ -68,6 +63,13 @@
      * Starts moving everything in the game, and collision listeners and obstacle timers start
      */
     function startGame() {
+        // Clear obstacles from previous games, if any
+        qs("#obstacles").innerHTML = "";
+
+        // Lock menu obstacle rate slider
+        qs("#obstacle-rate-input").disabled = true;
+        qs("#obstacle-rate").textContent = "Can't change in game!";
+
         // Hide start message, to be shown again in the same session later
         qs("#game-start-msg").classList.add("hidden");
 
@@ -76,9 +78,13 @@
         qs(".goal").classList.remove("sliding-layer");
         generateMap();
         collisionTimerId = setInterval(handleCollision, 1000 / FRAME_RATE_FPS);
+
+        // Increment interval is set so that default is 100, and is 2.1 seconds with no obstacles
+        const scoreIncrementIntervalMS = 6300 / (qs("#obstacle-rate-input").value * 10 + 3);
+        console.log(scoreIncrementIntervalMS);
         scoreTimerId = setInterval(() => {
             qs("#score-count > span").textContent++;
-        }, SCORE_INCREMENT_INTERVAL_MS);
+        }, scoreIncrementIntervalMS);
     }
 
     /**
@@ -158,6 +164,12 @@
      */
     function endGame(won) {
         gameOver = true;
+
+        // Unlock obstacle rate slider in menu
+        qs("#obstacle-rate-input").disabled = false;
+        qs("#obstacle-rate").textContent = qs("#obstacle-rate-input").value;
+
+        // Reset timers
         clearInterval(collisionTimerId); // Stop the collision checker timer
         clearInterval(scoreTimerId);
         clearTimeout(obstacleGenTimeOutId); // Stop generating obstacles
@@ -301,7 +313,7 @@
         newObstacle.src = IMG_PATH + OBSTALCE_IMGS[randomIdx];
         newObstacle.classList.add("obstacle", "sliding-layer");
         newObstacle.alt = OBSTALCE_IMGS[randomIdx].replace("-", " ").slice(0, -".png".length);
-        qs("#dino-game").appendChild(newObstacle);
+        qs("#obstacles").appendChild(newObstacle);
 
         // Update obstacle count
         qs("#obstacle-count").textContent--;
@@ -317,21 +329,29 @@
      * Recursive to generate obstacles one after another
      */
     function generateMap() {
-        generateObstacle();
+        let numObstacles = qs("#obstacle-rate-input").value * 5; // Pretty much arbitrary, by exp.
+
+        // Minimum and maximum time in MS between each obstacle
+        let obstacleMinTimeGapMS = (TOTAL_GAME_TIME_MS / numObstacles) * 0.5;
+        let obstacleMaxTimeGapMS = (TOTAL_GAME_TIME_MS / numObstacles) * 1.5;
+        console.log(obstacleMinTimeGapMS, obstacleMaxTimeGapMS);
 
         // Genearate random time gap
         let obstacleTimeGapMS =
-            Math.floor(Math.random() * (OBSTACLE_MAX_TIME_GAP_MS - OBSTACLE_MIN_TIME_GAP_MS)) +
-            OBSTACLE_MIN_TIME_GAP_MS;
+            Math.floor(Math.random() * (obstacleMaxTimeGapMS - obstacleMinTimeGapMS)) +
+            obstacleMinTimeGapMS;
 
         // Recursion
         if (qs("#obstacle-count").textContent > 0) {
+            generateObstacle();
             obstacleGenTimeOutId = setTimeout(generateMap, obstacleTimeGapMS);
         } else if (!gameOver) {
             // Start sliding the final goal/finish line after the obstacles
+            const gameTimeRemainingMS = TOTAL_GAME_TIME_MS(1 - 1 / numObstacles);
+            const timeUntilGoalMS = Math.max(BUFFER_TIME_BEFORE_GAME_ENDS_MS, gameTimeRemainingMS);
             setTimeout(() => {
                 qs(".goal").classList.add("sliding-layer");
-            }, BUFFER_TIME_BEFORE_GAME_ENDS_MS);
+            }, timeUntilGoalMS);
         }
     }
 

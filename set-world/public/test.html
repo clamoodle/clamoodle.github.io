@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+  Author: Pearl Chen
+  Date: May 9, 2023
+  HTML for the landing welcome/login page of Set World, a game where I hopefully will eventually
+  make it so that players can play variations of the Set game and buy stuff as a cute lil' pixel
+  guy! (Yes, Set Penguin.)
+  So far right now it has a welcome page which leads to a version of the chrome dino game
+-->
+
+<html>
+    <head>
+        <title>Set World</title>
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/keyframes.css" />
+        <link rel="stylesheet" href="css/index.css" />
+        <link rel="stylesheet" href="css/game.css" />
+        <link rel="stylesheet" href="css/set.css" />
+        <link rel="stylesheet" href="css/z-index.css" />
+        <link rel="stylesheet" href="css/palette.css" />
+        <script src="script/utils.js"></script>
+        <script defer src="script/welcome.js"></script>
+        <script defer src="script/game.js"></script>
+        <script defer src="script/set.js"></script>
+    </head>
+    <body>
+        <header class="hidden">
+            <input type="image" id="menu-button" src="media/menu-button.png" alt="menu button" />
+            <!-- using div instead of img/input/button for music toggle for easier image source 
+                control with toggle across pages with different .js modules. Here, title is used 
+                instead of alt for accesibility -->
+            <div id="music-toggle" class="muted" title="music toggle button"></div>
+            <audio id="music" preload loop src="media/genius-soft-adventurous-theme.wav"></audio>
+        </header>
+        <!-- Each section here in <main></main> is a page view -->
+        <main>
+            <!-- Welcome page, where user chooses to log-in or create account -->
+            <section id="welcome-view">
+                <!-- background sliding layers of lil' mountains -->
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+
+                <h1>Set World</h1>
+                <!-- foreground titles/buttons floating over mountains -->
+                <div class="foreground">
+                    <button id="login-button">Log In</button>
+                    <button id="create-button">Create New Character</button>
+                    <button class="start-game-button">Play as Guest</button>
+                </div>
+            </section>
+
+            <!-- Menu floaty page -->
+            <section id="menu" class="popup">
+                <img class="close-button" src="media/close-button.png" alt="close popup button" />
+                <h2>Menu</h2>
+                <label>Obstacle Rate</label>
+                <input
+                    type="range"
+                    id="obstacle-rate-input"
+                    min="0"
+                    max="10"
+                    value="7"
+                    step="1"
+                />
+                <output id="obstacle-rate">7</output>
+                <button type="button" id="show-my-info">My Profile</button>
+                <button type="button" id="add-friends-button">Add friends</button>
+                <button type="button" id="show-leaderboard">Leaderboard</button>
+            </section>
+        </main>
+    </body>
+</html>
