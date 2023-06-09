@@ -1,3 +1,9 @@
+6/8/2023
+
+IMPLETENTED:
+-   error handling no matching students
+-   remove figure node in case of error
+
 TODO:
 
 -   using mediapipe, run facial-landmarks.py on all faces in user-imgs, save to       

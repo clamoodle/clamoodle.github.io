@@ -52,7 +52,7 @@
                     method: "GET",
                 }
             );
-            resp = checkStatus(resp);
+            resp = await checkStatus(resp);
             const imgInfo = await resp.json();
             console.log(imgInfo);
             showAverageFace(figure, imgInfo);
@@ -90,8 +90,10 @@
     function handleRequestError(errMsg) {
         console.log(errMsg);
 
-        // Hide face image section
-        qs("#avg-face").classList.add("hidden");
+        // Deletes figure node in average face gallery section and hides the section
+        const gallery = qs("#avg-face");
+        gallery.removeChild(gallery.firstElementChild);
+        gallery.classList.add("hidden");
 
         // Show message
         qs("#message > h3").textContent = errMsg;

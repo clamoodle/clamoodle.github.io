@@ -45,10 +45,11 @@ function gen(tagName) {
  * @returns {object} - The Response object if successful, otherwise an Error that
  * needs to be caught.
  */
-function checkStatus(response) {
+async function checkStatus(response) {
     if (!response.ok) {
         // response.status >= 200 && response.status < 300
-        throw Error(`Error in request: ${response.statusText}`);
+        const errMsg = await response.text();
+        throw new Error(errMsg);
     } // else, we got a response back with a good status code (e.g. 200)
     return response; // A resolved Response object.
 }

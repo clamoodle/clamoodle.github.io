@@ -40,11 +40,13 @@ section {
     flex-wrap: wrap;
 }
 
-#message, figcaption {
+#message,
+figcaption {
     text-transform: capitalize;
 }
 
-#avg-face img {
+#avg-face img,
+figcaption {
     width: 200px;
 }
 

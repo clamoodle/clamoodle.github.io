@@ -77,10 +77,6 @@ app.get("/average-face/", readData, getFilteredUserData, getAverageFace, (req, r
  * https://nodejs.org/api/child_process.html
  */
 function getAverageFace(req, res, next) {
-    // // Check if too many faces to merge
-    // if (res.locals.users.length > 75) {
-    //     throw "Too many faces to merge! I'm just a silly machine!";
-    // }
     const imgPaths = dictArrayToStringArray(res.locals.users, "imagePath").filter((i) => i);
     const option = req.query.option ? req.query.option : "";
     const house = req.query.house;
@@ -110,15 +106,18 @@ function getAverageFace(req, res, next) {
         next();
     }
 
-    // spawn new child process to call the python script
+    // Spawn new child process to call the python script
     const command = `Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`;
     const python = exec(command, {
         cwd: "img-processing",
     });
 
-    // console.log(`Python ${PYTHON_SCRIPT_PATH} '${JSON.stringify(imgPaths)}' ${saveToPath}`);
+    // Catch error message from Python child process
+    python.stderr.on("data", (data) => {
+        next(Error(data));
+    });
 
-    // in close event we are sure that stream from child process is closed
+    // In close event we are sure that stream from child process is closed
     python.on("close", (code) => {
         console.log(`child process close all stdio with code ${code}`);
         next();
@@ -164,11 +163,13 @@ function getFilteredUserData(req, res, next) {
 /**
  * Handles errors
  */
-// function handleError(err, req, res, next) {
-//     res.status(400).res.type("text").send(err.message);
-// }
+function handleError(err, req, res, next) {
+    res.status(400);
+    res.type("text");
+    res.send(err.message);
+}
 
-// app.use(handleError);
+app.use(handleError);
 
 /*------------------------- Helper Functions ------------------------- */
 
@@ -198,11 +199,8 @@ function dictArrayToStringArray(list, key) {
  */
 function filterUserList(list, filterItem, filterVal) {
     if (filterVal) {
-        if (!list[0]) {
-            throw "No matching users!";
-        }
         if (Array.isArray(list[0][filterItem])) {
-            // Case: value is an array (assuming we'll never get an empty list)
+            // Case 1: value is an array (assuming we'll never get an empty list)
             list = list.filter(
                 // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
                 (user) =>
@@ -213,11 +211,16 @@ function filterUserList(list, filterItem, filterVal) {
                     })
             );
         } else {
-            // Case: value is a string
+            // Case 2: value is a string
             list = list.filter(
                 (user) => user[filterItem].toLowerCase() === filterVal.toLowerCase()
             );
         }
+    }
+
+    // Check if we got empty list now
+    if (!list[0]) {
+        throw Error("No matching students!");
     }
     return list;
 }

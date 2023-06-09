@@ -21,7 +21,7 @@ import os
 
 # Parsing input parameter image-paths from string to JSON list
 INPUT = sys.argv[1] # E.g. ["user-imgs/4857.png", "user-imgs/2262.png", ...]
-IMG_PATHS = INPUT[1:-1].split(',')
+IMG_PATHS = INPUT[2:-2].split(',')
 SAVE_TO_PATH = sys.argv[2]
 
 # Paths to get from and save to
@@ -80,8 +80,10 @@ for i in range(len(IMG_PATHS)):
     f.close()
 
 # In case no image has a matching face
+# Ref: https://stackoverflow.com/questions/4690600/python-exception-message-capturing
 if (not faces):
-    raise Exception('MediaPipe says there are no faces detected!')
+    sys.stderr.write("MediaPipe couldn't detect faces in their pfp :'(")
+    raise Exception()
 
 # Calculate location of average landmark points.
 pts_avg = np.mean(pts_normalized, axis=0)
