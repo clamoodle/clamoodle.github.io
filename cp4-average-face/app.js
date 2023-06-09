@@ -20,17 +20,10 @@ const fs = require("fs");
 const app = express();
 
 const USER_DATA_PATH = "data-scraper/scraped-data.json";
-const COMMON_FACE_PATH = "../public/common-average-faces/";
 const PYTHON_SCRIPT_PATH = "get-average-face.py";
 const PYTHON_OUTPUT_IMG_PATH = "../public/average-faces/";
 
-// if serving front-end files in public/
 app.use(express.static("public"));
-
-// if handling different POST formats
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(multer().none());
 
 /*-------------------- app.get/app.post endpoints -------------------- */
 
@@ -41,16 +34,16 @@ app.get("/users/", readData, getFilteredUserData, (req, res) => {
     switch (req.query.type) {
         case "names":
             res.type("text");
-            const names = dictArrayToStringArray(res.locals.users, "name");
-            res.send(names.join(", "));
-
+            res.send(dictArrayToStringArray(res.locals.users, "name").join(", "));
+            break;
         case "image-paths":
-            const imgPaths = dictArrayToStringArray(res.locals.users, "imagePath").filter((i) => i);
-            res.json(imgPaths);
-
+            // Filter makes sure no null entries are returned
+            res.json(dictArrayToStringArray(res.locals.users, "imagePath").filter((i) => i));
+            break;
         case "json":
         default:
             res.json(res.locals.users);
+            break;
     }
 });
 
@@ -61,7 +54,8 @@ app.get("/users/", readData, getFilteredUserData, (req, res) => {
 app.get("/average-face/", readData, getFilteredUserData, getAverageFace, (req, res) => {
     const imgInfo = {
         description: res.locals.imgDescription,
-        imgPath: res.locals.saveToPath.slice(10), // E.g. "average-face/avery-2023-face.png"
+        // E.g. "average-face/avery-2023-face.png"
+        imgPath: res.locals.saveToPath.slice("../public/".length),
     };
     res.json(imgInfo);
 });
@@ -102,7 +96,7 @@ function getAverageFace(req, res, next) {
     res.locals.imgDescription = imgDescription;
 
     // Check if image is stored in common-average-faces
-    if (fs.existsSync(saveToPath.slice(3))) {
+    if (fs.existsSync(saveToPath.slice("../".length))) {
         next();
     }
 
@@ -163,7 +157,7 @@ function getFilteredUserData(req, res, next) {
 /**
  * Handles errors
  */
-function handleError(err, req, res, next) {
+function handleError(err, req, res) {
     res.status(400);
     res.type("text");
     res.send(err.message);

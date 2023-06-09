@@ -4,13 +4,13 @@
  * @author Pearl Chen
  * CS 132 Spring 2023
  *
- * Takes in parameters from selectors in index.html, fetches images from Donut directory to show as
- * average face
+ * Takes in parameters from selectors in index.html, fetches images scraped from Donut directory to
+ * show thier composite average face
  */
 
 (function () {
     const DONUT_BASE_URL = "/average-face?";
-    const IMGS_FOLDER_PATH = "/";
+    const ERR_MESSAGE_DURATION_MS = 2000;
 
     // Source: Wikimedia Commons
     const LOADING_ICON_SRC =
@@ -98,6 +98,12 @@
         // Show message
         qs("#message > h3").textContent = errMsg;
         qs("#message").classList.remove("hidden");
+
+        // Hide message after some seconds
+        setTimeout(() => {
+            qs("#message").classList.add("hidden");
+            gallery.classList.remove("hidden");
+        }, ERR_MESSAGE_DURATION_MS);
     }
 
     /**
