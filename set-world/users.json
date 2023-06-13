@@ -1,9 +1,35 @@
 [
     {
         "username": "clamoodle",
+        "password": "clamoodle",
         "imagePath": "media/dog.png",
         "species": "not-eel",
         "friends": [],
         "highScore": 7000
+    },
+
+    {
+        "username": "clamodle",
+        "password": "clamodle",
+        "imagePath": "media/dog.png",
+        "species": "not-eel",
+        "friends": [],
+        "highScore": 5000
+    },
+    {
+        "username": "clamodle",
+        "password": "clamodle",
+        "imagePath": "media/dog.png",
+        "species": "not-eel",
+        "friends": [],
+        "highScore": 6000
+    },
+    {
+        "username": "clamodle",
+        "password": "clamodle",
+        "imagePath": "media/dog.png",
+        "species": "not-eel",
+        "friends": [],
+        "highScore": 3000
     }
 ]

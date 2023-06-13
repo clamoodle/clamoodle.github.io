@@ -1,107 +1,48 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+6/12/2023:
+implemented: - app.get users filter info (friends, species, min-highscore) - app.post for updateScore and newUser
+
 6/2/2023:
-implemented:
-    - fixed bugs from last time of z-index and click card
+implemented: - fixed bugs from last time of z-index and click card
 
-todo:
-    - level select (slider for obstacle frequency, which also affects SCORE_INCREMENT_INTERVAL_MS)
-    - character creation screen
-    - leaderboard (POST everytime game finishes)
-    - messaging, friends API w. passwords
-    - at some point: password/img privacy (also for avg face)
-    - multiplayer? race of 2 tracks (left/right screens or top/bottom screens or main/thumb screens)
-      and/or colab mode (where one user jumps and one user clicks cards)
-
+todo: - level select (slider for obstacle frequency, which also affects SCORE_INCREMENT_INTERVAL_MS) - character creation screen - leaderboard (POST everytime game finishes) - messaging, friends API w. passwords - at some point: password/img privacy (also for avg face) - multiplayer? race of 2 tracks (left/right screens or top/bottom screens or main/thumb screens)
+and/or colab mode (where one user jumps and one user clicks cards)
 
 5/30/2023:
 implemented:
-    SET IS PLAYABLE NOW!!!
-    - fixed z-index set board bug
-    - added keyboard card select
-    - added score count
-        - increment with each set found
-        - increase with timer (like chrome dino game)
-    - sped up walk rate (like chrome dino)
-    - factored out z-index and color palette for css
-    - tried to add obstacle pushes avatar back but style.left not working
-    - guarantee sets in board, refresh with penalty
-    - disabling card select after game ends and before game starts
+SET IS PLAYABLE NOW!!! - fixed z-index set board bug - added keyboard card select - added score count - increment with each set found - increase with timer (like chrome dino game) - sped up walk rate (like chrome dino) - factored out z-index and color palette for css - tried to add obstacle pushes avatar back but style.left not working - guarantee sets in board, refresh with penalty - disabling card select after game ends and before game starts
 
-todo:
-    - z-index of foregroudn grass bug (passing behind doggo)
-    - click card not selecting bug
-
+todo: - z-index of foregroudn grass bug (passing behind doggo) - click card not selecting bug
 
 5/26/2023:
-implemented:
-    - factor out pop-up style
-    - close button for popups and js
-    - style for leaderboard, menu, friends, message
-        - friends search bar filter
-    - buttons/js directions for those pages
-    - close popup button
-    - added set board to in-game
-todo:
-    - set board bug
-
+implemented: - factor out pop-up style - close button for popups and js - style for leaderboard, menu, friends, message - friends search bar filter - buttons/js directions for those pages - close popup button - added set board to in-game
+todo: - set board bug
 
 5/23-24/2023
-implemented:
-    - html/css for find friends page
+implemented: - html/css for find friends page
 
-todo:
-    - add set element to game play
-    - add friends, request friends, multi player gae
-    - Log in and keeping track of users
-    - Add friends, message friends?, see friends scores history
-    - Character creation screen (eel or not eel, implement different speeds for eel / not eel, then color)
-    - Game levels (faster obstacles, now requires set-skills)
-    - Menu: leader board, add friends, volume toggle, back to main page, user score history
-    - Add set board to in-game screen
-    - (If I have time) E-commerce component: in-game clothing store ( also want eventually actual money to buy additional in-game coins)
+todo: - add set element to game play - add friends, request friends, multi player gae - Log in and keeping track of users - Add friends, message friends?, see friends scores history - Character creation screen (eel or not eel, implement different speeds for eel / not eel, then color) - Game levels (faster obstacles, now requires set-skills) - Menu: leader board, add friends, volume toggle, back to main page, user score history - Add set board to in-game screen - (If I have time) E-commerce component: in-game clothing store ( also want eventually actual money to buy additional in-game coins)
 
     - Main view: see friends! Single view: view friends stats. Contact dev. Cart for friend pendings/clothes to buy?
     - Back-end chosen features:
     - Loyal customers past a certain score/level
     - Customizable characters (can also purchase skin color, etc)
 
-
-
 5/8/2023
-implemented:
-    - fixed bug after end game things sliding around by using recursive settimeout instead of loop
-    - game over messages and back button
-    - changed welcome view bg gradient color
-    - changeMusic() function, now plays different song when game end
-    - menu button construction message, fixed bug of welcome song restarting when dismissing menu
-    - twinkling sparkles animation around goal
-    - restart game obstacle count reset
-    - space bar to start game/blinking messages before game starts
-    - fixed bugs in timer, etc, in restarting game after going back to welcome screen
-    - factored out keyframes.css
+implemented: - fixed bug after end game things sliding around by using recursive settimeout instead of loop - game over messages and back button - changed welcome view bg gradient color - changeMusic() function, now plays different song when game end - menu button construction message, fixed bug of welcome song restarting when dismissing menu - twinkling sparkles animation around goal - restart game obstacle count reset - space bar to start game/blinking messages before game starts - fixed bugs in timer, etc, in restarting game after going back to welcome screen - factored out keyframes.css
 
 todo:
-    x make sound buttons clickable during popups/ but not during #sound-menu (z-index refactoring)
-    - jumping / discontinuous hindground (recalculate css animation)
-
+x make sound buttons clickable during popups/ but not during #sound-menu (z-index refactoring) - jumping / discontinuous hindground (recalculate css animation)
 
 5/7/2023
-implemented:
-    - background in-game obstacle count down
-    - game play sprites, goal, random obstacles
-    - change music buttons to divs to use class to toggle bg
-    - game play soundtrack change / play music if not muted
-    - collision detection
-    - collision handling for goal
+implemented: - background in-game obstacle count down - game play sprites, goal, random obstacles - change music buttons to divs to use class to toggle bg - game play soundtrack change / play music if not muted - collision detection - collision handling for goal
 
 todo:
-    x collision handling obstacle flash avatar/bounce back
-    - set board
-    - press space to start
-    v twinkle animation around goal
+x collision handling obstacle flash avatar/bounce back - set board - press space to start
+v twinkle animation around goal
 
-    v menu button does nothing rn 
+    v menu button does nothing rn
     - create character screen
     - lints
     - files organize media files?

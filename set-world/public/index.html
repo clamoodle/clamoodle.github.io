@@ -129,7 +129,7 @@
             <section id="menu" class="hidden popup">
                 <img class="close-button" src="media/close-button.png" alt="close popup button" />
                 <h2>Menu</h2>
-                <label>Obstacle Rate</label>
+                <label for="obstacle-rate-input">Obstacle Rate</label>
                 <input type="range" id="obstacle-rate-input" min="0" max="10" value="6" step="2" />
                 <output id="obstacle-rate">6</output>
                 <button type="button" id="show-my-info">My Profile</button>
@@ -148,6 +148,18 @@
                             <option value="">Friends</option>
                             <option value="false">Not Friends</option>
                             <option value="any">All</option>
+                        </select>
+                        <select name="species" class="filter-item">
+                            <option value="">Any Species</option>
+                            <option value="eel">Eel</option>
+                            <option value="not-eel">Not Eel</option>
+                        </select>
+                        <select name="min-highscore" class="filter-item">
+                            <option value="">No Min Highscore</option>
+                            <option value="2000">At least 2000</option>
+                            <option value="4000">At least 4000</option>
+                            <option value="6000">At least 6000</option>
+                            <option value="8000">At least 8000</option>
                         </select>
                         <input list="users" class="filter-item" placeholder="Type Username" />
                         <datalist id="users">
