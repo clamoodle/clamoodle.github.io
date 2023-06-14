@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+  Author: Pearl Chen
+  Date: May 9, 2023
+  HTML for the landing welcome/login page of Set World, a game where I hopefully will eventually
+  make it so that players can play variations of the Set game and buy stuff as a cute lil' pixel
+  guy! (Yes, Set Penguin.)
+  So far right now it has a welcome page which leads to a version of the chrome dino game
+-->
+
+<html>
+  <head>
+    <title>Set World</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/keyframes.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/game.css" />
+    <link rel="stylesheet" href="css/set.css" />
+    <link rel="stylesheet" href="css/z-index.css" />
+    <link rel="stylesheet" href="css/palette.css" />
+    <link rel="stylesheet" href="css/char-select.css" />
+    <script src="script/utils.js"></script>
+    <script defer src="script/welcome.js"></script>
+    <script defer src="script/game.js"></script>
+    <script defer src="script/set.js"></script>
+    <script defer src="script/friends.js"></script>
+  </head>
+  <body>
+    <header>
+      <input type="image" id="menu-button" src="media/buttons/menu-button.png" alt="menu button" />
+      <!-- using div instead of img/input/button for music toggle for easier image source 
+                control with toggle across pages with different .js modules. Here, title is used 
+                instead of alt for accesibility -->
+      <div id="music-toggle" class="muted" title="music toggle button"></div>
+      <audio id="music" preload loop src="media/genius-soft-adventurous-theme.wav"></audio>
+    </header>
+    <!-- Each section here in <main></main> is a page view -->
+    <main>
+      <!-- Character selection / creation view, leads to the game view afterwards -->
+      <section id="char-creation-view">
+        <h3>Create Character</h3>
+        <div>
+          <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
+          <div class="oval"></div>
+        </div>
+        <form class="popup">
+          <div id="traits">
+            <h2>Species:</h2>
+            <div class="trait-select">
+              <img class="left-option" src="media/buttons/left-button.png" alt="left" />
+              <h2 id="species">Eel</h2>
+              <img class="right-option" src="media/buttons/right-button.png" alt="right" />
+            </div>
+
+            <h2>Type:</h2>
+            <div class="trait-select">
+              <img class="left-option" src="media/buttons/left-button.png" alt="left" />
+              <h2 id="type">Eel</h2>
+              <img class="right-option" src="media/buttons/right-button.png" alt="right" />
+            </div>
+
+            <h2>Color:</h2>
+            <div class="trait-select">
+              <img class="left-option" src="media/buttons/left-button.png" alt="left" />
+              <h2 id="color">Eel</h2>
+              <img class="right-option" src="media/buttons/right-button.png" alt="right" />
+            </div>
+
+            <h2>Username:</h2>
+            <input type="username" required />
+            <h2>Email:</h2>
+            <input type="email" required />
+
+            <h2>Password:</h2>
+            <input type="password" required />
+          </div>
+          <button type="button" class="start-game-button">Register &amp; Start Game!</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

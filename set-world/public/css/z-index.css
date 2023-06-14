@@ -7,37 +7,39 @@
 
 main,
 body {
-    /* To prevent blocking interactive elements */
-    position: relative;
-    z-index: -2;
+  /* To prevent blocking interactive elements */
+  position: relative;
+  z-index: -2;
 }
 
 /* In game, so that title text is behind foregrounds/backgrounds */
 #dino-game,
 h3 {
-    z-index: -1;
+  z-index: -1;
 }
 
-.bg.sliding-layer {
-    z-index: 0;
+.bg.sliding-layer,
+#char-creation-view > h3 {
+  z-index: 0;
 }
 
-header {
-    z-index: 1;
+header,
+#char-creation-view > div > img {
+  z-index: 1;
 }
 
 /* In game, keeping blinking message above set board */
 
 .bg.sliding-layer:nth-child(3) {
-    z-index: 2;
+  z-index: 2;
 }
 
 #board {
-    z-index: 3;
+  z-index: 3;
 }
 
 .foreground,
 .popup {
-    position: relative;
-    z-index: 4;
+  position: relative;
+  z-index: 4;
 }

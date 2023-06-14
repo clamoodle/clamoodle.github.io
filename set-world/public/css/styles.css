@@ -14,44 +14,44 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 body {
-    padding: 0;
-    overflow: hidden;
-    background-size: 300svw 100svh;
-    height: 100svh;
+  padding: 0;
+  overflow: hidden;
+  background-size: 300svw 100svh;
+  height: 100svh;
 }
 
 body,
 h1,
 h3 {
-    margin: 0;
+  margin: 0;
 }
 
 * {
-    font-family: "Silkscreen", "Courier New", Courier, monospace;
-    font-weight: 400;
-    text-align: center;
+  font-family: "Silkscreen", "Courier New", Courier, monospace;
+  font-weight: 400;
+  text-align: center;
 
-    /* No selection highlight */
-    /* Source: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
+  /* No selection highlight */
+  /* Source: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
 
-    /* for crisp pixel art upon resize */
-    /* Source: https://css-tricks.com/almanac/properties/i/image-rendering/ */
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  /* for crisp pixel art upon resize */
+  /* Source: https://css-tricks.com/almanac/properties/i/image-rendering/ */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 header,
 main > section,
 .bg.sliding-layer {
-    position: absolute;
+  position: absolute;
 }
 
 main,
@@ -64,15 +64,15 @@ form label,
 #user-info,
 #users-list,
 #uesrs-icons {
-    display: flex;
+  display: flex;
 }
 
 input[type="range"] {
-    width: 150%;
+  width: 150%;
 }
 
 li {
-    text-align: left;
+  text-align: left;
 }
 
 main,
@@ -80,22 +80,22 @@ main,
 #music-toggle,
 #chats-list,
 #chat {
-    height: 100%;
+  height: 100%;
 }
 
 #chat > * {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 #add-friends-page {
-    justify-content: space-evenly;
-    height: 80%;
-    margin: 50px;
+  justify-content: space-evenly;
+  height: 80%;
+  margin: 50px;
 }
 
 #user-info > img {
-    width: 30%;
-    margin-right: 10%;
+  width: 30%;
+  margin-right: 10%;
 }
 
 main,
@@ -104,63 +104,64 @@ section,
 form,
 #login-window,
 .popup {
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 header {
-    top: 15px;
-    left: 10px;
-    height: 40px;
-    align-items: stretch;
+  top: 15px;
+  left: 10px;
+  height: 40px;
+  align-items: stretch;
 }
 
 header * {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 h1,
 h3 {
-    text-transform: uppercase;
-    font-family: "Foldit", sans-serif;
+  text-transform: uppercase;
+  font-family: "Foldit", sans-serif;
 }
 
 h1 {
-    font-size: 35svh;
-    letter-spacing: 2rem;
+  font-size: 35svh;
+  letter-spacing: 2rem;
 }
 
 button,
 #music-toggle,
 .close-button,
 #chats-list > div,
-#user-icons article {
-    cursor: pointer;
+#user-icons article,
+.trait-select > img {
+  cursor: pointer;
 }
 
 #music-toggle {
-    width: 47.26px;
-    background-image: url(../media/music-on-button.png);
-    background-size: 47.26px;
-    background-repeat: no-repeat;
+  width: 47.26px;
+  background-image: url(../media/buttons/music-on-button.png);
+  background-size: 47.26px;
+  background-repeat: no-repeat;
 }
 
 #music-toggle.muted {
-    background-image: url(../media/music-off-button.png);
+  background-image: url(../media/buttons/music-off-button.png);
 }
 
 button {
-    border: none;
-    padding: 7px 10px;
-    margin: 20px;
+  border: none;
+  padding: 7px 10px;
+  margin: 20px;
 }
 
 img.close-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 28px;
-    width: 28px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 28px;
+  width: 28px;
 }
 
 main > section,
@@ -172,143 +173,143 @@ form label,
 #chats-list,
 #messenger,
 #chat-content {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 #chats-list {
-    width: 30%;
-    justify-content: flex-start;
+  width: 30%;
+  justify-content: flex-start;
 }
 
 #chat-content div {
-    width: 100%;
+  width: 100%;
 }
 
 #chat-content p {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 5px;
-    width: fit-content;
-    border-radius: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 5px;
+  width: fit-content;
+  border-radius: 7px;
 }
 
 .user-msg {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .friend-msg {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 #chat,
 #chat-content,
 #messenger > section,
 #typebox > input {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 #chats-list img {
-    width: 20%;
-    margin-right: 10%;
+  width: 20%;
+  margin-right: 10%;
 }
 
 #user-info,
 #user-icons {
-    flex-direction: row;
+  flex-direction: row;
 }
 
 #user-info button,
 #menu button,
 input[type="range"] {
-    width: 100%;
-    margin: 8px;
+  width: 100%;
+  margin: 8px;
 }
 
 .filter-item,
 #typebox > input {
-    border-radius: 0%;
-    padding: 5px;
-    margin-left: 10px;
+  border-radius: 0%;
+  padding: 5px;
+  margin-left: 10px;
 }
 
 #user-icons,
 #chat-content {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 #user-icons {
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 #users-list article {
-    width: 200px;
-    margin: 10px;
+  width: 200px;
+  margin: 10px;
 }
 
 #users-list article > img,
 #chat-content,
 #typebox {
-    width: 100%;
+  width: 100%;
 }
 
 main > section,
 .bg.sliding-layer {
-    top: 0;
+  top: 0;
 }
 
 main > section:not(.popup) {
-    height: 100lvh;
-    width: 100lvw;
+  height: 100lvh;
+  width: 100lvw;
 }
 
 .popup {
-    border-radius: 10px;
-    padding: 3svh 10lvw 3svh;
+  border-radius: 10px;
+  padding: 3svh 10lvw 3svh;
 }
 
 #login-window > form {
-    padding-top: 5svh;
+  padding-top: 5svh;
 }
 
 #user-icons {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 form label {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 /* Leaderboard styling */
 #leaderboard > table {
-    width: 450px;
+  width: 450px;
 }
 small {
-    text-align: right;
+  text-align: right;
 }
 
 /* animation made for images 3x screen width to loop */
 .sliding-layer {
-    animation: slide linear;
+  animation: slide linear;
 }
 
 .bg.sliding-layer {
-    background-repeat: repeat-x;
-    left: 0;
-    width: 600svw;
-    height: 100svh;
-    background-size: 300svw;
-    background-position: 0% 100%;
-    animation-iteration-count: infinite;
+  background-repeat: repeat-x;
+  left: 0;
+  width: 600svw;
+  height: 100svh;
+  background-size: 300svw;
+  background-position: 0% 100%;
+  animation-iteration-count: infinite;
 }
 
 /* small faraway background mountains */
 .bg.sliding-layer:first-child {
-    background-position: 55% 100%; /* starting on my fav part of the drawing */
-    background-size: 310svw;
-    animation-duration: 200s;
+  background-position: 55% 100%; /* starting on my fav part of the drawing */
+  background-size: 310svw;
+  animation-duration: 200s;
 }
 
 .hidden {
-    /* the only important!!! to override id's and all other selectors' display values */
-    display: none !important;
+  /* the only important!!! to override id's and all other selectors' display values */
+  display: none !important;
 }

@@ -36,10 +36,10 @@ app.use(express.static("public"));
  * to lowest high score.
  */
 app.get("/users/:user", readUserData, getFilteredUserData, (req, res) => {
-    if (req.query.sort && req.query.sort === "scores") {
-        sortByKeyValue(res.locals.users, "highScore");
-    }
-    res.json(res.locals.users);
+  if (req.query.sort && req.query.sort === "scores") {
+    sortByKeyValue(res.locals.users, "highScore");
+  }
+  res.json(res.locals.users);
 });
 
 /**
@@ -47,10 +47,10 @@ app.get("/users/:user", readUserData, getFilteredUserData, (req, res) => {
  * Required POST parameters: username, password, imagePath, and species
  * Friends is set to [] and highScore is set to null.
  */
-app.post("/newUser", checkUserParams, readUserData, (req, res, next) => {
-    res.locals.users.push(res.locals.user);
-    updateUsers(USER_DATA_PATH, res.locals.users);
-    res.send(`Request to add new user ${req.body.username} successfully received!`);
+app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
+  res.locals.users.push(res.locals.user);
+  updateUsers(USER_DATA_PATH, res.locals.users);
+  res.send(`Request to add new user ${req.body.username} successfully received!`);
 });
 
 /**
@@ -58,21 +58,21 @@ app.post("/newUser", checkUserParams, readUserData, (req, res, next) => {
  * Required POST parameter: score
  */
 app.post("/updateScore/:user", readUserData, async (req, res, next) => {
-    if (!req.body.score) {
-        next(Error("Required POST parameters for /updateScore: score."));
-    }
+  if (!req.body.score) {
+    next(Error("Required POST parameters for /updateScore: score."));
+  }
 
-    // Updating high score
-    let userIdx = res.locals.users.findIndex((user) => user.username === req.params.user);
-    res.locals.users[userIdx].highScore = Math.max(
-        req.body.score,
-        res.locals.users[userIdx].highScore
-    );
+  // Updating high score
+  let userIdx = res.locals.users.findIndex((user) => user.username === req.params.user);
+  res.locals.users[userIdx].highScore = Math.max(
+    req.body.score,
+    res.locals.users[userIdx].highScore
+  );
 
-    updateUsers(USER_DATA_PATH, res.locals.users);
-    res.send(
-        `Request to update score for ${req.params.user} successfully received! Score is now ${res.locals.users[userIdx].highScore}.`
-    );
+  updateUsers(USER_DATA_PATH, res.locals.users);
+  res.send(
+    `Request to update score for ${req.params.user} successfully received! Score is now ${res.locals.users[userIdx].highScore}.`
+  );
 });
 
 /*----------------------- Middleware Functions ----------------------- */
@@ -81,36 +81,46 @@ app.post("/updateScore/:user", readUserData, async (req, res, next) => {
  * Save POST parameters for newUser as a JSON into res.locals.user
  */
 function checkUserParams(req, res, next) {
-    let newUserJSON = processUserParams(
-        req.body.username,
-        req.body.password,
-        req.body.imagePath,
-        req.body.species
+  let newUserJSON = processUserParams(
+    req.body.username,
+    req.body.password,
+    req.body.imagePath,
+    req.body.species
+  );
+
+  // Check required params
+  if (!newUserJSON) {
+    res.status(CLIENT_ERR_CODE);
+    next(
+      Error("Required POST parameters for /addItem: username, password, imagePath, and species.")
     );
-    if (!newUserJSON) {
-        res.status(CLIENT_ERR_CODE);
-        next(
-            Error(
-                "Required POST parameters for /addItem: username, password, imagePath, and species."
-            )
-        );
-    }
-    res.locals.user = newUserJSON;
+  }
+
+  // Check username uniqueness
+  if (
+    res.locals.users.filter((user) => {
+      user.username === newUserJSON.username;
+    }).length > 0
+  ) {
+    next(Error("Username taken."));
+  }
+  
+  res.locals.user = newUserJSON;
 }
 
 /**
  * Reads file at USER_DATA_PATH into JSON object into res.locals.users
  */
 async function readUserData(req, res, next) {
-    try {
-        let data = await fsp.readFile(USER_DATA_PATH, "utf8");
-        data = JSON.parse(data);
-        res.locals.users = data;
-        next();
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
+  try {
+    let data = await fsp.readFile(USER_DATA_PATH, "utf8");
+    data = JSON.parse(data);
+    res.locals.users = data;
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 }
 
 /**
@@ -119,57 +129,56 @@ async function readUserData(req, res, next) {
  * Presumably the query parameters are option, house, gender, and graduation.
  */
 function getFilteredUserData(req, res, next) {
-    for (const param in req.query) {
-        switch (param) {
-            case "friends":
-                // Filter friends
-                if (!req.params.user) {
-                    throw Error("Friends needs a specified reference user!");
-                }
-
-                if (req.params.friends) {
-                    // (Assuming we'll never get an empty list)
-                    if (req.query.friends === "true") {
-                        // Filter those who are friends with user
-                        res.locals.users = res.locals.users.filter(
-                            // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
-                            (user) =>
-                                user.friends.some((entry) => {
-                                    return entry.toLowerCase() === req.params.user.toLowerCase();
-                                })
-                        );
-                    } else {
-                        // Filter those who are not friends with user
-                        res.locals.users = res.locals.users.filter((user) =>
-                            user.friends.every((entry) => {
-                                return entry.toLowerCase() !== req.params.user.toLowerCase();
-                            })
-                        );
-                    }
-                }
-                break;
-
-            case "species":
-                // Filter species
-                if (req.query.species) {
-                    res.locals.users = res.locals.users.filter(
-                        (user) => user["species"].toLowerCase() === req.query.species.toLowerCase()
-                    );
-                }
-                break;
-
-            case "min-highscore":
-                // Filter minimum high score
-                if (req.query["min-highscore"]) {
-                    res.locals.users = res.locals.users.filter(
-                        (user) =>
-                            parseInt(user["min-highscore"]) >= parseInt(req.query["min-highscore"])
-                    );
-                }
-                break;
+  for (const param in req.query) {
+    switch (param) {
+      case "friends":
+        // Filter friends
+        if (!req.params.user) {
+          throw Error("Friends needs a specified reference user!");
         }
+
+        if (req.params.friends) {
+          // (Assuming we'll never get an empty list)
+          if (req.query.friends === "true") {
+            // Filter those who are friends with user
+            res.locals.users = res.locals.users.filter(
+              // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
+              (user) =>
+                user.friends.some((entry) => {
+                  return entry.toLowerCase() === req.params.user.toLowerCase();
+                })
+            );
+          } else {
+            // Filter those who are not friends with user
+            res.locals.users = res.locals.users.filter((user) =>
+              user.friends.every((entry) => {
+                return entry.toLowerCase() !== req.params.user.toLowerCase();
+              })
+            );
+          }
+        }
+        break;
+
+      case "species":
+        // Filter species
+        if (req.query.species) {
+          res.locals.users = res.locals.users.filter(
+            (user) => user["species"].toLowerCase() === req.query.species.toLowerCase()
+          );
+        }
+        break;
+
+      case "min-highscore":
+        // Filter minimum high score
+        if (req.query["min-highscore"]) {
+          res.locals.users = res.locals.users.filter(
+            (user) => parseInt(user["min-highscore"]) >= parseInt(req.query["min-highscore"])
+          );
+        }
+        break;
     }
-    next();
+  }
+  next();
 }
 
 /**
@@ -191,7 +200,7 @@ function getFilteredUserData(req, res, next) {
  * @returns {Array} - the sorted list
  */
 function sortByKeyValue(list, key) {
-    return list.sort((a, b) => b[key] - a[key]);
+  return list.sort((a, b) => b[key] - a[key]);
 }
 
 /**
@@ -204,18 +213,18 @@ function sortByKeyValue(list, key) {
  * @param {String} species - whether the new user is an eel
  */
 function processUserParams(username, password, imagePath, species) {
-    let result = null;
-    if (username && password && imagePath && species) {
-        result = {
-            username: username,
-            password: password,
-            imagePath: imagePath,
-            species: species,
-            friends: [],
-            highScore: null,
-        };
-    }
-    return result;
+  let result = null;
+  if (username && password && imagePath && species) {
+    result = {
+      username: username,
+      password: password,
+      imagePath: imagePath,
+      species: species,
+      friends: [],
+      highScore: null,
+    };
+  }
+  return result;
 }
 
 /**
@@ -224,15 +233,15 @@ function processUserParams(username, password, imagePath, species) {
  * @param {JSON} newData - Data to update the file with
  */
 async function updateUsers(filePath, newData) {
-    try {
-        // prettify JSON with 4-space indentation
-        await fs.writeFile(filePath, JSON.stringify(newData, null, 4), "utf8");
-    } catch (err) {
-        // some other error occurred
-        res.status(500);
-        err.message = SERVER_ERROR;
-        next(err);
-    }
+  try {
+    // prettify JSON with 2-space indentation
+    await fs.writeFile(filePath, JSON.stringify(newData, null, 2), "utf8");
+  } catch (err) {
+    // some other error occurred
+    res.status(500);
+    err.message = SERVER_ERROR;
+    next(err);
+  }
 }
 
 const PORT = process.env.PORT || 8000;

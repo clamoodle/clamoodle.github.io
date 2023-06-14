@@ -10,7 +10,7 @@
  * @returns {object} DOM object associated with id (null if none).
  */
 function id(idName) {
-    return document.getElementById(idName);
+  return document.getElementById(idName);
 }
 
 /**
@@ -19,7 +19,7 @@ function id(idName) {
  * @returns {object} first element matching the selector in the DOM tree (null if none)
  */
 function qs(selector) {
-    return document.querySelector(selector);
+  return document.querySelector(selector);
 }
 
 /**
@@ -28,7 +28,7 @@ function qs(selector) {
  * @returns {object[]} array of DOM objects matching the query (empty if none).
  */
 function qsa(selector) {
-    return document.querySelectorAll(selector);
+  return document.querySelectorAll(selector);
 }
 
 /**
@@ -37,7 +37,7 @@ function qsa(selector) {
  * @returns {object} new DOM element with the given tagname
  */
 function gen(tagName) {
-    return document.createElement(tagName);
+  return document.createElement(tagName);
 }
 
 /**
@@ -45,7 +45,7 @@ function gen(tagName) {
  * @param {string} selector - CSS query selector element to be shown
  */
 function showView(selector) {
-    qs(selector).classList.remove("hidden");
+  qs(selector).classList.remove("hidden");
 }
 
 /**
@@ -53,7 +53,7 @@ function showView(selector) {
  * @param {string} selector - CSS query selector element to be hidden
  */
 function hideView(selector) {
-    qs(selector).classList.add("hidden");
+  qs(selector).classList.add("hidden");
 }
 
 /**
@@ -61,9 +61,9 @@ function hideView(selector) {
  * @param {string} selector - CSS query selector elements to be hidden
  */
 function hideAll(selector) {
-    qsa(selector).forEach((target) => {
-        target.classList.add("hidden");
-    });
+  qsa(selector).forEach((target) => {
+    target.classList.add("hidden");
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ function hideAll(selector) {
  * @param {function} callback - callback function to be added to all elements
  */
 function addEventListenerToAll(selector, type, callback) {
-    qsa(selector).forEach((target) => {
-        target.addEventListener(type, callback);
-    });
+  qsa(selector).forEach((target) => {
+    target.addEventListener(type, callback);
+  });
 }

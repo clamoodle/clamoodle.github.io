@@ -7,40 +7,40 @@
 
 .card,
 #board {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .card {
-    align-items: center;
+  align-items: center;
 }
 
 .hidden,
 .hide-imgs img {
-    display: none;
+  display: none;
 }
 
 .card {
-    width: 8lvw;
-    height: 4.5lvw;
-    border-radius: 0.5lvw;
-    cursor: pointer;
-    margin: 0.5lvw;
+  width: 8lvw;
+  height: 4.5lvw;
+  border-radius: 0.5lvw;
+  cursor: pointer;
+  margin: 0.5lvw;
 }
 
 .card p {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .card > img {
-    height: 80%;
+  height: 80%;
 }
 
 #board {
-    position: absolute;
-    top: 2.5lvw;
-    width: 40lvw;
-    height: 17lvw;
-    flex-wrap: wrap;
-    padding: 20px;
+  position: absolute;
+  top: 2.5lvw;
+  width: 40lvw;
+  height: 17lvw;
+  flex-wrap: wrap;
+  padding: 20px;
 }
