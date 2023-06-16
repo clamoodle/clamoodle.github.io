@@ -36,7 +36,7 @@ const SERVER_ERR_CODE = 500;
 
 /**
  * Returns JSON for a list of users matching the specified filter parameters.
- * Specifically, filter parameters are friends, species, and min highscore.
+ * Specifically, filter parameters are friends, species, and min high_score.
  * Friends requires current user ID.
  *
  * If param "sort" is by "scores", the list of users will be returned in order of highest high score
@@ -44,7 +44,7 @@ const SERVER_ERR_CODE = 500;
  */
 app.get("/users", readUserData, getFilteredUserData, (req, res) => {
   if (req.query.sort === "scores") {
-    sortByKeyValue(res.locals.users, "highScore");
+    sortByKeyValue(res.locals.users, "high_score");
   }
   res.json(res.locals.users);
 });
@@ -75,7 +75,7 @@ app.get("/login", readUserData, async (req, res) => {
 /**
  * Posts a new user to USER_DATA_PATH
  * Required POST parameters: username, password, image_path, and species
- * Friends is set to [] and highScore is set to null.
+ * Friends is set to [] and high_score is set to null.
  */
 app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
   // Update data JSON
@@ -100,15 +100,15 @@ app.post("/updateScore", readUserData, async (req, res, next) => {
   // Updating high score
   const currUsername = req.cookies.curr_user.username;
   let userIdx = res.locals.users.findIndex((user) => user.username === currUsername);
-  res.locals.users[userIdx].highScore = Math.max(
+  res.locals.users[userIdx].high_score = Math.max(
     req.body.score,
-    res.locals.users[userIdx].highScore
+    res.locals.users[userIdx].high_score
   );
 
   updateUsers(USER_DATA_PATH, res.locals.users);
   res.type("text");
   res.send(
-    `Score saved for ${currUsername}. Your record is ${res.locals.users[userIdx].highScore}!`
+    `Score saved for ${currUsername}. Your record is ${res.locals.users[userIdx].high_score}!`
   );
 });
 
@@ -205,11 +205,11 @@ function getFilteredUserData(req, res, next) {
         }
         break;
 
-      case "min-highscore":
+      case "min-high_score":
         // Filter minimum high score
-        if (req.query["min-highscore"]) {
+        if (req.query["min-high_score"]) {
           res.locals.users = res.locals.users.filter(
-            (user) => parseInt(user["min-highscore"]) >= parseInt(req.query["min-highscore"])
+            (user) => parseInt(user["min-high_score"]) >= parseInt(req.query["min-high_score"])
           );
         }
         break;
@@ -245,7 +245,7 @@ function sortByKeyValue(list, key) {
 
 /**
  * Helper for the /newUser endpoint, returns a JSON with stored user information.
- * Friends and highScore are initialized respectively to be [] and null.
+ * Friends and high_score are initialized respectively to be [] and null.
  * All fields required, returns null if any is missing.
  * @param {String} username - New user's username
  * @param {String} password - New user's password
@@ -262,7 +262,7 @@ function processUserParams(username, password, image_path, species, email) {
       image_path: image_path,
       species: species,
       friends: [],
-      highScore: null,
+      high_score: null,
       email: email,
     };
   }
