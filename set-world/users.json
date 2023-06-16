@@ -1,35 +1,56 @@
 [
-    {
-        "username": "clamoodle",
-        "password": "clamoodle",
-        "imagePath": "media/dog.png",
-        "species": "not-eel",
-        "friends": [],
-        "highScore": 7000
-    },
-
-    {
-        "username": "clamodle",
-        "password": "clamodle",
-        "imagePath": "media/dog.png",
-        "species": "not-eel",
-        "friends": [],
-        "highScore": 5000
-    },
-    {
-        "username": "clamodle",
-        "password": "clamodle",
-        "imagePath": "media/dog.png",
-        "species": "not-eel",
-        "friends": [],
-        "highScore": 6000
-    },
-    {
-        "username": "clamodle",
-        "password": "clamodle",
-        "imagePath": "media/dog.png",
-        "species": "not-eel",
-        "friends": [],
-        "highScore": 3000
-    }
+  {
+    "username": "og wide",
+    "password": "123",
+    "image_path": "media/avatars/green-wide.png",
+    "species": "eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "yishuc",
+    "password": "123",
+    "image_path": "media/avatars/blue-dog.png",
+    "species": "not eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "party eel",
+    "password": "123",
+    "image_path": "media/avatars/purple-narrow.png",
+    "species": "eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "acc kirby",
+    "password": "123",
+    "image_path": "media/avatars/red-krab.png",
+    "species": "not eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "not an eel",
+    "password": "123",
+    "image_path": "media/avatars/blue-krab.png",
+    "species": "not eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "clamoodle",
+    "password": "123",
+    "image_path": "media/avatars/red-dog.png",
+    "species": "not eel",
+    "friends": [],
+    "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  }
 ]

@@ -11,6 +11,7 @@
 <html>
   <head>
     <title>Set World</title>
+    <link rel="icon" href="media/environment/oval-obstacle.png" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/keyframes.css" />
     <link rel="stylesheet" href="css/index.css" />
@@ -37,6 +38,9 @@
     </header>
     <!-- Each section here in <main></main> is a page view -->
     <main>
+      <!-- Error message popup -->
+      <section id="err-msg" class="hidden popup"></section>
+
       <!-- Landing page, where user selects whether yes/no music -->
       <section id="sound-menu" class="foreground">
         <h2>Would you like music?</h2>
@@ -56,10 +60,14 @@
 
         <h1>Set World</h1>
         <!-- foreground titles/buttons floating over mountains -->
-        <div class="foreground">
+        <div id="home-buttons-before-login" class="foreground">
           <button id="login-button">Log In</button>
           <button id="create-button">Create New Character</button>
           <button class="start-game-button">Play as Guest</button>
+        </div>
+        <div id="home-buttons-after-login" class="hidden foreground">
+          <button class="start-game-button">Start Game</button>
+          <button type="button" id="add-friends-button">Add friends</button>
         </div>
       </section>
 
@@ -67,17 +75,24 @@
       <section id="login-window" class="hidden popup foreground">
         <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
         <form>
-          <label>
+          <label for="login-username">
             Username:
-            <input type="text" required />
+            <input id="login-username" type="text" name="username" required />
           </label>
 
-          <label>
+          <label for="login-pw">
             Password:
-            <input type="password" required />
+            <input id="login-pw" type="password" name="password" required />
           </label>
-          <button type="button" class="start-game-button">Start Game</button>
+          <button id="submit-login" type="button">Submit Login</button>
         </form>
+      </section>
+
+      <!-- Log-in successful message, with button to start game -->
+      <section id="login-success" class="hidden popup">
+        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
+        <p></p>
+        <button class="start-game-button" type="button">Start Game</button>
       </section>
 
       <!-- Character selection / creation view, leads to the game view afterwards -->
@@ -91,7 +106,7 @@
           <h2>Species:</h2>
           <div class="trait-select">
             <img id="left-species" src="media/buttons/left-button.png" alt="left" />
-            <h2 id="species">Not eel</h2>
+            <h2 id="species">not eel</h2>
             <img id="right-species" src="media/buttons/right-button.png" alt="right" />
           </div>
 
@@ -110,14 +125,14 @@
           </div>
 
           <h2>Username:</h2>
-          <input id="reg-username" type="username" required />
+          <input id="reg-username" type="username" name="username" maxlength="10" required />
           <h2>Email:</h2>
-          <input id="reg-email" type="email" required />
+          <input id="reg-email" type="email" name="email" required />
 
           <h2>Password:</h2>
-          <input id="reg-pw" type="password" required />
+          <input id="reg-pw" type="password" name="password" required />
 
-          <button id="register" type="button">Register &amp; Start Game!</button>
+          <button id="register" type="button">Register &amp; Log in</button>
           <button type="button" class="back-button">back</button>
         </form>
       </section>
@@ -171,8 +186,8 @@
         <input type="range" id="obstacle-rate-input" min="0" max="10" value="6" step="2" />
         <output id="obstacle-rate">6</output>
         <button type="button" id="show-my-info">My Profile</button>
-        <button type="button" id="add-friends-button">Add friends</button>
         <button type="button" id="show-leaderboard">Leaderboard</button>
+        <button type="button" id="show-flex">Credits</button>
       </section>
 
       <!-- add friends page -->
@@ -181,16 +196,16 @@
         <!-- Shows list of users -->
         <section id="users-list">
           <h2>Find friends</h2>
-          <form>
+          <form id="search-filters">
             <select name="friend-status" class="filter-item">
-              <option value="">Friends</option>
+              <option value="">All</option>
+              <option value="true">Friends</option>
               <option value="false">Not Friends</option>
-              <option value="any">All</option>
             </select>
             <select name="species" class="filter-item">
               <option value="">Any Species</option>
               <option value="eel">Eel</option>
-              <option value="not-eel">Not Eel</option>
+              <option value="not eel">Not Eel</option>
             </select>
             <select name="min-highscore" class="filter-item">
               <option value="">No Min Highscore</option>
@@ -203,24 +218,14 @@
             <datalist id="users">
               <option>clamoodle</option>
             </datalist>
-            <button type="button">Search</button>
+            <button id="search-friends" type="button">Search</button>
           </form>
-          <div id="user-icons">
-            <article>
-              <img src="media/avatars/dog.png" />
-              <p>clamoodle</p>
-            </article>
-            <article>
-              <img src="media/avatars/dog.png" />
-              <p>clamoodle</p>
-            </article>
-            =
-          </div>
+          <div id="user-icons"></div>
         </section>
 
         <!-- user info page -->
         <section id="user-info" class="hidden">
-          <img src="media/avatars/dog.png" />
+          <img src="media/avatars/blue-dog.png" />
           <div>
             <h2 id="username">clamoodle</h2>
             <ul>
@@ -240,11 +245,11 @@
             <!-- Thumbnail of each friend user is chatting with -->
             <section id="chats-list">
               <div>
-                <img src="media/avatars/dog.png" alt="friend" />
+                <img src="media/avatars/blue-dog.png" alt="friend" />
                 <p>clamoodle</p>
               </div>
               <div>
-                <img src="media/avatars/dog.png" alt="friend" />
+                <img src="media/avatars/blue-dog.png" alt="friend" />
                 <p>clamoodle</p>
               </div>
             </section>
@@ -271,8 +276,25 @@
         </section>
       </section>
 
+      <!-- Pearl's flex (creds) -->
+      <section id="flex" class="hidden popup">
+        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
+        <h2>Pearl Flexing &amp; Credits</h2>
+        <ul>
+          <li>all art/sprites: Pearl Chen</li>
+          <li>all music: Pearl Chen</li>
+          <li>animation: Pearl Chen</li>
+          <li>code: Pearl Chen</li>
+          <li>the set cards are from El!</li>
+        </ul>
+        <p>
+          Thank you El and CS132 TAs for an amazing class and helping me implement so many things I
+          never thought I could!
+        </p>
+      </section>
+
       <!-- Leaderboard window -->
-      <section id="leaderboard" class="hidden popup">
+      <section id="leaderboard" class="hidden popup foreground">
         <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
         <h2>Top 10 of Set World</h2>
         <table>

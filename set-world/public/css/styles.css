@@ -181,7 +181,8 @@ form label,
   justify-content: flex-start;
 }
 
-#chat-content div {
+#chat-content div,
+#add-friends-page > section {
   width: 100%;
 }
 
@@ -237,7 +238,7 @@ input[type="range"] {
   overflow-y: scroll;
 }
 
-#user-icons {
+#user-icons, #search-filters {
   flex-wrap: wrap;
 }
 
@@ -247,6 +248,7 @@ input[type="range"] {
 }
 
 #users-list article > img,
+#user-icons,
 #chat-content,
 #typebox {
   width: 100%;
@@ -263,6 +265,7 @@ main > section:not(.popup) {
 }
 
 .popup {
+  max-width: 60%;
   border-radius: 10px;
   padding: 3svh 10lvw 3svh;
 }

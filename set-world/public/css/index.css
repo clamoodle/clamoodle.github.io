@@ -29,3 +29,10 @@
   background-image: url(../media/environment/foreground-pixel-cards.png);
   animation-duration: 50s;
 }
+
+#err-msg,
+#flex {
+  position: absolute;
+  top: auto;
+  bottom: auto;
+}

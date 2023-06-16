@@ -77,3 +77,32 @@ function addEventListenerToAll(selector, type, callback) {
     target.addEventListener(type, callback);
   });
 }
+
+/**
+ * Displays error messsage for 2 seconds
+ * @param {String} err - the error message
+ */
+function handleError(err) {
+  const errNode = qs("#err-msg");
+  errNode.textContent = err;
+  errNode.classList.remove("hidden");
+  setTimeout(() => {
+    errNode.classList.add("hidden");
+  }, 2000);
+}
+
+/**
+ * Helper function to return the Response data if successful, otherwise
+ * returns an Error that needs to be caught.
+ * @param {object} response - response with status to check for success/error.
+ * @returns {object} - The Response object if successful, otherwise an Error that
+ * needs to be caught.
+ */
+async function checkStatus(response) {
+  if (!response.ok) {
+    // response.status >= 200 && response.status < 300
+    const errMsg = await response.text();
+    throw new Error(errMsg);
+  } // else, we got a response back with a good status code (e.g. 200)
+  return response; // A resolved Response object.
+}

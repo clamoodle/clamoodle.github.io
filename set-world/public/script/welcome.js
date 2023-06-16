@@ -13,11 +13,54 @@
     qs("#login-button").addEventListener("click", showLogin);
     qs("#menu-button").addEventListener("click", showMenu);
     addEventListenerToAll(".close-button", "click", dismissParent);
+    qs("#submit-login").addEventListener("click", loginSendCookie);
+    qs("#show-flex").addEventListener("click", flex);
 
     // Obstacle rate range sliders in menu
     qs("#obstacle-rate-input").addEventListener("input", (e) => {
       displayInput(e, "#obstacle-rate");
     });
+  }
+
+  /**
+   * REF: http://eipsum.github.io/cs132/lectures/lec19-cs-wrapup-and-cookies/code/cookie-demo.zip
+   * Validates the login credentials, and makes a request to create/update a cookie with the logged
+   * in user as "curr_user".
+   */
+  async function loginSendCookie() {
+    // Frontend validation
+    if (!(qs("#login-pw").checkValidity() && qs("#login-username").checkValidity())) {
+      qs("#login-pw").reportValidity();
+      qs("#login-username").reportValidity();
+      return;
+    }
+
+    // Login fetch cookies!
+    let params = new FormData(qs("#login-window form"));
+    try {
+      let resp = await fetch(`/login`, { method: "GET", headers: params });
+      resp = await checkStatus(resp);
+
+      // Show welcome message
+      let message = await resp.text();
+      qs("#login-success p").textContent = message;
+      qs("#login-window").classList.add("hidden");
+      qs("#login-success").classList.remove("hidden");
+
+      // Change home page buttons to replace login/create/guest with start game
+      qs("#home-buttons-before-login").classList.add("hidden");
+      qs("#home-buttons-after-login").classList.remove("hidden");
+    } catch (err) {
+      handleError(err);
+    }
+  }
+
+  /**
+   * Joke feature to flex that I did all the art by un-hidden-ing a popup
+   */
+  function flex() {
+    qs("#menu").classList.add("hidden");
+    qs("#flex").classList.remove("hidden");
   }
 
   /**

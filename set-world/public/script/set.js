@@ -40,17 +40,6 @@
    */
   function init() {
     addEventListenerToAll(".start-game-button", "click", startGame);
-
-    // Register character submit button
-    qs("#register").addEventListener("click", () => {
-      if (
-        qs("#reg-username").checkValidity() &&
-        qs("#reg-email").checkValidity() &&
-        qs("#reg-pw").checkValidity()
-      ) {
-        startGame();
-      }
-    });
   }
 
   /**

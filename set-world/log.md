@@ -1,5 +1,32 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+# 6/15/2023:
+
+## implemented:
+
+- credits LMAO
+- registration username
+  uniqueness
+- remove create/login/guest buttons after login to replace with start game
+- friends.js to make search filter usable and display users using fetch
+
+# 6/14/2023:
+
+## implemented:
+
+- login cookies running
+- character select backend post newUser
+- error message popup for 2 seconds (handleError in utils.js)
+
+## todo:
+
+- !! messaging between users (https://socket.io/docs/v3/#how-does-that-work)
+- find library for sending email/friend request
+- multiplayer
+- err message css fade out animation
+- pause game feature
+- encrypt passwords using database
+
 # 6/13/2023:
 
 ## implemented:
@@ -7,7 +34,7 @@ started logging since 5/7/2023 too much to keep track of!!
 - organized image folders in media
 - change in game avatar from div bg image to img src
 - 2 space indentation instead of 4 lol, and formatted log.md
-- characater select frontend buttons omg, make character in game be right
+- characater select frontend buttons omg, make character in game match that selected
 - made sprites for all avatars
 - app.js check username uniqueness, at least 1 character, pw at least 1 character
 - validate input for character register

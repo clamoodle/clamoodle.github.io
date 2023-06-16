@@ -8,11 +8,20 @@
   const JUMP_COOLDOWN_MS = 700; // Time in MS, double the time in game-styles.css to jump up
 
   // Obstacle constants
-  const TOTAL_GAME_TIME_MS = 210000;
+  const TOTAL_GAME_TIME_MS = 120000;
+  const NUM_OBSTACLE_PER_RATE = 5; // Pretty much arbitrary, but default is 30 obstacles in 2 min.
   const BUFFER_TIME_BEFORE_GAME_ENDS_MS = 2000; // The time between the last obstacle and the goal
   const COLLISION_LENIENCY_PX = 20;
-
   const SCORE_IF_REACH_GOAL = 500;
+
+  /**
+   * Calculates the time interval between each score increment by 1, default for rate=6 gives 100.
+   * @param {Number} obstacleRate - the user selected obstacle rate among 0, 2, 4, 6, 8, 10
+   * @returns {Number} - the time interval of the period calculated
+   */
+  const SCORE_INCREMENT_PERIOD_MS_FUNCTION = (obstacleRate) => {
+    return 6300 / (obstacleRate * 10 + 3);
+  };
 
   // Images
   const IMG_PATH = "media/environment/";
@@ -39,17 +48,6 @@
     qs("#create-button").addEventListener("click", showCreateChar);
     addEventListenerToAll(".start-game-button", "click", initGame);
     addEventListenerToAll(".back-button", "click", showWelcome);
-
-    // Register character submit button
-    qs("#register").addEventListener("click", () => {
-      if (
-        qs("#reg-username").checkValidity() &&
-        qs("#reg-email").checkValidity() &&
-        qs("#reg-pw").checkValidity()
-      ) {
-        initGame();
-      }
-    });
   }
 
   function initGame() {
@@ -88,15 +86,16 @@
     pauseAllSlidingAnimation(false, false);
     // Reset the goal in case we came from a previous game
     qs(".goal").classList.remove("sliding-layer");
-    generateMap();
+    generateMap(0);
     collisionTimerId = setInterval(handleCollision, 1000 / FRAME_RATE_FPS);
 
     // Increment interval is set so that default is 100, and is 2.1 seconds with no obstacles
-    const scoreIncrementIntervalMS = 6300 / (qs("#obstacle-rate-input").value * 10 + 3);
-    console.log(scoreIncrementIntervalMS);
+    const scoreIncrementPeriodMS = SCORE_INCREMENT_PERIOD_MS_FUNCTION(
+      qs("#obstacle-rate-input").value
+    );
     scoreTimerId = setInterval(() => {
       qs("#score-count > span").textContent++;
-    }, scoreIncrementIntervalMS);
+    }, scoreIncrementPeriodMS);
   }
 
   /**
@@ -226,7 +225,6 @@
         // let left = avatar.getBoundingClientRect.left - PENALTY_SETBACK * vw;
         // avatar.style.left = left + 'px';
         // console.log("colliding!");
-
         pauseAllSlidingAnimation();
         endGame(false);
         /**
@@ -336,27 +334,29 @@
   /**
    * Generate obstacles with random time intervals between them and the goal at the end
    * Recursive to generate obstacles one after another
+   * @param {Number} gameTimePassedMS - the total time in MS that has passed since starting game
    */
-  function generateMap() {
-    let numObstacles = qs("#obstacle-rate-input").value * 5; // Pretty much arbitrary, by exp.
+  function generateMap(gameTimePassedMS) {
+    let numObstacles = qs("#obstacle-rate-input").value * NUM_OBSTACLE_PER_RATE;
 
     // Minimum and maximum time in MS between each obstacle
     let obstacleMinTimeGapMS = (TOTAL_GAME_TIME_MS / numObstacles) * 0.5;
     let obstacleMaxTimeGapMS = (TOTAL_GAME_TIME_MS / numObstacles) * 1.5;
-    console.log(obstacleMinTimeGapMS, obstacleMaxTimeGapMS);
 
     // Genearate random time gap
     let obstacleTimeGapMS =
       Math.floor(Math.random() * (obstacleMaxTimeGapMS - obstacleMinTimeGapMS)) +
       obstacleMinTimeGapMS;
 
-    // Recursion
+    // Recursion to generate obstacles with time gap
     if (qs("#obstacle-count").textContent > 0) {
       generateObstacle();
-      obstacleGenTimeOutId = setTimeout(generateMap, obstacleTimeGapMS);
+      obstacleGenTimeOutId = setTimeout(() => {
+        generateMap(gameTimePassedMS + obstacleTimeGapMS);
+      }, obstacleTimeGapMS);
     } else if (!gameOver) {
       // Start sliding the final goal/finish line after the obstacles
-      const gameTimeRemainingMS = TOTAL_GAME_TIME_MS(1 - 1 / numObstacles);
+      const gameTimeRemainingMS = TOTAL_GAME_TIME_MS - gameTimePassedMS; // Approximate
       const timeUntilGoalMS = Math.max(BUFFER_TIME_BEFORE_GAME_ENDS_MS, gameTimeRemainingMS);
       setTimeout(() => {
         qs(".goal").classList.add("sliding-layer");

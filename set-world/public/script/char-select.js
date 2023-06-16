@@ -46,17 +46,77 @@
     });
 
     // Register character submit button
-    qs("#register").addEventListener("click", () => {
-      if (
-        !(qs("#reg-username").checkValidity() &&
+    qs("#register").addEventListener("click", handleRegister);
+  }
+
+  /**
+   * Handles registration submit button
+   * Checks input frontend validity, registers user, sends login cookie
+   */
+  async function handleRegister() {
+    if (
+      !(
+        qs("#reg-username").checkValidity() &&
         qs("#reg-email").checkValidity() &&
-        qs("#reg-pw").checkValidity())
-      ) {
-        qs("#reg-pw").reportValidity();
-        qs("#reg-email").reportValidity();
-        qs("#reg-username").reportValidity();
+        qs("#reg-pw").checkValidity()
+      )
+    ) {
+      qs("#reg-pw").reportValidity();
+      qs("#reg-email").reportValidity();
+      qs("#reg-username").reportValidity();
+    } else {
+      let registered = await registerUser();
+      if (registered) {
+        loginSendCookie();
       }
-    });
+    }
+  }
+
+  /**
+   * REF: http://eipsum.github.io/cs132/lectures/lec19-cs-wrapup-and-cookies/code/cookie-demo.zip
+   * Validates the login credentials, and makes a request to create/update a cookie with the logged
+   * in user as "curr_user".
+   */
+  async function loginSendCookie() {
+    // Login fetch cookies!
+    let params = new FormData(qs("#traits"));
+    try {
+      let resp = await fetch(`/login`, { method: "GET", headers: params });
+      resp = await checkStatus(resp);
+
+      // Show welcome message
+      let message = await resp.text();
+      qs("#login-success p").textContent = message;
+      qs("#login-window").classList.add("hidden");
+      qs("#login-success").classList.remove("hidden");
+
+      // Change home page buttons to replace login/create/guest with start game
+      qs("#home-buttons-before-login").classList.add("hidden");
+      qs("#home-buttons-after-login").classList.remove("hidden");
+    } catch (err) {
+      handleError(err);
+    }
+  }
+
+  /**
+   * Makes a POST request to app.js to add user to users.JSON
+   * @returns {Boolean} - whether the registration was successful
+   */
+  async function registerUser() {
+    let params = new FormData(qs("#traits"));
+    // https://stackoverflow.com/questions/14221231/find-relative-path-of-a-image-tag-javascript
+    params.append("image_path", qs(".avatar").getAttribute("src"));
+    params.append("species", qs("#species").textContent);
+    try {
+      let resp = await fetch("/newUser", { method: "POST", body: params });
+      resp = await checkStatus(resp);
+      resp = await resp.text();
+      console.log(resp);
+      return true;
+    } catch (err) {
+      handleError(err);
+      return false;
+    }
   }
 
   /**
@@ -67,7 +127,6 @@
    * @param {Number} moveByIdx - the index count we want to shift by on the list
    */
   function nextPropertyOption(propIdx, moveByIdx) {
-    console.log(properties[propIdx]);
     const key = properties[propIdx].name;
     const choices = properties[propIdx].array;
 

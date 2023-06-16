@@ -3,17 +3,19 @@
  * CS132 Spring 2023
  *
  * Fetch calls to get friends info, and generally handles interactions between users, and
- * leaderboard
+ * leaderboard displays
  */
 
 (function () {
   "use strict";
+  const GET_USER_BASE_URL = "/users?";
 
   function init() {
-    qs("#show-my-info").addEventListener("click", showUser);
+    qs("#show-my-info").addEventListener("click", showUserDetails);
     qs("#add-friends-button").addEventListener("click", showFriends);
+    qs("#search-friends").addEventListener("click", showFriends);
     qs("#show-leaderboard").addEventListener("click", showLeaderboard);
-    addEventListenerToAll("#user-icons > article", "click", toggleUserInfoView);
+    // addEventListenerToAll("#user-icons > article", "click", toggleUserInfoView);
     qs("#back-to-friends").addEventListener("click", toggleUserInfoView);
     qs("#send-message").addEventListener("click", openMessenger);
   }
@@ -21,7 +23,7 @@
   /**
    * Shows user information profile page
    */
-  function showUser() {
+  function showUserDetails() {
     qs("#menu").classList.add("hidden");
     qs("#add-friends-page").classList.remove("hidden");
 
@@ -30,9 +32,46 @@
   }
 
   /**
-   * Shows all friends / users view for user to add friends
+   * Fetches the filtered list of users from the current user's specified search parameters and
+   * displays them.
    */
-  function showFriends() {
+  async function showFriends() {
+    // Get search params
+    let params = new FormData(qs("#search-filters"));
+
+    // Fetch data
+    try {
+      let resp = await fetch(GET_USER_BASE_URL + new URLSearchParams(params));
+      resp = await checkStatus(resp);
+      const users = await resp.json();
+      console.log(users);
+      displayUsers(users);
+    } catch (err) {
+      handleError(err.message);
+    }
+  }
+
+  /**
+   * Displays HTML for all friends / users view for user to add friends
+   * @param {Array} - a JSON array of user objects fetched from
+   */
+  function displayUsers(users) {
+    // Populate HTML with user images and names
+    qs("#user-icons").innerHTML = ""; // Clear userslist
+    users.forEach((user) => {
+      let icon = gen("article");
+      let img = gen("img");
+      let description = gen("p");
+      img.src = user.image_path;
+      img.alt = user.username;
+      description.textContent = user.username;
+      icon.appendChild(img);
+      icon.appendChild(description);
+      icon.addEventListener("click", toggleUserInfoView);
+      qs("#user-icons").appendChild(icon);
+    });
+
+    // Show HTML
     qs("#menu").classList.add("hidden");
     qs("#add-friends-page").classList.remove("hidden");
 

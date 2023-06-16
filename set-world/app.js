@@ -13,17 +13,24 @@
 
 const express = require("express");
 const fsp = require("fs/promises");
+const cookieParser = require("cookie-parser");
+const multer = require("multer");
+
 const app = express();
 
-const USER_DATA_PATH = "users.json";
-
-// if serving front-end files in public/
 app.use(express.static("public"));
+app.use(cookieParser());
 
-// if handling different POST formats
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(multer().none());
+// https://eipsum.github.io/cs132/lectures/lec18-node-post-documentation/index.html#/34
+// for parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true })); // built-in middleware
+// for parsing application/json
+app.use(express.json()); // built-in middleware
+// for parsing multipart/form-data (required with FormData)
+app.use(multer().none()); // multer middleware
+
+const USER_DATA_PATH = "users.json";
+const SERVER_ERR_CODE = 500;
 
 /*-------------------- app.get/app.post endpoints -------------------- */
 
@@ -35,19 +42,44 @@ app.use(express.static("public"));
  * If param "sort" is by "scores", the list of users will be returned in order of highest high score
  * to lowest high score.
  */
-app.get("/users/:user", readUserData, getFilteredUserData, (req, res) => {
-  if (req.query.sort && req.query.sort === "scores") {
+app.get("/users", readUserData, getFilteredUserData, (req, res) => {
+  if (req.query.sort === "scores") {
     sortByKeyValue(res.locals.users, "highScore");
   }
   res.json(res.locals.users);
 });
 
 /**
+ * REF: http://eipsum.github.io/cs132/lectures/lec19-cs-wrapup-and-cookies/code/cookie-demo.zip
+ * Logs in user and updates cookies for a new visit by logging user into "curr_user".
+ */
+app.get("/login", readUserData, async (req, res) => {
+  try {
+    const username = req.headers.username;
+    const password = req.headers.password;
+    let userIdx = res.locals.users.findIndex((user) => user.username === username);
+    if (!userIdx) {
+      next(Error("No user found!"));
+    }
+    if (res.locals.users[userIdx].password !== password) {
+      next(Error("Incorrect password"));
+    }
+    res.cookie("name", res.locals.users[userIdx]);
+    res.type("text");
+    res.send(`Welcome, ${username}!`);
+  } catch (err) {
+    res.type("text");
+    res.status(SERVER_ERR_CODE).send("An error occurred when accessing request data.");
+  }
+});
+
+/**
  * Posts a new user to USER_DATA_PATH
- * Required POST parameters: username, password, imagePath, and species
+ * Required POST parameters: username, password, image_path, and species
  * Friends is set to [] and highScore is set to null.
  */
 app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
+  // Update data JSON
   res.locals.users.push(res.locals.user);
   updateUsers(USER_DATA_PATH, res.locals.users);
   res.send(`Request to add new user ${req.body.username} successfully received!`);
@@ -57,13 +89,18 @@ app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
  * Posts a new score for a specific user
  * Required POST parameter: score
  */
-app.post("/updateScore/:user", readUserData, async (req, res, next) => {
+app.post("/updateScore", readUserData, async (req, res, next) => {
   if (!req.body.score) {
     next(Error("Required POST parameters for /updateScore: score."));
   }
 
+  if (!req.cookies.curr_user) {
+    next(Error("Login cookie missing! Nom nom!"));
+  }
+
   // Updating high score
-  let userIdx = res.locals.users.findIndex((user) => user.username === req.params.user);
+  const currUsername = req.cookies.curr_user.username;
+  let userIdx = res.locals.users.findIndex((user) => user.username === currUsername);
   res.locals.users[userIdx].highScore = Math.max(
     req.body.score,
     res.locals.users[userIdx].highScore
@@ -71,7 +108,7 @@ app.post("/updateScore/:user", readUserData, async (req, res, next) => {
 
   updateUsers(USER_DATA_PATH, res.locals.users);
   res.send(
-    `Request to update score for ${req.params.user} successfully received! Score is now ${res.locals.users[userIdx].highScore}.`
+    `Request to update score for ${currUsername} successfully received! Score is now ${res.locals.users[userIdx].highScore}.`
   );
 });
 
@@ -84,28 +121,29 @@ function checkUserParams(req, res, next) {
   let newUserJSON = processUserParams(
     req.body.username,
     req.body.password,
-    req.body.imagePath,
-    req.body.species
+    req.body.image_path,
+    req.body.species,
+    req.body.email
   );
 
   // Check required params
   if (!newUserJSON) {
     res.status(CLIENT_ERR_CODE);
     next(
-      Error("Required POST parameters for /addItem: username, password, imagePath, and species.")
+      Error(
+        "Required POST parameters for /newUser: username, password, email, image_path, and species."
+      )
     );
   }
 
   // Check username uniqueness
-  if (
-    res.locals.users.filter((user) => {
-      user.username === newUserJSON.username;
-    }).length > 0
-  ) {
+  let sameNameUsers = res.locals.users.filter((user) => user.username === newUserJSON.username);
+  if (sameNameUsers.length > 0) {
     next(Error("Username taken."));
   }
-  
+
   res.locals.user = newUserJSON;
+  next();
 }
 
 /**
@@ -131,32 +169,31 @@ async function readUserData(req, res, next) {
 function getFilteredUserData(req, res, next) {
   for (const param in req.query) {
     switch (param) {
-      case "friends":
+      case "friend-status":
         // Filter friends
-        if (!req.params.user) {
-          throw Error("Friends needs a specified reference user!");
+        if (!req.cookies.curr_user) {
+          next(Error("Login cookie missing! Nom nom!"));
         }
 
-        if (req.params.friends) {
-          // (Assuming we'll never get an empty list)
-          if (req.query.friends === "true") {
-            // Filter those who are friends with user
-            res.locals.users = res.locals.users.filter(
-              // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
-              (user) =>
-                user.friends.some((entry) => {
-                  return entry.toLowerCase() === req.params.user.toLowerCase();
-                })
-            );
-          } else {
-            // Filter those who are not friends with user
-            res.locals.users = res.locals.users.filter((user) =>
-              user.friends.every((entry) => {
-                return entry.toLowerCase() !== req.params.user.toLowerCase();
+        // (Assuming we'll never get an empty list)
+        if (req.query["friend-status"] === "true") {
+          // Filter those who are friends with user
+          res.locals.users = res.locals.users.filter(
+            // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
+            (user) =>
+              user.friends.some((entry) => {
+                return entry.toLowerCase() === req.cookies.curr_user.username.toLowerCase();
               })
-            );
-          }
+          );
+        } else {
+          // Filter those who are not friends with user
+          res.locals.users = res.locals.users.filter((user) =>
+            user.friends.every((entry) => {
+              return entry.toLowerCase() !== req.cookies.curr_user.username.toLowerCase();
+            })
+          );
         }
+
         break;
 
       case "species":
@@ -184,11 +221,14 @@ function getFilteredUserData(req, res, next) {
 /**
  * Handles errors
  */
-// function handleError(err, req, res, next) {
+function handleError(err, req, res, next) {
+  // All error responses are plain/text
+  res.status(400);
+  res.type("text");
+  res.send(err.message);
+}
 
-// }
-
-// app.use(handleError);
+app.use(handleError);
 
 /*------------------------- Helper Functions ------------------------- */
 
@@ -209,19 +249,21 @@ function sortByKeyValue(list, key) {
  * All fields required, returns null if any is missing.
  * @param {String} username - New user's username
  * @param {String} password - New user's password
- * @param {String} imagePath - the path to new user's profile image
+ * @param {String} image_path - the path to new user's profile image
  * @param {String} species - whether the new user is an eel
+ * @param {String} email - the email associated with this account
  */
-function processUserParams(username, password, imagePath, species) {
+function processUserParams(username, password, image_path, species, email) {
   let result = null;
-  if (username && password && imagePath && species) {
+  if (username && password && image_path && species && email) {
     result = {
       username: username,
       password: password,
-      imagePath: imagePath,
+      image_path: image_path,
       species: species,
       friends: [],
       highScore: null,
+      email: email,
     };
   }
   return result;
@@ -235,7 +277,7 @@ function processUserParams(username, password, imagePath, species) {
 async function updateUsers(filePath, newData) {
   try {
     // prettify JSON with 2-space indentation
-    await fs.writeFile(filePath, JSON.stringify(newData, null, 2), "utf8");
+    await fsp.writeFile(filePath, JSON.stringify(newData, null, 2), "utf8");
   } catch (err) {
     // some other error occurred
     res.status(500);

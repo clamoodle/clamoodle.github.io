@@ -19,7 +19,6 @@
 }
 
 #score-count {
-  position: absolute;
   top: 0;
   right: 30px;
 }
@@ -34,7 +33,9 @@ div.goal img,
 img.obstacle,
 div.goal,
 #avatar,
-h3 {
+h3,
+#game-start-msg,
+#score-count {
   position: absolute;
 }
 
