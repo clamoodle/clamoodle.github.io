@@ -14,6 +14,12 @@ started logging since 5/7/2023 too much to keep track of!!
 - leaderboard get request and display users
 - html auto complete search bar
 
+## todo:
+
+- specific user details page
+- add friends (can implement email and/or add another entry to users.json for friend requests and display notification if logged in)
+- api doc
+
 # 6/14/2023:
 
 ## implemented:
