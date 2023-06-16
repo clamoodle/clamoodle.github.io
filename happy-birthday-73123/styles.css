@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+
+#landing-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100lvh;
+}
+
+#landing-view * {
+  margin: 5px;
+}
+
+.hidden {
+  display: none;
+}
