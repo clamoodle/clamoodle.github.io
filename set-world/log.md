@@ -4,14 +4,15 @@ started logging since 5/7/2023 too much to keep track of!!
 
 ## implemented:
 
-- credits LMAO
 - registration username uniqueness
 - remove create/login/guest buttons after login to replace with start game
+- credits LMAO
 - friends.js to make search filter usable and display users using fetch
 - fix bug of unending game
 - score post after each game
 - fix avatar img src user-specific for pw login
 - leaderboard get request and display users
+- html auto complete search bar
 
 # 6/14/2023:
 

@@ -11,6 +11,8 @@
   const GET_USER_BASE_URL = "/users?";
   const LEADERBOARD_LENGTH = 10; // Good to-do is to update HTML leaderboard heading to always match
 
+  let userOptionsPopulated = false;
+
   function init() {
     qs("#show-my-info").addEventListener("click", showUserDetails);
     qs("#add-friends-button").addEventListener("click", showFriends);
@@ -63,9 +65,19 @@
   async function showFriends() {
     let users = await fetchUsers();
 
-    // Populate HTML with user images and names
+    // Populate HTML auto-complete input options
+    if (!userOptionsPopulated) {
+      users.forEach((user) => {
+        let suggest = gen("option");
+        suggest.textContent = user.username;
+        qs("#users").appendChild(suggest);
+      });
+      userOptionsPopulated = true;
+    }
+
     qs("#user-icons").innerHTML = ""; // Clear userslist
     users.forEach((user) => {
+      // Populate HTML gallery with user images and names
       let icon = gen("article");
       let img = gen("img");
       let description = gen("p");
