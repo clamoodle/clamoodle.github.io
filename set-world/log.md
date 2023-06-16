@@ -4,6 +4,7 @@ started logging since 5/7/2023 too much to keep track of!!
 
 ## implemented:
 
+- fix bug of unending game
 - credits LMAO
 - registration username
   uniqueness

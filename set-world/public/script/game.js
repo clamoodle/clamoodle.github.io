@@ -5,9 +5,10 @@
 
 (function () {
   "use strict";
-  const JUMP_COOLDOWN_MS = 700; // Time in MS, double the time in game-styles.css to jump up
+  const POST_SCORE_BASE_URL = "/updateScore";
 
-  // Obstacle constants
+  // Game mechanics constants
+  const JUMP_COOLDOWN_MS = 700; // Time in MS, double the time in game-styles.css to jump up
   const TOTAL_GAME_TIME_MS = 120000;
   const NUM_OBSTACLE_PER_RATE = 5; // Pretty much arbitrary, but default is 30 obstacles in 2 min.
   const BUFFER_TIME_BEFORE_GAME_ENDS_MS = 2000; // The time between the last obstacle and the goal
@@ -170,11 +171,36 @@
   }
 
   /**
+   * Makes a POST request to post user score
+   */
+  async function postScore() {
+    const userScore = parseInt(qs("#score-count span").textContent);
+    let data = JSON.stringify({ score: userScore });
+    try {
+      let resp = await fetch(POST_SCORE_BASE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data,
+      });
+      resp = await checkStatus(resp);
+      resp = await resp.text();
+      console.log(resp);
+      // Forgive meeeee ahh I just didn't want to code another HTML popup element and set timer
+      throw Error(resp); // Yes this is just to display the message
+    } catch (err) {
+      handleError(err.message);
+    }
+  }
+
+  /**
    * Handles the event of game over
    * @param {boolean} won - whether the player cleared the game
    */
   function endGame(won) {
     gameOver = true;
+    postScore();
 
     // Unlock obstacle rate slider in menu
     qs("#obstacle-rate-input").disabled = false;

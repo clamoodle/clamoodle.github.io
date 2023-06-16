@@ -5,7 +5,7 @@
     "image_path": "media/avatars/green-wide.png",
     "species": "eel",
     "friends": [],
-    "highScore": null,
+    "highScore": 33,
     "email": "inthemistofoodles@gmail.com"
   },
   {
@@ -51,6 +51,15 @@
     "species": "not eel",
     "friends": [],
     "highScore": null,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "happy eel",
+    "password": "123",
+    "image_path": "media/avatars/orange-wide.png",
+    "species": "eel",
+    "friends": [],
+    "highScore": 35,
     "email": "inthemistofoodles@gmail.com"
   }
 ]

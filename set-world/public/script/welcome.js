@@ -40,10 +40,16 @@
     try {
       let resp = await fetch(`/login`, { method: "GET", headers: params });
       resp = await checkStatus(resp);
+      let userInfo = await resp.json();
+
+      // Update in-game avatar
+      qsa(".avatar").forEach((img) => {
+        img.src = userInfo.image_path;
+        img.alt = userInfo.username;
+      });
 
       // Show welcome message
-      let message = await resp.text();
-      qs("#login-success p").textContent = message;
+      qs("#login-success p").textContent = `Welcome, ${userInfo.username}!`;
       qs("#login-window").classList.add("hidden");
       qs("#login-success").classList.remove("hidden");
 

@@ -64,9 +64,8 @@ app.get("/login", readUserData, async (req, res) => {
     if (res.locals.users[userIdx].password !== password) {
       next(Error("Incorrect password"));
     }
-    res.cookie("name", res.locals.users[userIdx]);
-    res.type("text");
-    res.send(`Welcome, ${username}!`);
+    res.cookie("curr_user", res.locals.users[userIdx]);
+    res.send(res.locals.users[userIdx]);
   } catch (err) {
     res.type("text");
     res.status(SERVER_ERR_CODE).send("An error occurred when accessing request data.");
@@ -95,7 +94,7 @@ app.post("/updateScore", readUserData, async (req, res, next) => {
   }
 
   if (!req.cookies.curr_user) {
-    next(Error("Login cookie missing! Nom nom!"));
+    next(Error("Can't save score before logging in :("));
   }
 
   // Updating high score
@@ -107,8 +106,9 @@ app.post("/updateScore", readUserData, async (req, res, next) => {
   );
 
   updateUsers(USER_DATA_PATH, res.locals.users);
+  res.type("text");
   res.send(
-    `Request to update score for ${currUsername} successfully received! Score is now ${res.locals.users[userIdx].highScore}.`
+    `Score saved for ${currUsername}. Your record is ${res.locals.users[userIdx].highScore}!`
   );
 });
 
