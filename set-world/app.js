@@ -36,7 +36,7 @@ const SERVER_ERR_CODE = 500;
 
 /**
  * Returns JSON for a list of users matching the specified filter parameters.
- * Specifically, filter parameters are friends, species, and min high_score.
+ * Specifically, filter parameters are friend-status, species, and min high_score.
  * Friends requires current user ID.
  *
  * If param "sort" is by "scores", the list of users will be returned in order of highest high score
@@ -65,7 +65,7 @@ app.get("/login", readUserData, async (req, res) => {
       next(Error("Incorrect password"));
     }
     res.cookie("curr_user", res.locals.users[userIdx]);
-    res.send(res.locals.users[userIdx]);
+    res.json(res.locals.users[userIdx]);
   } catch (err) {
     res.type("text");
     res.status(SERVER_ERR_CODE).send("An error occurred when accessing request data.");
@@ -85,11 +85,43 @@ app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
 });
 
 /**
- * Posts a new score for a specific user
+ * Adds current user to specified user's friends list
+ * Required POST path parameter: specified user
+ * Returns new friends list
+ */
+app.post("/addFriend/:username", readUserData, (req, res, next) => {
+  if (!req.params.username) {
+    next(Error("Required POST path parameter for /addFriend: username."));
+  }
+  if (!req.cookies.curr_user) {
+    next(Error("Can't add friend before logging in :("));
+  }
+
+  // Updating friends list
+  let friendIdx = res.locals.users.findIndex((user) => user.username === req.params.username);
+  let userIdx = res.locals.users.findIndex(
+    (user) => user.username === req.cookies.curr_user.username
+  );
+  if (!res.locals.users[friendIdx].friends.includes(req.cookies.curr_user.username)) {
+    res.locals.users[friendIdx].friends.push(req.cookies.curr_user.username);
+    res.locals.users[userIdx].friends.push(req.params.username);
+  }
+
+  updateUsers(USER_DATA_PATH, res.locals.users);
+  let friendLists = {
+    curr_user: res.locals.users[userIdx].friends,
+    friend: res.locals.users[friendIdx].friends,
+  };
+  res.json(friendLists);
+});
+
+/**
+ * Posts a new score for a specific user, if this score is higher than user's previous high score,
+ * or if user has no score records, this score will be saved as the user's high score.
  * Required POST parameter: score
  */
 app.post("/updateScore", readUserData, async (req, res, next) => {
-  if (!req.body.score) {
+  if (!req.body || !req.body.score) {
     next(Error("Required POST parameters for /updateScore: score."));
   }
 
@@ -106,10 +138,7 @@ app.post("/updateScore", readUserData, async (req, res, next) => {
   );
 
   updateUsers(USER_DATA_PATH, res.locals.users);
-  res.type("text");
-  res.send(
-    `Score saved for ${currUsername}. Your record is ${res.locals.users[userIdx].high_score}!`
-  );
+  res.json(res.locals.users[userIdx]);
 });
 
 /*----------------------- Middleware Functions ----------------------- */
@@ -167,14 +196,21 @@ async function readUserData(req, res, next) {
  * Presumably the query parameters are option, house, gender, and graduation.
  */
 function getFilteredUserData(req, res, next) {
+  // Check log in cookies
+  if (!req.cookies.curr_user) {
+    next(Error("Login cookie missing! Nom nom!"));
+  }
+
+  // Filter out user him/herself
+  res.locals.users = res.locals.users.filter(
+    (user) => user.username.toLowerCase() !== req.cookies.curr_user.username.toLowerCase()
+  );
+
+  // Check each query param to filter by
   for (const param in req.query) {
     switch (param) {
       case "friend-status":
         // Filter friends
-        if (!req.cookies.curr_user) {
-          next(Error("Login cookie missing! Nom nom!"));
-        }
-
         // (Assuming we'll never get an empty list)
         if (req.query["friend-status"] === "true") {
           // Filter those who are friends with user
@@ -185,7 +221,7 @@ function getFilteredUserData(req, res, next) {
                 return entry.toLowerCase() === req.cookies.curr_user.username.toLowerCase();
               })
           );
-        } else {
+        } else if (req.query["friend-status"] === "false") {
           // Filter those who are not friends with user
           res.locals.users = res.locals.users.filter((user) =>
             user.friends.every((entry) => {
@@ -205,11 +241,11 @@ function getFilteredUserData(req, res, next) {
         }
         break;
 
-      case "min-high_score":
+      case "min-highscore":
         // Filter minimum high score
-        if (req.query["min-high_score"]) {
+        if (req.query["min-highscore"]) {
           res.locals.users = res.locals.users.filter(
-            (user) => parseInt(user["min-high_score"]) >= parseInt(req.query["min-high_score"])
+            (user) => parseInt(user["min-highscore"]) >= parseInt(req.query["min-highscore"])
           );
         }
         break;

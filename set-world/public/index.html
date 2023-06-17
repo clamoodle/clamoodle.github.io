@@ -125,7 +125,7 @@
           </div>
 
           <h2>Username:</h2>
-          <input id="reg-username" type="username" name="username" maxlength="10" required />
+          <input id="reg-username" type="text" name="username" maxlength="10" required />
           <h2>Email:</h2>
           <input id="reg-email" type="email" name="email" required />
 
@@ -155,7 +155,7 @@
         <section id="game-start-msg" class="foreground">
           <h4>Press space to start jumping!</h4>
           <p>Try to get as many sets as you can while avoiding obstacles!</p>
-          <p>Hit 'G' to refresh board but avoid it!</p>
+          <p>Hit 'G' to refresh board but avoid it! Click or use keyboard to select cards</p>
         </section>
 
         <!-- Score counter -->
@@ -215,25 +215,37 @@
               <option value="8000">At least 8000</option>
             </select>
             <input list="users" class="filter-item" placeholder="Type Username" />
-            <datalist id="users">
-            </datalist>
+            <datalist id="users"> </datalist>
             <button id="search-friends" type="button">Search</button>
           </form>
           <div id="user-icons"></div>
         </section>
 
-        <!-- user info page -->
-        <section id="user-info" class="hidden">
-          <img src="media/avatars/blue-dog.png" />
+        <!-- current user info details page -->
+        <section id="curr-user-info" class="hidden user-info">
+          <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
+          <div>
+            <h2 id="curr-username"></h2>
+            <ul>
+              <li>High score: <output id="curr-high-score"></output></li>
+              <li>Friends: <output id="curr-friends"></output></li>
+            </ul>
+            <button id="user-back-to-friends">Add Friends</button>
+          </div>
+        </section>
+
+        <!-- other user info details page -->
+        <section id="user-info" class="hidden user-info">
+          <img src="media/avatars/blue-dog.png" alt="a blue dog" />
           <div>
             <h2 id="username">clamoodle</h2>
             <ul>
               <li>High score: <output id="high-score"></output></li>
-              <li>Friends: <output id="num-friends"></output></li>
+              <li>Friends: <output id="friends"></output></li>
             </ul>
-            <button id="send-request">Send Friend Request</button>
-            <button id="send-message">Message</button>
-            <button id="back-to-friends">Back</button>
+            <button id="send-request">Add as Friend</button>
+            <button id="send-message" class="hidden">Message (Under dev)</button>
+            <button class="back-to-friends">Back</button>
           </div>
         </section>
 
@@ -285,6 +297,8 @@
           <li>animation: Pearl Chen</li>
           <li>code: Pearl Chen</li>
           <li>the set cards are from El!</li>
+          <li>keybinds: Stephen D'Aquila</li>
+          <li>beta test: Stephen D'Aquila</li>
         </ul>
         <p>
           Thank you El and CS132 TAs for an amazing class and helping me implement so many things I
@@ -297,8 +311,7 @@
         <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
         <h2>Top 10 of Set World</h2>
         <table>
-          <tbody>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
     </main>

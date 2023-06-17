@@ -4,7 +4,9 @@
     "password": "123",
     "image_path": "media/avatars/green-wide.png",
     "species": "eel",
-    "friends": [],
+    "friends": [
+      "clamoodle"
+    ],
     "high_score": 33,
     "email": "inthemistofoodles@gmail.com"
   },
@@ -14,7 +16,7 @@
     "image_path": "media/avatars/blue-dog.png",
     "species": "not eel",
     "friends": [],
-    "high_score": null,
+    "high_score": 4380,
     "email": "inthemistofoodles@gmail.com"
   },
   {
@@ -23,7 +25,7 @@
     "image_path": "media/avatars/purple-narrow.png",
     "species": "eel",
     "friends": [],
-    "high_score": null,
+    "high_score": 4810,
     "email": "inthemistofoodles@gmail.com"
   },
   {
@@ -49,7 +51,13 @@
     "password": "123",
     "image_path": "media/avatars/red-dog.png",
     "species": "not eel",
-    "friends": [],
+    "friends": [
+      "og wide",
+      "crunchyeel",
+      "syc",
+      "pearlissus",
+      "happy eel"
+    ],
     "high_score": 4123,
     "email": "inthemistofoodles@gmail.com"
   },
@@ -58,8 +66,61 @@
     "password": "123",
     "image_path": "media/avatars/orange-wide.png",
     "species": "eel",
+    "friends": [
+      "clamoodle"
+    ],
+    "high_score": 4512,
+    "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "crunchyeel",
+    "password": "password",
+    "image_path": "media/avatars/green-wide.png",
+    "species": "eel",
+    "friends": [
+      "clamoodle"
+    ],
+    "high_score": 2606,
+    "email": "sdaquila@caltech.edu"
+  },
+  {
+    "username": "sus eel",
+    "password": "123",
+    "image_path": "media/avatars/purple-wide.png",
+    "species": "eel",
     "friends": [],
-    "high_score": 35,
+    "high_score": 2096,
+    "email": "yishuc@caltech.edu"
+  },
+  {
+    "username": "pearlissus",
+    "password": "ok",
+    "image_path": "media/avatars/orange-wide.png",
+    "species": "eel",
+    "friends": [
+      "clamoodle"
+    ],
+    "high_score": 3039,
+    "email": "bbyang@caltech.edu"
+  },
+  {
+    "username": "syc",
+    "password": "setworld",
+    "image_path": "media/avatars/yellow-dog.png",
+    "species": "not eel",
+    "friends": [
+      "clamoodle"
+    ],
+    "high_score": 3528,
+    "email": "chen.family66@gmail.com"
+  },
+  {
+    "username": "pol",
+    "password": "123",
+    "image_path": "media/avatars/blue-krab.png",
+    "species": "not eel",
+    "friends": [],
+    "high_score": 1255,
     "email": "inthemistofoodles@gmail.com"
   }
 ]

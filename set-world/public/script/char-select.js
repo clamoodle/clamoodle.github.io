@@ -83,10 +83,15 @@
     try {
       let resp = await fetch(`/login`, { method: "GET", headers: params });
       resp = await checkStatus(resp);
+      let userInfo = await resp.json();
+
+      // Update user info page
+      qs("#curr-username").textContent = userInfo.username;
+      qs("#curr-high-score").textContent = userInfo.high_score;
+      qs("#curr-friends").textContent = userInfo.friends.join(", ");
 
       // Show welcome message
-      let message = await resp.text();
-      qs("#login-success p").textContent = message;
+      qs("#login-success p").textContent = `Welcome, ${userInfo.username}!`;
       qs("#login-window").classList.add("hidden");
       qs("#login-success").classList.remove("hidden");
 
@@ -111,7 +116,6 @@
       let resp = await fetch("/newUser", { method: "POST", body: params });
       resp = await checkStatus(resp);
       resp = await resp.text();
-      console.log(resp);
       return true;
     } catch (err) {
       handleError(err);

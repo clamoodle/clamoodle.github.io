@@ -1,5 +1,19 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+# 6/16/2023:
+
+(wdym ofc 12:01 am is yesterday)
+
+## implemented:
+
+- specific user details page, for curr user and all other users
+- update curr-high-score when posting score after each game
+- add friends, rn just immediately (can later implement "send friend request" using email and/or adding another entry to users.json for friend requests and display notification if logged in)
+- wrote APIDOC.md
+- now friends filter won't show curr-user (app.js)
+- reflection PDF added
+- toggle visibility of message/add-friend buttons depending on if users are friends
+
 # 6/15/2023:
 
 ## implemented:
@@ -47,7 +61,7 @@ started logging since 5/7/2023 too much to keep track of!!
 - characater select frontend buttons omg, make character in game match that selected
 - made sprites for all avatars
 - app.js check username uniqueness, at least 1 character, pw at least 1 character
-- validate input for character register
+- validate input frontend for character register
 
 # 6/12/2023:
 

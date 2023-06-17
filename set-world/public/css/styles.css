@@ -17,7 +17,16 @@ body {
   padding: 0;
   overflow: hidden;
   background-size: 300svw 100svh;
-  height: 100svh;
+}
+
+body,
+.bg.sliding-layer,
+main > section:not(.popup) {
+  height: 100lvh;
+}
+
+main > section:not(.popup) {
+  width: 100lvw;
 }
 
 body,
@@ -50,7 +59,8 @@ h3 {
 
 header,
 main > section,
-.bg.sliding-layer {
+.bg.sliding-layer,
+img.close-button {
   position: absolute;
 }
 
@@ -61,7 +71,7 @@ section:not(#chat-content),
 form,
 .popup,
 form label,
-#user-info,
+.user-info,
 #users-list,
 #uesrs-icons {
   display: flex;
@@ -93,8 +103,13 @@ main,
   margin: 50px;
 }
 
-#user-info > img {
+.user-info > img,
+#chats-list {
   width: 30%;
+}
+
+.user-info > img,
+#chats-list img {
   margin-right: 10%;
 }
 
@@ -115,7 +130,10 @@ header {
   align-items: stretch;
 }
 
-header * {
+header *,
+.filter-item,
+#typebox > input,
+#chat-content p {
   margin-left: 10px;
 }
 
@@ -157,9 +175,6 @@ button {
 }
 
 img.close-button {
-  position: absolute;
-  top: 0;
-  left: 0;
   margin: 28px;
   width: 28px;
 }
@@ -167,7 +182,7 @@ img.close-button {
 main > section,
 #login-window > form,
 form label,
-#user-info > div,
+.user-info > div,
 #users-list,
 #chat,
 #chats-list,
@@ -176,20 +191,31 @@ form label,
   flex-direction: column;
 }
 
-#chats-list {
-  width: 30%;
+#chats-list,
+.friend-msg {
   justify-content: flex-start;
 }
 
 #chat-content div,
-#add-friends-page > section {
+#add-friends-page > section,
+.user-info button,
+#menu button,
+input[type="range"],
+#users-list article > img,
+#user-icons,
+#chat-content,
+#typebox {
   width: 100%;
 }
 
-#chat-content p {
-  margin-left: 10px;
-  margin-right: 10px;
+#chat-content p,
+.filter-item,
+#typebox > input {
   padding: 5px;
+}
+
+#chat-content p {
+  margin-right: 10px;
   width: fit-content;
   border-radius: 7px;
 }
@@ -198,39 +224,32 @@ form label,
   justify-content: flex-end;
 }
 
-.friend-msg {
-  justify-content: flex-start;
-}
-
 #chat,
 #chat-content,
 #messenger > section,
-#typebox > input {
+#typebox > input,
+#user-icons {
   flex-grow: 1;
 }
 
 #chats-list img {
   width: 20%;
-  margin-right: 10%;
 }
 
-#user-info,
+.user-info,
 #user-icons {
   flex-direction: row;
 }
 
-#user-info button,
+.user-info button,
 #menu button,
 input[type="range"] {
-  width: 100%;
   margin: 8px;
 }
 
 .filter-item,
 #typebox > input {
   border-radius: 0%;
-  padding: 5px;
-  margin-left: 10px;
 }
 
 #user-icons,
@@ -238,7 +257,8 @@ input[type="range"] {
   overflow-y: scroll;
 }
 
-#user-icons, #search-filters {
+#user-icons,
+#search-filters {
   flex-wrap: wrap;
 }
 
@@ -247,21 +267,15 @@ input[type="range"] {
   margin: 10px;
 }
 
-#users-list article > img,
-#user-icons,
-#chat-content,
-#typebox {
-  width: 100%;
-}
-
 main > section,
-.bg.sliding-layer {
+.bg.sliding-layer,
+img.close-button {
   top: 0;
 }
 
-main > section:not(.popup) {
-  height: 100lvh;
-  width: 100lvw;
+.bg.sliding-layer,
+img.close-button {
+  left: 0;
 }
 
 .popup {
@@ -272,10 +286,6 @@ main > section:not(.popup) {
 
 #login-window > form {
   padding-top: 5svh;
-}
-
-#user-icons {
-  flex-grow: 1;
 }
 
 form label {
@@ -297,9 +307,7 @@ small {
 
 .bg.sliding-layer {
   background-repeat: repeat-x;
-  left: 0;
   width: 600svw;
-  height: 100svh;
   background-size: 300svw;
   background-position: 0% 100%;
   animation-iteration-count: infinite;

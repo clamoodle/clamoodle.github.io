@@ -185,10 +185,14 @@
         body: data,
       });
       resp = await checkStatus(resp);
-      resp = await resp.text();
-      console.log(resp);
+      let user = await resp.json();
+
+      // Update user profile high score info
+      qs("#curr-high-score").textContent = user.high_score;
+
       // Forgive meeeee ahh I just didn't want to code another HTML popup element and set timer
-      throw Error(resp); // Yes this is just to display the message
+      // Yes this is just to display the message
+      throw Error(`Score saved for ${user.username}. Your record is ${user.high_score}!`);
     } catch (err) {
       handleError(err.message);
     }
@@ -248,6 +252,7 @@
     qsa(".obstacle").forEach((element) => {
       if (isColliding(avatar, element)) {
         // // Push avatar back by 10 lvw
+        // I cannot figure this out for the life of me
         // let left = avatar.getBoundingClientRect.left - PENALTY_SETBACK * vw;
         // avatar.style.left = left + 'px';
         // console.log("colliding!");

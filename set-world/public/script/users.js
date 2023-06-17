@@ -9,29 +9,85 @@
 (function () {
   "use strict";
   const GET_USER_BASE_URL = "/users?";
+  const ADD_FRIEND_BASE_URL = "/addFriend/";
   const LEADERBOARD_LENGTH = 10; // Good to-do is to update HTML leaderboard heading to always match
 
   let userOptionsPopulated = false;
 
   function init() {
-    qs("#show-my-info").addEventListener("click", showUserDetails);
+    qs("#show-my-info").addEventListener("click", showCurrUserDetails);
     qs("#add-friends-button").addEventListener("click", showFriends);
     qs("#search-friends").addEventListener("click", showFriends);
     qs("#show-leaderboard").addEventListener("click", showLeaderboard);
-    // addEventListenerToAll("#user-icons > article", "click", toggleUserInfoView);
-    qs("#back-to-friends").addEventListener("click", toggleUserInfoView);
+    qs(".back-to-friends").addEventListener("click", toggleUserInfoView);
+    qs("#user-back-to-friends").addEventListener("click", showFriends);
     qs("#send-message").addEventListener("click", openMessenger);
+    qs("#send-request").addEventListener("click", () => {
+      const friendName = qs("#send-request").parentNode.firstElementChild.textContent;
+      addFriend(friendName);
+    });
   }
 
   /**
-   * Shows user information profile page
+   * Adds friend with POST request to update friends lists for both curr user and friend to be added
+   * @param {String} friend - username of the friend to be added
    */
-  function showUserDetails() {
+  async function addFriend(friend) {
+    try {
+      let resp = await fetch(ADD_FRIEND_BASE_URL + friend, { method: "POST" });
+      resp = await checkStatus(resp);
+      let friendLists = await resp.json();
+
+      // Update HTML friend lists in user details pages for both parties
+      qs("#friends").textContent = friendLists.friend.join(", ");
+      qs("#curr-friends").textContent = friendLists.curr_user.join(", ");
+
+      // Change add friend to send-message button
+      qs("#send-request").classList.add("hidden");
+      qs("#send-message").classList.remove("hidden");
+
+      // Forgive meeeee ahh I just didn't want to code another HTML popup element and set timer
+      // Yes this is just to display the message
+      throw Error(`${friend} is now a friend, yay!`);
+    } catch (err) {
+      handleError(err.message);
+    }
+  }
+
+  /**
+   * Shows current user information profile page
+   */
+  function showCurrUserDetails() {
+    // Toggle window visibility
     qs("#menu").classList.add("hidden");
     qs("#add-friends-page").classList.remove("hidden");
 
     hideAll("#add-friends-page > section");
-    qs("#user-info").classList.remove("hidden");
+    qs("#curr-user-info").classList.remove("hidden");
+  }
+
+  /**
+   * Fills in user information details in #user-info in index.html
+   * @param {Object} user - JSON user object from fetched users
+   */
+  function populateUserDetails(user) {
+    qs("#user-info img").src = user.image_path;
+    qs("#user-info img").alt = user.username;
+    qs("#username").textContent = user.username;
+    qs("#high-score").textContent = user.high_score;
+    qs("#friends").textContent = user.friends.join(", ");
+
+    // Show add friend button if not friends, message button otherwise
+    const currUser = qs("#curr-username").textContent;
+    if (user.friends.includes(currUser)) {
+      // Change add friend to send-message button
+      qs("#send-request").classList.add("hidden");
+      qs("#send-message").classList.remove("hidden");
+    } else {
+      // Change send-message to add friend button
+      qs("#send-request").classList.remove("hidden");
+      qs("#send-message").classList.add("hidden");
+    }
   }
 
   /**
@@ -86,7 +142,10 @@
       description.textContent = user.username;
       icon.appendChild(img);
       icon.appendChild(description);
-      icon.addEventListener("click", toggleUserInfoView);
+      icon.addEventListener("click", () => {
+        populateUserDetails(user);
+        toggleUserInfoView();
+      });
       qs("#user-icons").appendChild(icon);
     });
 
@@ -123,6 +182,7 @@
 
     // Populate HTML table with user info & scores
     const leaderboard = qs("#leaderboard tbody");
+    leaderboard.innerHTML = ""; // Clear it first
     for (let i = 0; i < LEADERBOARD_LENGTH; i++) {
       if (!users[i] || !users[i].high_score) {
         break;

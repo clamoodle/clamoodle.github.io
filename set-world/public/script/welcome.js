@@ -48,6 +48,11 @@
         img.alt = userInfo.username;
       });
 
+      // Update user info page
+      qs("#curr-username").textContent = userInfo.username;
+      qs("#curr-high-score").textContent = userInfo.high_score;
+      qs("#curr-friends").textContent = userInfo.friends.join(", ");
+
       // Show welcome message
       qs("#login-success p").textContent = `Welcome, ${userInfo.username}!`;
       qs("#login-window").classList.add("hidden");
