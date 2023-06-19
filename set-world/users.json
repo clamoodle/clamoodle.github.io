@@ -122,5 +122,14 @@
     "friends": [],
     "high_score": 1255,
     "email": "inthemistofoodles@gmail.com"
+  },
+  {
+    "username": "kycoco",
+    "password": "941118Eel",
+    "image_path": "media/avatars/purple-narrow.png",
+    "species": "eel",
+    "friends": [],
+    "high_score": 1758,
+    "email": "kycoco@yahoo.com"
   }
 ]
