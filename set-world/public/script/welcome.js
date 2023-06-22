@@ -19,6 +19,10 @@
     // Obstacle rate range sliders in menu
     qs("#obstacle-rate-input").addEventListener("input", (e) => {
       displayInput(e, "#obstacle-rate");
+
+      // Initial obstacle count text in game
+      const numObstacles = qs("#obstacle-rate-input").value * 5; // Pretty much arbitrary, by exp.
+      qs("#obstacle-count").textContent = numObstacles;
     });
   }
 

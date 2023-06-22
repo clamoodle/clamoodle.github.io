@@ -56,10 +56,6 @@
     window.addEventListener("keydown", avatarControl);
     gameOver = false;
 
-    // Initial obstacle count text
-    const numObstacles = qs("#obstacle-rate-input").value * 5; // Pretty much arbitrary, by exp.
-    qs("#obstacle-count").textContent = numObstacles;
-
     // Initial score
     qs("#score-count > span").textContent = 0;
 
