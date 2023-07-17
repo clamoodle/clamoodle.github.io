@@ -15,6 +15,12 @@ const express = require("express");
 const fsp = require("fs/promises");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
+const path = require("path");
+
+// const logger = require("morgan");
+
+// const indexRouter = require("./routes/index");
+// const usersRouter = require("./routes/users");
 
 const COOKIE_SECRET = "20CWmcWQQN";
 
@@ -24,7 +30,7 @@ app.use(cookieParser(COOKIE_SECRET));
 
 // https://eipsum.github.io/cs132/lectures/lec18-node-post-documentation/index.html#/34
 // for parsing application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true })); // built-in middleware
+// app.use(express.urlencoded({ extended: true })); // built-in middleware
 // for parsing application/json
 app.use(express.json()); // built-in middleware
 // for parsing multipart/form-data (required with FormData)
@@ -32,6 +38,23 @@ app.use(multer().none()); // multer middleware
 
 const USER_DATA_PATH = "users.json";
 const SERVER_ERR_CODE = 500;
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+app.use('/', indexRouter);
+
+// app.use(logger("dev"));
+// app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, "public")));
+
+// app.use("/", indexRouter);
+// app.use("/users", usersRouter);
 
 /*-------------------- app.get/app.post endpoints -------------------- */
 
@@ -330,5 +353,5 @@ async function updateUsers(filePath, newData) {
     }
 }
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT);
