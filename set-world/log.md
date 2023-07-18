@@ -16,11 +16,12 @@ started logging since 5/7/2023 too much to keep track of!!
 
 -   In-game count-down
 -   pause button
--   clear cookies upon reload
+-   (BUG) clear cookies upon reload
 -   multiplayer
 -   factor out end points completely
--   Currently leaderboard doesn't include current user (add query param in get users endpoint for
+-   (BUG) Currently leaderboard doesn't include current user (add query param in get users endpoint for
     whether to include current user)
+-   (BUG) Min score filter in find friends
 -   session ID (cs253 lec 3)
 
 # 6/16/2023:
