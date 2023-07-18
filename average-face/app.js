@@ -18,12 +18,20 @@ const { exec } = require("child_process");
 const fsp = require("fs/promises");
 const fs = require("fs");
 const app = express();
+const path = require("path");
 
 const USER_DATA_PATH = "data-scraper/scraped-data.json";
 const PYTHON_SCRIPT_PATH = "get-average-face.py";
 const PYTHON_OUTPUT_IMG_PATH = "../public/average-faces/";
 
 app.use(express.static("public"));
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+var indexRouter = require("./routes/index");
+app.use("/", indexRouter);
 
 /*-------------------- app.get/app.post endpoints -------------------- */
 

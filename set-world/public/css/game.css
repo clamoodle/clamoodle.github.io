@@ -7,26 +7,28 @@
 */
 
 #dino-game {
-  background-size: 2svw 100svh;
+    background-size: 2svw 100svh;
 }
 
 #game-start-msg {
-  flex-direction: column;
+    flex-direction: column;
 
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
-#score-count {
-  top: 0;
-  right: 30px;
+#game-stats {
+    top: 0;
+    right: 30px;
+    width: 300px;
+    justify-content: space-between;
 }
 
 #game-start-msg, /* Full size message to block interaction with set board */
 #obstacles {
-  /* Full size obstacles for calculation for obstacle positions */
-  width: 100%;
-  height: 100%;
+    /* Full size obstacles for calculation for obstacle positions */
+    width: 100%;
+    height: 100%;
 }
 
 div.goal img,
@@ -35,108 +37,108 @@ div.goal,
 #avatar,
 h3,
 #game-start-msg,
-#score-count {
-  position: absolute;
+#game-stats {
+    position: absolute;
 }
 
 /* header music toggle buttons color change */
 #music-toggle.red {
-  background-image: url(../media/buttons/red-music-on-button.png);
+    background-image: url(../media/buttons/red-music-on-button.png);
 }
 
 #music-toggle.red.muted {
-  background-image: url(../media/buttons/red-music-off-button.png);
+    background-image: url(../media/buttons/red-music-off-button.png);
 }
 
 /* small faraway background mountains */
 #dino-game > .sliding-layer:first-child {
-  background-image: url(../media/environment/red-hindground.png);
-  /* For the h3 title to rest comfortably on top */
-  background-position-y: bottom;
-  top: 4lvw;
+    background-image: url(../media/environment/red-hindground.png);
+    /* For the h3 title to rest comfortably on top */
+    background-position-y: bottom;
+    top: 4lvw;
 }
 
 /* mid-ground mountains */
 #dino-game > .sliding-layer:nth-child(2) {
-  background-image: url(../media/environment/red-midground.png);
+    background-image: url(../media/environment/red-midground.png);
 }
 
 img.obstacle,
 div.goal,
 #dino-game > .sliding-layer:nth-child(2) {
-  animation-duration: 15s;
+    animation-duration: 15s;
 }
 
 /* big closeup foreground grass */
 #dino-game > .sliding-layer:nth-child(3) {
-  background-image: url(../media/environment/red-foreground.png);
-  background-position: bottom;
-  margin-bottom: -10%;
-  animation-duration: 7s;
+    background-image: url(../media/environment/red-foreground.png);
+    background-position: bottom;
+    margin-bottom: -10%;
+    animation-duration: 7s;
 }
 
 h3 {
-  font-size: 14lvw;
-  bottom: 11lvw;
+    font-size: 14lvw;
+    bottom: 11lvw;
 }
 
 h4 {
-  font-family: "Press Start 2P", "Courier New", Courier, monospace;
+    font-family: "Press Start 2P", "Courier New", Courier, monospace;
 }
 
 span {
-  font-size: inherit;
-  color: inherit;
-  font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
 }
 
 #avatar,
 img.obstacle {
-  height: 100px;
+    height: 100px;
 }
 
 #avatar {
-  bottom: 8svw;
-  left: 30svw;
-  /* ease out-in quadratic to imitate gravity */
-  animation: walk 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) alternate infinite;
+    bottom: 8svw;
+    left: 30svw;
+    /* ease out-in quadratic to imitate gravity */
+    animation: walk 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) alternate infinite;
 }
 
 img.obstacle,
 div.goal {
-  bottom: 6svw;
-  left: auto;
-  animation-iteration-count: 1;
+    bottom: 6svw;
+    left: auto;
+    animation-iteration-count: 1;
 }
 
 img.obstacle {
-  right: -100px; /* so animation starts hiding behind the screen */
+    right: -100px; /* so animation starts hiding behind the screen */
 }
 
 /* Goal image and the sparkles around it */
 div.goal {
-  right: -300px; /* so animation starts hiding behind the screen */
-  height: 300px;
-  width: 300px;
+    right: -300px; /* so animation starts hiding behind the screen */
+    height: 300px;
+    width: 300px;
 }
 
 div.goal img {
-  height: 100%;
+    height: 100%;
 }
 
 /* sparkles */
 div.goal img:nth-child(2),
 div.goal img:nth-child(3),
 #game-start-msg {
-  animation: twinkle 0.4s alternate infinite;
+    animation: twinkle 0.4s alternate infinite;
 }
 
 /* sparkle 2 animation to offset sparkle 1 exactly */
 div.goal img:nth-child(2) {
-  animation-delay: 0.4s;
+    animation-delay: 0.4s;
 }
 
 #avatar.jump {
-  /* ease out-in quadratic to imitate gravity */
-  animation: jump 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) alternate 2;
+    /* ease out-in quadratic to imitate gravity */
+    animation: jump 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) alternate 2;
 }

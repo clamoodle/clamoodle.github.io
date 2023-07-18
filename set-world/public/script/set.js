@@ -162,8 +162,8 @@
       case "KeyG":
         if (playing) {
           refreshBoard();
-          qs("#score-count > span").textContent =
-            parseInt(qs("#score-count > span").textContent) - PENALTY_PER_REFRESH;
+          qs("#score-count").textContent =
+            parseInt(qs("#score-count").textContent) - PENALTY_PER_REFRESH;
         }
         break;
     }
@@ -231,7 +231,7 @@
 
     if (isSet) {
       // Increment score!
-      const score = qs("#score-count > span");
+      const score = qs("#score-count");
       score.textContent = parseInt(score.textContent) + SCORE_PER_SET;
 
       // After 0.5 second replacing cards if set found
