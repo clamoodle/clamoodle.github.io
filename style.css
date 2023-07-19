@@ -51,6 +51,7 @@ a:hover {
 main,
 section {
     display: flex;
+    justify-content: space-evenly;
 }
 
 main {
