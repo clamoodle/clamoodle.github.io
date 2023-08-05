@@ -12,7 +12,7 @@
         <script defer src="rellax.js"></script>
     </head>
     <body>
-        <header class="foreground">
+        <header class="foreground hidden">
             <!-- using div instead of img/input/button for music toggle for easier image source 
             control with toggle across pages with different .js modules. Here, title is used 
             instead of alt for accesibility -->
@@ -21,7 +21,7 @@
         </header>
         <main>
             <!-- Landing page -->
-            <section id="landing-view" class="hidden">
+            <section id="landing-view">
                 <label>
                     Today's date?
                     <input type="date" id="date" />
@@ -31,7 +31,7 @@
             </section>
 
             <!-- Story section -->
-            <section id="card-view">
+            <section id="card-view" class="hidden">
                 <!-- First slide -->
                 <div id="one">
                     <div id="stars" class="rellax" data-rellax-speed="-5">
@@ -56,7 +56,7 @@
 
                 <!-- Second slide -->
                 <div id="two">
-                    <img src="media/card/2_sky.png">
+                    <img src="media/card/2_sky.png" />
                     <p>Everyday with you somehow feels like that, a little magical</p>
                     <div class="clouds rellax" data-rellax-speed="10">
                         <img src="media/card/2_clouds.png" />
