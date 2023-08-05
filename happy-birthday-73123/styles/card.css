@@ -14,10 +14,12 @@ main {
 }
 
 #card-view {
-    /* iPhone 13 Pro Max aspect ratio */
-    max-width: 46.15lvh;
+    /* iPhone 13 Pro Max aspect ratio from resolution */
+    width: 46.22lvh;
     margin-left: auto;
     margin-right: auto;
+
+    
 }
 
 #card-view p,
@@ -30,8 +32,8 @@ main {
 }
 
 #card-view p {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5lvh;
+    margin-right: 5lvh;
 }
 
 #card-view > div > * {
@@ -40,7 +42,7 @@ main {
 
 /* Background images*/
 #card-view > div > img {
-    z-index: -1;
+    z-index: 0;
 }
 
 /* Other images */
