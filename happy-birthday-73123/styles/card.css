@@ -1,0 +1,275 @@
+/* 
+Styles for positioning and button background images for
+the #card-view section in index.html
+*/
+
+/* Gloria Hallelujah, Regular 400 */
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
+/* Nanum Pen Script, Regular 400 */
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+
+main {
+    max-height: 881lvh;
+    overflow-y: hidden;
+}
+
+#card-view {
+    /* iPhone 13 Pro Max aspect ratio */
+    max-width: 46.15lvh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#card-view p,
+#chair a {
+    /* font-family: "Gloria Hallelujah", cursive; */
+    font-family: "Nanum Pen Script", cursive;
+    font-size: 3lvh;
+    z-index: 1;
+    text-align: center;
+}
+
+#card-view p {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#card-view > div > * {
+    position: relative;
+}
+
+/* Background images*/
+#card-view > div > img {
+    z-index: -1;
+}
+
+/* Other images */
+#card-view img {
+    width: 100%;
+}
+
+#card-view * {
+    background-repeat: no-repeat;
+}
+
+/* Each section or slide of the card, parent div */
+#card-view > div {
+    position: relative;
+    height: 200lvh;
+}
+
+#card-view,
+#card-view > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+/*****************************************************/
+/********************* 1st Slide *********************/
+/*****************************************************/
+
+#one {
+    height: 300lvh;
+    background-image: linear-gradient(rgb(51, 25, 78) 0.5%, rgb(82, 49, 115) 95%);
+    color: rgb(198, 177, 177);
+}
+
+#stars {
+    /* Using margin-top instead of top so that the elements below follow it up
+     and the numbers don't ramp up */
+    /* svw to lvh: times 4/7 */
+    margin-top: 11.43lvh;
+}
+
+#one p:nth-of-type(1) {
+    top: -34.29lvh;
+}
+
+#one .clouds {
+    margin-top: -11.43lvh;
+    z-index: 1;
+}
+
+#one p:nth-of-type(2) {
+    position: absolute;
+    top: 100lvh;
+}
+
+#trees {
+    z-index: 2;
+    top: 50lvh;
+}
+
+#us1 {
+    top: -150lvh;
+}
+
+#one p:nth-of-type(3) {
+    top: -165lvh;
+}
+
+/*****************************************************/
+/********************* 2nd slide *********************/
+/*****************************************************/
+
+#two {
+    margin-top: -5lvh;
+    z-index: 1;
+
+    color: aliceblue;
+}
+
+#two p:nth-of-type(1) {
+    margin-top: -100lvh;
+    top: -35lvw;
+}
+
+#two .clouds {
+    z-index: 1;
+    margin-top: -5lvh;
+    top: 28lvh;
+}
+
+#two p:nth-of-type(2) {
+    margin-top: -50lvh;
+    top: -20lvw;
+}
+
+#far-mtn {
+    margin-top: -20lvh;
+    top: -40lvh;
+    z-index: -1;
+}
+
+#close-mtn {
+    margin-top: -65lvh;
+}
+
+#chairlift {
+    margin-top: -200lvh;
+}
+
+#two p:nth-of-type(3) {
+    color: rgb(83, 112, 160);
+    margin-top: -50lvh;
+    top: -20lvh;
+}
+
+#hearts {
+    z-index: 3;
+    top: 300lvh;
+}
+
+/*****************************************************/
+/********************* 3rd slide *********************/
+/*****************************************************/
+
+#three {
+    margin-top: -50lvh;
+    color: rgb(116, 127, 147);
+}
+
+#three p:nth-of-type(1) {
+    margin-top: -115lvh;
+}
+
+#us3 {
+    top: 65lvh;
+}
+
+#fireplace {
+    top: 100lvh;
+}
+
+#three p:nth-of-type(2) {
+    top: -5lvh;
+}
+
+/*****************************************************/
+/********************* 4th slide *********************/
+/*****************************************************/
+
+#four {
+    margin-top: -60lvh;
+    color: rgb(98, 73, 97);
+}
+
+#four p:nth-of-type(1) {
+    margin-top: -50lvh;
+    top: -75lvh;
+}
+
+#us4 {
+    z-index: 2;
+}
+
+#four p:nth-of-type(2) {
+    top: -70lvh;
+}
+
+/*****************************************************/
+/********************* 5th slide *********************/
+/*****************************************************/
+
+#five {
+    margin-top: -80lvh;
+    color: antiquewhite;
+}
+
+#five p:nth-of-type(1) {
+    top: -40lvh;
+}
+
+#floor-us {
+    top: -28lvh;
+}
+
+#tv {
+    top: -20lvh;
+}
+
+/*****************************************************/
+/********************* 6th slide *********************/
+/*****************************************************/
+
+#six {
+    color: antiquewhite;
+    margin-top: -95lvh;
+}
+
+#six p:nth-of-type(1) {
+    top: 15lvh;
+}
+
+#six p:nth-of-type(2) {
+    margin-top: -50lvh;
+}
+
+#six p:nth-of-type(3) {
+    top: 0lvh;
+}
+
+#chair {
+    z-index: 10;
+    width: 20lvh;
+    height: 15lvh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-size: contain;
+    background-position: center;
+    background-image: url(../media/card/6_chair.png);
+}
+
+#chair a {
+    text-decoration: underline;
+}
+
+a:visited,
+a:link{
+    color: inherit;
+}

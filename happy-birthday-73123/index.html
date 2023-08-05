@@ -1,23 +1,133 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>July 31</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script defer src="index.js"></script>
-  </head>
-  <body>
-    <header></header>
-    <!-- Landing page -->
-    <section id="landing-view">
-      <label>
-        Today's date?
-        <input type="date" id="date" />
-      </label>
-      <button id="check-date">That's today!</button>
-      <p>Get some noise-cancelling headphones for best experience &lt;3</p>
-    </section>
+    <head>
+        <title>July 31</title>
+        <link rel="icon" type="image/x-icon" href="media/carvel.png" />
+        <link rel="stylesheet" href="styles/card.css" />
+        <link rel="stylesheet" href="styles/styles.css" />
+        <script src="utils.js"></script>
+        <script defer src="index.js"></script>
+        <!-- Source: Rellax by Dixon and Moe on Github -->
+        <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+        <script defer src="rellax.js"></script>
+    </head>
+    <body>
+        <header class="foreground">
+            <!-- using div instead of img/input/button for music toggle for easier image source 
+            control with toggle across pages with different .js modules. Here, title is used 
+            instead of alt for accesibility -->
+            <div id="music-toggle" class="muted" title="music toggle button"></div>
+            <audio id="music" loop src="media/umbrella.mp3"></audio>
+        </header>
+        <main>
+            <!-- Landing page -->
+            <section id="landing-view" class="hidden">
+                <label>
+                    Today's date?
+                    <input type="date" id="date" />
+                </label>
+                <button id="check-date">That's today!</button>
+                <p>Get some airpods and view on phone for best experience &lt;3</p>
+            </section>
 
-    <!-- Story section -->
-    <section id="story-view" class="hidden"></section>
-  </body>
+            <!-- Story section -->
+            <section id="card-view">
+                <!-- First slide -->
+                <div id="one">
+                    <div id="stars" class="rellax" data-rellax-speed="-5">
+                        <img src="media/card/1_stars.png" />
+                    </div>
+                    <p>I remember tonight(!) last summer, you took me to this park</p>
+                    <div class="clouds rellax" data-rellax-speed="15">
+                        <img src="media/card/2_clouds.png" />
+                    </div>
+                    <div id="trees" class="rellax" data-rellax-speed="50">
+                        <img src="media/card/1_trees.png" />
+                    </div>
+                    <p>
+                        When you told me happy birthday as the clock struck midnight, and when I
+                        told you 'you too'
+                    </p>
+                    <div id="us1" class="rellax" data-rellax-speed="15">
+                        <img src="media/card/1_us.png" />
+                    </div>
+                    <p>My heart melted a little</p>
+                </div>
+
+                <!-- Second slide -->
+                <div id="two">
+                    <img src="media/card/2_sky.png">
+                    <p>Everyday with you somehow feels like that, a little magical</p>
+                    <div class="clouds rellax" data-rellax-speed="10">
+                        <img src="media/card/2_clouds.png" />
+                    </div>
+                    <div id="far-mtn" class="rellax" data-rellax-speed="-10">
+                        <img src="media/card/2_far_mtn.png" />
+                    </div>
+                    <div id="close-mtn" class="rellax" data-rellax-speed="-5">
+                        <img src="media/card/2_close_mtn.png" />
+                    </div>
+                    <p>I never imagined I could snowboard with the love of my life</p>
+                    <div id="charlift" class="rellax" data-rellax-speed="5">
+                        <img src="media/card/2_chairlift.png" />
+                    </div>
+                    <div id="hearts" class="rellax" data-rellax-speed="51">
+                        <img src="media/card/2_hearts.png" />
+                    </div>
+                    <p>And how much I loved our cuddles on our way up the mountains</p>
+                </div>
+
+                <!-- Third slide -->
+                <div id="three">
+                    <img src="media/card/3_bg.png" />
+                    <p>I love how silly I can be around you, and how silly you are around me</p>
+                    <div id="us3" class="rellax" data-rellax-speed="6">
+                        <img src="media/card/3_us.png" />
+                    </div>
+                    <div id="fireplace" class="rellax" data-rellax-speed="11">
+                        <img src="media/card/3_fireplace.png" />
+                    </div>
+                    <p>You know I felt so cultured when you taught me the hoki poki</p>
+                </div>
+
+                <!-- Fourth slide -->
+                <div id="four">
+                    <img src="media/card/4_bg.png" />
+                    <p>I love our Stephen and Pearl Chen Days</p>
+                    <div id="us4" class="rellax" data-rellax-speed="5">
+                        <img src="media/card/4_us.png" />
+                    </div>
+                    <p>
+                        How we planned our super elevated dream cottage for when we make big bucks
+                    </p>
+                </div>
+
+                <!-- Fifth slide -->
+                <div id="five">
+                    <img src="media/card/5_wall.png" />
+                    <p>Then, at night, how we could cringe at some Philly or Nathan together</p>
+                    <div id="floor-us" class="rellax" data-rellax-speed="1">
+                        <img src="media/card/5_floor_us.png" />
+                    </div>
+                    <div id="tv" class="rellax" data-rellax-speed="20">
+                        <img src="media/card/5_tv.png" />
+                    </div>
+                </div>
+
+                <!-- Sixth slide -->
+                <div id="six">
+                    <p>While having the time of our lives</p>
+                    <img src="media/card/6_closeup.png" />
+                    <p>
+                        I'm so glad to have met you, and to have spent the most magical year of my
+                        life with you. I couldn't want to share a birthday with anyone more.
+                    </p>
+                    <p>Happy birthday, Stephen</p>
+                    <div id="chair">
+                        <a id="moxie" href="gift.html">I love you</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
 </html>

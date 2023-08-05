@@ -1,0 +1,65 @@
+* {
+    /* No selection highlight */
+    /* Source: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+
+    /* for crisp pixel art upon resize */
+    /* Source: https://css-tricks.com/almanac/properties/i/image-rendering/ */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#music-toggle {
+    height: 100%;
+    cursor: pointer;
+    width: 5svh;
+    background-image: url(../media/buttons/music-on-button.png);
+    background-size: 5svh;
+    background-repeat: no-repeat;
+}
+
+#music-toggle.muted {
+    background-image: url(../media/buttons/music-off-button.png);
+}
+
+body {
+    margin: 0;
+}
+
+.foreground {
+    z-index: 3;
+}
+
+header {
+    position: fixed;
+    display: flex;
+    top: 2svh;
+    left: 2svh;
+    height: 5svh;
+    align-items: stretch;
+    margin-left: 10px;
+}
+
+#landing-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100lvh;
+}
+
+#landing-view * {
+    margin: 5px;
+}
+
+.hidden {
+    /* the only important!!! to override id's and all other selectors' display values */
+    display: none !important;
+}
