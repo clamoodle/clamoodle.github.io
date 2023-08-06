@@ -16,10 +16,6 @@
     image-rendering: crisp-edges;
 }
 
-#landing-view {
-    font-size: 2lvh;
-}
-
 #music-toggle {
     height: 100%;
     cursor: pointer;
