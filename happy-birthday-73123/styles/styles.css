@@ -14,6 +14,9 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+
+    /* For overriding auto-sizing input boxes in iOS Safari */
+    -webkit-appearance: none;
 }
 
 #music-toggle {
@@ -53,6 +56,7 @@ header {
     justify-content: center;
     align-items: center;
     height: 100lvh;
+    font-size: 2.3lvh;
 }
 
 #landing-view * {
