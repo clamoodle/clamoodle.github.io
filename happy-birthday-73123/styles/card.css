@@ -142,7 +142,7 @@ main {
 #far-mtn {
     margin-top: -20lvh;
     top: -40lvh;
-    z-index: -1;
+    z-index: 0;
 }
 
 #close-mtn {
