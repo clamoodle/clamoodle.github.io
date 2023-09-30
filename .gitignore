@@ -1,8 +1,6 @@
-/node_modules
-/average-face
-/socket.io
-/myExpressApp
-/set-world
-/happy-birthday-73123/media/moxie.mp4
-/socket-chat-example
-/playground.py
+/node_modules/
+/socket.io/
+/average-face/
+/myExpressApp/
+/socket-chat-example/
+/playground.py/
