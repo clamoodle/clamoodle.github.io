@@ -1,6 +1,7 @@
 /node_modules/
-/socket.io/
 /average-face/
+/socket.io/
 /myExpressApp/
+/set-world/
 /socket-chat-example/
-/playground.py/
+playground.py
