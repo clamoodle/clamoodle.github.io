@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/4774a125-6409-4dac-aeea-703b7dc4361a/resourceGroups/AppService/providers/Microsoft.Web/sites/average-face",
+    "appService.deploySubpath": "."
+}
