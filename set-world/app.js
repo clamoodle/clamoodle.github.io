@@ -12,10 +12,14 @@
  */
 
 const express = require("express");
-const fsp = require("fs/promises");
+const mysql = require("mysql2");
+const fsp = require("fs").promises;
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const path = require("path");
+
+const PORT = process.env.PORT || 3000;
+const SQLPORT = 3307;
 
 // const logger = require("morgan");
 
@@ -43,18 +47,29 @@ const SERVER_ERR_CODE = 500;
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-app.use('/', indexRouter);
+var indexRouter = require("./routes/index");
+const e = require("express");
+// var usersRouter = require("./routes/users");
+app.use("/", indexRouter);
 
-// app.use(logger("dev"));
-// app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, "public")));
 
-// app.use("/", indexRouter);
-// app.use("/users", usersRouter);
+/*-------------------- MySql setup -------------------- */
+const connection = mysql.createConnection({
+    port: SQLPORT,
+    host: "localhost",
+    user: "appadmin",
+    password: "adminpw",
+    database: "setdb",
+});
+
+connection.connect((err) => {
+    if (err) {
+        console.error("Error connecting to MySQL:", err);
+        return;
+    }
+    console.log("Connected to MySQL database");
+});
 
 /*-------------------- app.get/app.post endpoints -------------------- */
 
@@ -62,34 +77,98 @@ app.use(express.urlencoded({ extended: false }));
  * Returns JSON for a list of users matching the specified filter parameters.
  * Specifically, filter parameters are friend-status, species, and min high_score.
  * Friends requires current user ID.
- *
- * If param "sort" is by "scores", the list of users will be returned in order of highest high score
- * to lowest high score.
+ * Result excludes current user.
  */
-app.get("/users", readUserData, getFilteredUserData, (req, res) => {
-    if (req.query.sort === "scores") {
-        sortByKeyValue(res.locals.users, "high_score");
+app.get("/users", (req, res, next) => {
+    // Check log in cookies
+    if (!req.signedCookies.curr_user) {
+        next(Error("Login cookie missing! Nom nom!"));
     }
-    res.json(res.locals.users);
+
+    // Parse query parameters
+    const username = req.signedCookies.curr_user;
+    const status = req.query["friend-status"]
+        ? req.query["friend-status"] === "true"
+            ? 1
+            : 0
+        : "1 OR is_accepted = 0";
+    const species = req.query.species ? `'${req.query.species}'` : "'eel' OR a.species = 'not eel'";
+    const minScore = req.query["min-highscore"] ? req.query["min-highscore"] : 0;
+
+    // Query database and filter results
+    const sql = `
+                SELECT ui.username, ui.high_score, ui.image_path, ui.friends
+                FROM user_info ui JOIN avatar a
+                    ON ui.username = a.username
+                WHERE ui.username IN (
+                    SELECT t.u2 FROM (SELECT u1.username u1, u2.username u2,
+                        CASE WHEN (f1.is_accepted IS NULL AND f2.is_accepted IS NULL) THEN 0
+                        ELSE 1 END AS is_accepted
+                    FROM (user u1 JOIN user u2)
+                    LEFT JOIN friend_request f1 ON
+                        u1.username = f1.from_user AND u2.username = f1.to_user
+                    LEFT JOIN friend_request f2 ON
+                        u1.username = f2.to_user AND u2.username = f2.from_user
+                    WHERE u1.username != u2.username
+                    AND u1.username = '${username}') AS t
+                    WHERE (is_accepted = ${status})
+                ) AND (a.species = ${species})
+                AND (ui.high_score >= ${minScore});
+                `;
+
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+            next(Error("Couldn't connect to database."));
+        }
+        console.log("Successfully filtered " + (result ? result.length : 0) + " results!");
+        res.json(result);
+    });
+});
+
+/**
+ * Returns a list of 10 users in order of highest high score to lowest high score.
+ * Has properties: rank, username, and high_score.
+ * Does not require current user to be logged in.
+ */
+app.get("/leaderboard", (req, res, next) => {
+    const sql = "SELECT * FROM top_scores";
+    connection.query(sql, (err, result) => {
+        if (err) {
+            next(Error("Couldn't connect to top scores."));
+        }
+        console.log(result);
+        res.json(result);
+    });
 });
 
 /**
  * REF: http://eipsum.github.io/cs132/lectures/lec19-cs-wrapup-and-cookies/code/cookie-demo.zip
  * Logs in user and updates cookies for a new visit by logging user into "curr_user".
  */
-app.get("/login", readUserData, async (req, res) => {
+app.get("/login", async (req, res, next) => {
     try {
+        // Authenticate user
         const username = req.headers.username;
         const password = req.headers.password;
-        let userIdx = res.locals.users.findIndex((user) => user.username === username);
-        if (!userIdx) {
-            next(Error("No user found!"));
-        }
-        if (res.locals.users[userIdx].password !== password) {
-            next(Error("Incorrect password"));
-        }
-        res.cookie("curr_user", res.locals.users[userIdx], { signed: true });
-        res.json(res.locals.users[userIdx]);
+        const authq = `authenticate ('${username}', '${password}')`;
+        connection.query("SELECT " + authq, (err, result) => {
+            if (err) next(Error("Couldn't connect to database."));
+            if (result[0][authq] == "1") {
+                // Record cookie with username
+                res.cookie("curr_user", username, { signed: true });
+                console.log(`Welcome, ${username}!`);
+            } else {
+                next(Error("Invalid username or password."));
+            }
+        });
+
+        // Return user info
+        const infoq = `SELECT * FROM user_info WHERE username = '${username}'`;
+        connection.query(infoq, (err, result) => {
+            if (err) next(Error("Couldn't connect to user info."));
+            res.json(result[0]);
+        });
     } catch (err) {
         res.type("text");
         res.status(SERVER_ERR_CODE).send("An error occurred when accessing request data.");
@@ -97,15 +176,39 @@ app.get("/login", readUserData, async (req, res) => {
 });
 
 /**
- * Posts a new user to USER_DATA_PATH
+ * Posts a new user to SQL database with a new avatar.
  * Required POST parameters: username, password, image_path, and species
  * Friends is set to [] and high_score is set to null.
  */
-app.post("/newUser", readUserData, checkUserParams, (req, res, next) => {
-    // Update data JSON
-    res.locals.users.push(res.locals.user);
-    updateUsers(USER_DATA_PATH, res.locals.users);
-    res.send(`Request to add new user ${req.body.username} successfully received!`);
+app.post("/newUser", checkUserParams, (req, res, next) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const image_path = req.body.image_path;
+    const species = req.body.species;
+    const parts = image_path.split("/").pop().slice(0, -4).split("-");
+    const color = parts[0];
+    const variant = parts[1];
+    const email = req.body.email;
+
+    // Add user and avatar to database
+    const sql = "CALL add_user_with_avatar(?, ?, ?, ?, ?, ?, ?)";
+    connection.query(
+        sql,
+        [username, email, password, species, variant, color, image_path],
+        (err) => {
+            // Duplicate entry error: username already exists
+            if (err) {
+                if (err.code === "ER_DUP_ENTRY") {
+                    next(Error("Username taken!"));
+                }
+                next(Error("Couldn't add user to database."));
+            }
+
+            // Success
+            res.send(`New user ${req.body.username} successfully added!`);
+            console.log(`New user ${req.body.username} successfully added with avatar!`);
+        }
+    );
 });
 
 /**
@@ -121,22 +224,44 @@ app.post("/addFriend/:username", readUserData, (req, res, next) => {
         next(Error("Can't add friend before logging in :("));
     }
 
-    // Updating friends list
-    let friendIdx = res.locals.users.findIndex((user) => user.username === req.params.username);
-    let userIdx = res.locals.users.findIndex(
-        (user) => user.username === req.signedCookies.curr_user.username
-    );
-    if (!res.locals.users[friendIdx].friends.includes(req.signedCookies.curr_user.username)) {
-        res.locals.users[friendIdx].friends.push(req.signedCookies.curr_user.username);
-        res.locals.users[userIdx].friends.push(req.params.username);
-    }
+    // Make sure not already friends
+    const user = req.signedCookies.curr_user;
+    const target = req.params.username;
+    const checkq = `are_friends ('${user}', '${target}')`;
+    connection.query("SELECT " + checkq, (err, result) => {
+        if (err) {
+            console.log(err);
+            next(Error("Couldn't check if already friends :("));
+        }
+        if (result[0][checkq] == "1") {
+            next(Error("Already friends!"));
+        }
+    });
 
-    updateUsers(USER_DATA_PATH, res.locals.users);
-    let friendLists = {
-        curr_user: res.locals.users[userIdx].friends,
-        friend: res.locals.users[friendIdx].friends,
-    };
-    res.json(friendLists);
+    // Updating friends list
+    const addq = `CALL add_friend ('${user}', '${target}')`;
+    connection.query(addq, (err) => {
+        if (err) {
+            if (err.code === "ER_DUP_ENTRY") {
+                next(Error("Request already sent to this user"));
+            }
+            console.log(err);
+            next(Error("Couldn't add friend in database :("));
+        }
+        console.log(`Added ${user} to ${target}'s friends list!`);
+    });
+
+    // Return new friends list
+    const listq = `SELECT username, find_friends(username) AS friends
+                   FROM user
+                   WHERE username IN ('${user}', '${target}');`;
+    connection.query(listq, (err, result) => {
+        if (err) {
+            console.log(err);
+            next(Error("Couldn't update friends list :("));
+        }
+        res.json(result);
+    });
 });
 
 /**
@@ -153,16 +278,26 @@ app.post("/updateScore", readUserData, async (req, res, next) => {
         next(Error("Can't save score before logging in :("));
     }
 
-    // Updating high score
-    const currUsername = req.signedCookies.curr_user.username;
-    let userIdx = res.locals.users.findIndex((user) => user.username === currUsername);
-    res.locals.users[userIdx].high_score = Math.max(
-        req.body.score,
-        res.locals.users[userIdx].high_score
-    );
+    // Add new score
+    const user = req.signedCookies.curr_user;
+    const scoreq = `CALL add_score ('${user}', ${req.body.score})`;
+    connection.query(scoreq, (err) => {
+        if (err) {
+            console.log(err);
+            next(Error("Couldn't add score to database :("));
+        }
+        console.log(`Added ${req.body.score} to ${user}'s scores!`);
+    });
 
-    updateUsers(USER_DATA_PATH, res.locals.users);
-    res.json(res.locals.users[userIdx]);
+    // Response with new high score and user info
+    const infoq = `SELECT * FROM user_info WHERE username = '${user}'`;
+    connection.query(infoq, (err, result) => {
+        if (err) {
+            console.log(err);
+            next(Error("Couldn't get user info :("));
+        }
+        res.json(result[0]);
+    });
 });
 
 /*----------------------- Middleware Functions ----------------------- */
@@ -189,12 +324,6 @@ function checkUserParams(req, res, next) {
         );
     }
 
-    // Check username uniqueness
-    let sameNameUsers = res.locals.users.filter((user) => user.username === newUserJSON.username);
-    if (sameNameUsers.length > 0) {
-        next(Error("Username taken."));
-    }
-
     res.locals.user = newUserJSON;
     next();
 }
@@ -215,84 +344,17 @@ async function readUserData(req, res, next) {
 }
 
 /**
- * Filters entries in data.users and returns ones matching the query parameters into
- * res.locals.users.
- * Presumably the query parameters are option, house, gender, and graduation.
- */
-function getFilteredUserData(req, res, next) {
-    // Check log in cookies
-    if (!req.signedCookies.curr_user) {
-        next(Error("Login cookie missing! Nom nom!"));
-    }
-
-    // Filter out user him/herself
-    res.locals.users = res.locals.users.filter(
-        (user) => user.username.toLowerCase() !== req.signedCookies.curr_user.username.toLowerCase()
-    );
-
-    // Check each query param to filter by
-    for (const param in req.query) {
-        switch (param) {
-            case "friend-status":
-                // Filter friends
-                // (Assuming we'll never get an empty list)
-                if (req.query["friend-status"] === "true") {
-                    // Filter those who are friends with user
-                    res.locals.users = res.locals.users.filter(
-                        // Source: https://bobbyhadz.com/blog/javascript-includes-case-insensitive
-                        (user) =>
-                            user.friends.some((entry) => {
-                                return (
-                                    entry.toLowerCase() ===
-                                    req.signedCookies.curr_user.username.toLowerCase()
-                                );
-                            })
-                    );
-                } else if (req.query["friend-status"] === "false") {
-                    // Filter those who are not friends with user
-                    res.locals.users = res.locals.users.filter((user) =>
-                        user.friends.every((entry) => {
-                            return (
-                                entry.toLowerCase() !==
-                                req.signedCookies.curr_user.username.toLowerCase()
-                            );
-                        })
-                    );
-                }
-
-                break;
-
-            case "species":
-                // Filter species
-                if (req.query.species) {
-                    res.locals.users = res.locals.users.filter(
-                        (user) => user["species"].toLowerCase() === req.query.species.toLowerCase()
-                    );
-                }
-                break;
-
-            case "min-highscore":
-                // Filter minimum high score
-                if (req.query["min-highscore"]) {
-                    res.locals.users = res.locals.users.filter(
-                        (user) =>
-                            parseInt(user["min-highscore"]) >= parseInt(req.query["min-highscore"])
-                    );
-                }
-                break;
-        }
-    }
-    next();
-}
-
-/**
  * Handles errors
  */
 function handleError(err, req, res, next) {
     // All error responses are plain/text
     res.status(400);
     res.type("text");
-    res.send(err.message);
+    if (err.message) {
+        res.send(err.message);
+    } else {
+        res.send("An error occured on our side! Tell Pearl to fix it!");
+    }
 }
 
 app.use(handleError);
@@ -353,5 +415,6 @@ async function updateUsers(filePath, newData) {
     }
 }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT);
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

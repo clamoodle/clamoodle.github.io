@@ -6,54 +6,73 @@
 */
 
 .oval {
-  height: 100px;
-  margin-top: -50px;
-  border-radius: 50%;
+    height: 100px;
+    margin-top: -50px;
+    border-radius: 50%;
 }
 
 #char-creation-view > div > img {
-  /* natural no-gravity bouncy motion */
-  animation: walk 1s ease-in-out alternate infinite;
+    /* natural no-gravity bouncy motion */
+    animation: walk 1s ease-in-out alternate infinite;
 }
 
 #traits {
-  display: grid;
-  width: 500px;
-  grid-template-columns: 250px 250px;
+    display: grid;
+    width: 500px;
+    grid-template-columns: 250px 250px;
 }
 
 #char-creation-view form,
 #char-creation-view > div {
-  flex-direction: column;
+    flex-direction: column;
 }
 
 /* Character avatar */
 #char-creation-view > img,
 .oval {
-  width: 400px;
+    width: 400px;
 }
 
 #char-creation-view {
-  width: 100%;
-  justify-content: space-evenly;
-  flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    flex-direction: row;
 }
 
 #char-creation-view button {
-  width: 90%;
+    width: 90%;
 }
+
+/* Scrolling banner header */
+/* #scroll-container .scroll {
+    position: fixed;
+}
+
+#scroll-container .scroll#scroll-two {
+    transform: translateX(100%);
+    animation-delay: 15s;
+}
+
+@keyframes loop {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+} */
 
 /* Select arrows */
 .trait-select > img {
-  width: 50px;
+    width: 50px;
 }
 
 .trait-select {
-  width: 250px;
-  justify-content: space-between;
+    width: 250px;
+    justify-content: space-between;
 }
 
 #char-creation-view h3 {
-  top: 75px;
-  font-size: 18lvw;
+    top: 75px;
+    font-size: 18lvw;
 }

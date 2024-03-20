@@ -55,7 +55,7 @@
       // Update user info page
       qs("#curr-username").textContent = userInfo.username;
       qs("#curr-high-score").textContent = userInfo.high_score;
-      qs("#curr-friends").textContent = userInfo.friends.join(", ");
+      qs("#curr-friends").textContent = userInfo.friends;
 
       // Show welcome message
       qs("#login-success p").textContent = `Welcome, ${userInfo.username}!`;

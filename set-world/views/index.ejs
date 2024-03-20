@@ -9,314 +9,346 @@
 -->
 
 <html>
-  <head>
-    <title>Set World</title>
-    <link rel="icon" href="media/environment/oval-obstacle.png" />
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/keyframes.css" />
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/char-select.css" />
-    <link rel="stylesheet" href="css/game.css" />
-    <link rel="stylesheet" href="css/set.css" />
-    <link rel="stylesheet" href="css/z-index.css" />
-    <link rel="stylesheet" href="css/palette.css" />
-    <script src="script/utils.js"></script>
-    <script defer src="script/welcome.js"></script>
-    <script defer src="script/game.js"></script>
-    <script defer src="script/set.js"></script>
-    <script defer src="script/users.js"></script>
-    <script defer src="script/char-select.js"></script>
-  </head>
-  <body>
-    <header class="hidden">
-      <input type="image" id="menu-button" src="media/buttons/menu-button.png" alt="menu button" />
-      <!-- using div instead of img/input/button for music toggle for easier image source 
+    <head>
+        <title>Set World</title>
+        <link rel="icon" href="media/environment/oval-obstacle.png" />
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/keyframes.css" />
+        <link rel="stylesheet" href="css/index.css" />
+        <link rel="stylesheet" href="css/char-select.css" />
+        <link rel="stylesheet" href="css/game.css" />
+        <link rel="stylesheet" href="css/set.css" />
+        <link rel="stylesheet" href="css/z-index.css" />
+        <link rel="stylesheet" href="css/palette.css" />
+        <script src="script/utils.js"></script>
+        <script defer src="script/welcome.js"></script>
+        <script defer src="script/game.js"></script>
+        <script defer src="script/set.js"></script>
+        <script defer src="script/users.js"></script>
+        <script defer src="script/char-select.js"></script>
+    </head>
+    <body>
+        <header class="hidden">
+            <input
+                type="image"
+                id="menu-button"
+                src="media/buttons/menu-button.png"
+                alt="menu button"
+            />
+            <!-- using div instead of img/input/button for music toggle for easier image source 
                 control with toggle across pages with different .js modules. Here, title is used 
                 instead of alt for accesibility -->
-      <div id="music-toggle" class="muted" title="music toggle button"></div>
-      <audio id="music" preload loop src="media/genius-soft-adventurous-theme.wav"></audio>
-    </header>
-    <!-- Each section here in <main></main> is a page view -->
-    <main>
-      <!-- Error message popup -->
-      <section id="err-msg" class="hidden popup"></section>
+            <div id="music-toggle" class="muted" title="music toggle button"></div>
+            <audio id="music" preload loop src="media/genius-soft-adventurous-theme.wav"></audio>
+        </header>
+        <!-- Each section here in <main></main> is a page view -->
+        <main>
+            <!-- Error message popup -->
+            <section id="err-msg" class="hidden popup"></section>
 
-      <!-- Landing page, where user selects whether yes/no music -->
-      <section id="sound-menu" class="foreground">
-        <h2>Would you like music?</h2>
-        <div>
-          <button id="music-button">Yes Please</button>
-          <button id="mute-button">No It's 3 a.m.</button>
-        </div>
-      </section>
-
-      <!-- Welcome page, where user chooses to log-in or create account -->
-      <section id="welcome-view" class="hidden">
-        <!-- background sliding layers of lil' mountains -->
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-
-        <h1>Set World</h1>
-        <!-- foreground titles/buttons floating over mountains -->
-        <div id="home-buttons-before-login" class="foreground">
-          <button id="login-button">Log In</button>
-          <button id="create-button">Create New Character</button>
-          <button class="start-game-button">Play as Guest</button>
-        </div>
-        <div id="home-buttons-after-login" class="hidden foreground">
-          <button class="start-game-button">Start Game</button>
-          <button type="button" id="add-friends-button">Add friends</button>
-        </div>
-      </section>
-
-      <!-- Log-in form, overlays the welcome page -->
-      <section id="login-window" class="hidden popup foreground">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <form>
-          <label for="login-username">
-            Username:
-            <input id="login-username" type="text" name="username" required />
-          </label>
-
-          <label for="login-pw">
-            Password:
-            <input id="login-pw" type="password" name="password" required />
-          </label>
-          <button id="submit-login" type="button">Submit Login</button>
-        </form>
-      </section>
-
-      <!-- Log-in successful message, with button to start game -->
-      <section id="login-success" class="hidden popup">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <p></p>
-        <button class="start-game-button" type="button">Start Game</button>
-      </section>
-
-      <!-- Character selection / creation view, leads to the game view afterwards -->
-      <section id="char-creation-view" class="hidden">
-        <h3>Create Character</h3>
-        <div>
-          <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
-          <div class="oval"></div>
-        </div>
-        <form id="traits" class="popup">
-          <h2>Species:</h2>
-          <div class="trait-select">
-            <img id="left-species" src="media/buttons/left-button.png" alt="left" />
-            <h2 id="species">not eel</h2>
-            <img id="right-species" src="media/buttons/right-button.png" alt="right" />
-          </div>
-
-          <h2>Type:</h2>
-          <div class="trait-select">
-            <img id="left-type" src="media/buttons/left-button.png" alt="left" />
-            <h2 id="type">dog</h2>
-            <img id="right-type" src="media/buttons/right-button.png" alt="right" />
-          </div>
-
-          <h2>Color:</h2>
-          <div class="trait-select">
-            <img id="left-color" src="media/buttons/left-button.png" alt="left" />
-            <h2 id="color">blue</h2>
-            <img id="right-color" src="media/buttons/right-button.png" alt="right" />
-          </div>
-
-          <h2>Username:</h2>
-          <input id="reg-username" type="text" name="username" maxlength="10" required />
-          <h2>Email:</h2>
-          <input id="reg-email" type="email" name="email" required />
-
-          <h2>Password:</h2>
-          <input id="reg-pw" type="password" name="password" required />
-
-          <button id="register" type="button">Register &amp; Log in</button>
-          <button type="button" class="back-button">back</button>
-        </form>
-      </section>
-
-      <!-- The actual "dino" game view, clears everything else -->
-      <section id="dino-game" class="hidden">
-        <!-- Bckground sliding layers of lil' mountains -->
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-        <div class="bg sliding-layer"></div>
-
-        <!-- avatar -->
-        <img id="avatar" class="avatar" src="media/avatars/blue-dog.png" alt="blue dog" />
-        <h3>Obstacles Left: <span id="obstacle-count">30</span></h3>
-
-        <!-- Obstacles will appear here (to-be-added by game.js) -->
-        <section id="obstacles"></section>
-
-        <section id="game-start-msg" class="foreground">
-          <h4>Press space to start jumping!</h4>
-          <p>Try to get as many sets as you can while avoiding obstacles!</p>
-          <p>Hit 'G' to refresh board but avoid it! Click or use keyboard to select cards</p>
-        </section>
-
-        <!-- Score counter -->
-        <section id="game-stats">
-          <h4>Score: <span id="score-count">0</span></h4>
-          <h4><span id="time-left">2:00</span></h4>
-        </section>
-
-        <!-- Set board!! -->
-        <div id="board" class="popup"></div>
-
-        <!-- the goal div will start sliding towards avatar once obstacles are all cleared -->
-        <div class="goal">
-          <img src="media/environment/goal.png" alt="goal" />
-          <img src="media/environment/sparkle-1.png" alt="sparkles" />
-          <img src="media/environment/sparkle-2.png" alt="more sparkles" />
-        </div>
-      </section>
-
-      <!-- Popup message, includes game end message -->
-      <section id="popup-window" class="hidden popup">
-        <label id="popup-msg">Game over!</label>
-        <button type="button" class="back-button">back</button>
-      </section>
-
-      <!-- Menu floaty page -->
-      <section id="menu" class="hidden popup">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <h2>Menu</h2>
-        <label for="obstacle-rate-input">Obstacle Rate</label>
-        <input type="range" id="obstacle-rate-input" min="0" max="10" value="6" step="2" />
-        <output id="obstacle-rate">6</output>
-        <button type="button" id="show-my-info">My Profile</button>
-        <button type="button" id="show-leaderboard">Leaderboard</button>
-        <button type="button" id="show-flex">Credits</button>
-      </section>
-
-      <!-- add friends page -->
-      <section id="add-friends-page" class="hidden popup">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <!-- Shows list of users -->
-        <section id="users-list">
-          <h2>Find friends</h2>
-          <form id="search-filters">
-            <select name="friend-status" class="filter-item">
-              <option value="">All</option>
-              <option value="true">Friends</option>
-              <option value="false">Not Friends</option>
-            </select>
-            <select name="species" class="filter-item">
-              <option value="">Any Species</option>
-              <option value="eel">Eel</option>
-              <option value="not eel">Not Eel</option>
-            </select>
-            <select name="min-highscore" class="filter-item">
-              <option value="">No Min Highscore</option>
-              <option value="2000">At least 2000</option>
-              <option value="4000">At least 4000</option>
-              <option value="6000">At least 6000</option>
-              <option value="8000">At least 8000</option>
-            </select>
-            <input list="users" class="filter-item" placeholder="Type Username" />
-            <datalist id="users"> </datalist>
-            <button id="search-friends" type="button">Search</button>
-          </form>
-          <div id="user-icons"></div>
-        </section>
-
-        <!-- current user info details page -->
-        <section id="curr-user-info" class="hidden user-info">
-          <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
-          <div>
-            <h2 id="curr-username"></h2>
-            <ul>
-              <li>High score: <output id="curr-high-score"></output></li>
-              <li>Friends: <output id="curr-friends"></output></li>
-            </ul>
-            <button id="user-back-to-friends">Add Friends</button>
-          </div>
-        </section>
-
-        <!-- other user info details page -->
-        <section id="user-info" class="hidden user-info">
-          <img src="media/avatars/blue-dog.png" alt="a blue dog" />
-          <div>
-            <h2 id="username">clamoodle</h2>
-            <ul>
-              <li>High score: <output id="high-score"></output></li>
-              <li>Friends: <output id="friends"></output></li>
-            </ul>
-            <button id="send-request">Add as Friend</button>
-            <button id="send-message" class="hidden">Message (Under dev)</button>
-            <button class="back-to-friends">Back</button>
-          </div>
-        </section>
-
-        <!-- Messaging friends page -->
-        <section id="messenger" class="hidden">
-          <h2>Set World Messenger</h2>
-          <section>
-            <!-- Thumbnail of each friend user is chatting with -->
-            <section id="chats-list">
-              <div>
-                <img src="media/avatars/blue-dog.png" alt="friend" />
-                <p>clamoodle</p>
-              </div>
-              <div>
-                <img src="media/avatars/blue-dog.png" alt="friend" />
-                <p>clamoodle</p>
-              </div>
+            <!-- Landing page, where user selects whether yes/no music -->
+            <section id="sound-menu" class="foreground">
+                <h2>Would you like music?</h2>
+                <div>
+                    <button id="music-button">Yes Please</button>
+                    <button id="mute-button">No It's 3 a.m.</button>
+                </div>
             </section>
 
-            <!-- Actual chat -->
-            <section id="chat">
-              <section id="chat-content">
-                <div class="user-msg">
-                  <p>Hi!</p>
+            <!-- Welcome page, where user chooses to log-in or create account -->
+            <section id="welcome-view" class="hidden">
+                <!-- background sliding layers of lil' mountains -->
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+
+                <h1>Set World</h1>
+                <!-- foreground titles/buttons floating over mountains -->
+                <div id="home-buttons-before-login" class="foreground">
+                    <button id="login-button">Log In</button>
+                    <button id="create-button">Create New Character</button>
+                    <button class="start-game-button">Play as Guest</button>
                 </div>
-                <div class="friend-msg">
-                  <p>Hi! How are you?</p>
+                <div id="home-buttons-after-login" class="hidden foreground">
+                    <button class="start-game-button">Start Game</button>
+                    <button type="button" id="add-friends-button">Add friends</button>
                 </div>
-                <div class="user-msg">
-                  <p>Hi! I'm good how are you???</p>
-                </div>
-              </section>
-              <section id="typebox">
-                <input type="text" placeholder="Type your message here..." />
-                <button type="button">send</button>
-              </section>
             </section>
-          </section>
-        </section>
-      </section>
 
-      <!-- Pearl's flex (creds) -->
-      <section id="flex" class="hidden popup">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <h2>Pearl Flexing &amp; Credits</h2>
-        <ul>
-          <li>all art/sprites: Pearl Chen</li>
-          <li>all music: Pearl Chen</li>
-          <li>animation: Pearl Chen</li>
-          <li>code: Pearl Chen</li>
-          <li>the set cards are from El!</li>
-          <li>keybinds: Stephen D'Aquila</li>
-          <li>beta test: Stephen D'Aquila</li>
-        </ul>
-        <p>
-          Thank you El and CS132 TAs for an amazing class and helping me implement so many things I
-          never thought I could!
-        </p>
-      </section>
+            <!-- Log-in form, overlays the welcome page -->
+            <section id="login-window" class="hidden popup foreground">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <form>
+                    <label for="login-username">
+                        Username:
+                        <input id="login-username" type="text" name="username" required />
+                    </label>
 
-      <!-- Leaderboard window -->
-      <section id="leaderboard" class="hidden popup foreground">
-        <img class="close-button" src="media/buttons/close-button.png" alt="close popup button" />
-        <h2>Top 10 of Set World</h2>
-        <table>
-          <tbody></tbody>
-        </table>
-      </section>
-    </main>
-  </body>
+                    <label for="login-pw">
+                        Password:
+                        <input id="login-pw" type="password" name="password" required />
+                    </label>
+                    <button id="submit-login" type="button">Submit Login</button>
+                </form>
+            </section>
+
+            <!-- Log-in successful message, with button to start game -->
+            <section id="login-success" class="hidden popup">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <p></p>
+                <button class="start-game-button" type="button">Start Game</button>
+            </section>
+
+            <!-- Character selection / creation view, leads to the game view afterwards -->
+            <section id="char-creation-view" class="hidden">
+                <h3 class="scroll" id="scroll-one">Create Character</h3>
+                <!-- <h3 class="scroll" id="scroll-two">Create Character</h3> -->
+                <div>
+                    <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
+                    <div class="oval"></div>
+                </div>
+                <form id="traits" class="popup">
+                    <h2>Species:</h2>
+                    <div class="trait-select">
+                        <img id="left-species" src="media/buttons/left-button.png" alt="left" />
+                        <h2 id="species">not eel</h2>
+                        <img id="right-species" src="media/buttons/right-button.png" alt="right" />
+                    </div>
+
+                    <h2>Type:</h2>
+                    <div class="trait-select">
+                        <img id="left-type" src="media/buttons/left-button.png" alt="left" />
+                        <h2 id="type">dog</h2>
+                        <img id="right-type" src="media/buttons/right-button.png" alt="right" />
+                    </div>
+
+                    <h2>Color:</h2>
+                    <div class="trait-select">
+                        <img id="left-color" src="media/buttons/left-button.png" alt="left" />
+                        <h2 id="color">blue</h2>
+                        <img id="right-color" src="media/buttons/right-button.png" alt="right" />
+                    </div>
+
+                    <h2>Username:</h2>
+                    <input id="reg-username" type="text" name="username" maxlength="10" required />
+                    <h2>Email:</h2>
+                    <input id="reg-email" type="email" name="email" required />
+
+                    <h2>Password:</h2>
+                    <input id="reg-pw" type="password" name="password" required />
+
+                    <button id="register" type="button">Register &amp; Log in</button>
+                    <button type="button" class="back-button">back</button>
+                </form>
+            </section>
+
+            <!-- The actual "dino" game view, clears everything else -->
+            <section id="dino-game" class="hidden">
+                <!-- Bckground sliding layers of lil' mountains -->
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+                <div class="bg sliding-layer"></div>
+
+                <!-- avatar -->
+                <img id="avatar" class="avatar" src="media/avatars/blue-dog.png" alt="blue dog" />
+                <h3>Obstacles Left: <span id="obstacle-count">30</span></h3>
+
+                <!-- Obstacles will appear here (to-be-added by game.js) -->
+                <section id="obstacles"></section>
+
+                <section id="game-start-msg" class="foreground">
+                    <h4>Press space to start jumping!</h4>
+                    <p>Try to get as many sets as you can while avoiding obstacles!</p>
+                    <p>
+                        Hit 'G' to refresh board but avoid it! Click or use keyboard to select cards
+                    </p>
+                </section>
+
+                <!-- Score counter -->
+                <section id="game-stats">
+                    <h4>Score: <span id="score-count">0</span></h4>
+                    <h4><span id="time-left">2:00</span></h4>
+                </section>
+
+                <!-- Set board!! -->
+                <div id="board" class="popup"></div>
+
+                <!-- the goal div will start sliding towards avatar once obstacles are all cleared -->
+                <div class="goal">
+                    <img src="media/environment/goal.png" alt="goal" />
+                    <img src="media/environment/sparkle-1.png" alt="sparkles" />
+                    <img src="media/environment/sparkle-2.png" alt="more sparkles" />
+                </div>
+            </section>
+
+            <!-- Popup message, includes game end message -->
+            <section id="popup-window" class="hidden popup">
+                <label id="popup-msg">Game over!</label>
+                <button type="button" class="back-button">back</button>
+            </section>
+
+            <!-- Menu floaty page -->
+            <section id="menu" class="hidden popup">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <h2>Menu</h2>
+                <label for="obstacle-rate-input">Obstacle Rate</label>
+                <input type="range" id="obstacle-rate-input" min="0" max="10" value="6" step="2" />
+                <output id="obstacle-rate">6</output>
+                <button type="button" id="show-my-info">My Profile</button>
+                <button type="button" id="show-leaderboard">Leaderboard</button>
+                <button type="button" id="show-flex">Credits</button>
+            </section>
+
+            <!-- add friends page -->
+            <section id="add-friends-page" class="hidden popup">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <!-- Shows list of users -->
+                <section id="users-list">
+                    <h2>Find friends</h2>
+                    <form id="search-filters">
+                        <select name="friend-status" class="filter-item">
+                            <option value="">All</option>
+                            <option value="true">Friends</option>
+                            <option value="false">Not Friends</option>
+                        </select>
+                        <select name="species" class="filter-item">
+                            <option value="">Any Species</option>
+                            <option value="eel">Eel</option>
+                            <option value="not eel">Not Eel</option>
+                        </select>
+                        <select name="min-highscore" class="filter-item">
+                            <option value="">No Min Highscore</option>
+                            <option value="2000">At least 2000</option>
+                            <option value="4000">At least 4000</option>
+                            <option value="6000">At least 6000</option>
+                            <option value="8000">At least 8000</option>
+                        </select>
+                        <input list="users" class="filter-item" placeholder="Type Username" />
+                        <datalist id="users"> </datalist>
+                        <button id="search-friends" type="button">Search</button>
+                    </form>
+                    <div id="user-icons"></div>
+                </section>
+
+                <!-- current user info details page -->
+                <section id="curr-user-info" class="hidden user-info">
+                    <img class="avatar" src="media/avatars/blue-dog.png" alt="a blue dog" />
+                    <div>
+                        <h2 id="curr-username"></h2>
+                        <ul>
+                            <li>High score: <output id="curr-high-score"></output></li>
+                            <li>Friends: <output id="curr-friends"></output></li>
+                        </ul>
+                        <button id="user-back-to-friends">Add Friends</button>
+                    </div>
+                </section>
+
+                <!-- other user info details page -->
+                <section id="user-info" class="hidden user-info">
+                    <img src="media/avatars/blue-dog.png" alt="a blue dog" />
+                    <div>
+                        <h2 id="username">clamoodle</h2>
+                        <ul>
+                            <li>High score: <output id="high-score"></output></li>
+                            <li>Friends: <output id="friends"></output></li>
+                        </ul>
+                        <button id="send-request">Add as Friend</button>
+                        <button id="send-message" class="hidden">Message (Under dev)</button>
+                        <button class="back-to-friends">Back</button>
+                    </div>
+                </section>
+
+                <!-- Messaging friends page -->
+                <section id="messenger" class="hidden">
+                    <h2>Set World Messenger</h2>
+                    <section>
+                        <!-- Thumbnail of each friend user is chatting with -->
+                        <section id="chats-list">
+                            <div>
+                                <img src="media/avatars/blue-dog.png" alt="friend" />
+                                <p>clamoodle</p>
+                            </div>
+                            <div>
+                                <img src="media/avatars/blue-dog.png" alt="friend" />
+                                <p>clamoodle</p>
+                            </div>
+                        </section>
+
+                        <!-- Actual chat -->
+                        <section id="chat">
+                            <section id="chat-content">
+                                <div class="user-msg">
+                                    <p>Hi!</p>
+                                </div>
+                                <div class="friend-msg">
+                                    <p>Hi! How are you?</p>
+                                </div>
+                                <div class="user-msg">
+                                    <p>Hi! I'm good how are you???</p>
+                                </div>
+                            </section>
+                            <section id="typebox">
+                                <input type="text" placeholder="Type your message here..." />
+                                <button type="button">send</button>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+
+            <!-- Pearl's flex (creds) -->
+            <section id="flex" class="hidden popup">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <h2>Pearl Flexing &amp; Credits</h2>
+                <ul>
+                    <li>all art/sprites: Pearl Chen</li>
+                    <li>all music: Pearl Chen</li>
+                    <li>animation: Pearl Chen</li>
+                    <li>code: Pearl Chen</li>
+                    <li>the set cards are from El!</li>
+                    <li>keybinds: Stephen D'Aquila</li>
+                    <li>beta test: Stephen D'Aquila</li>
+                </ul>
+                <p>
+                    Thank you El and CS132 TAs for an amazing class and helping me implement so many
+                    things I never thought I could!
+                </p>
+            </section>
+
+            <!-- Leaderboard window -->
+            <section id="leaderboard" class="hidden popup foreground">
+                <img
+                    class="close-button"
+                    src="media/buttons/close-button.png"
+                    alt="close popup button"
+                />
+                <h2>Top 10 of Set World</h2>
+                <table>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+    </body>
 </html>

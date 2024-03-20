@@ -1,10 +1,26 @@
 started logging since 5/7/2023 too much to keep track of!!
 
+# 3/19/2024:
+
+## implemented:
+
+- fixed mute/unmute buttons missing
+- phpmyadmin sql integration in app.js endpoints & implemented in public/script files
+    - login
+    - new user registration
+    - leaderboard
+    - friends list (replaced filtering middleware with sql queries)
+    - add friends
+    - add score
+
+## todo:
+- scrolling banner text in character selection
+
 # 7/18/2023:
 
 ## implemented:
 
--   In-game count-down
+-   In-game count-down timer
 
 # 7/16/2023:
 

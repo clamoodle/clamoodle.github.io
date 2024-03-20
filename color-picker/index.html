@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Environmental Color Picker</title>
+        <link rel="stylesheet" href="style.css" />
+        <!-- Source: Wikipedia -->
+        <link rel="icon" type="image/x-icon" href="Color_circle_(RGB).png" />
+        <script defer src="script.js"></script>
+        <script defer src="colorWheel.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Environmental Color Picker</h1>
+        </header>
+        <main>
+            <section class="b1">
+                <h2>Desired Color</h2>
+                <input type="color" id="color-picker" />
+                <canvas
+                    id="colorWheel"
+                    width="300"
+                    height="300"
+                    style="border: 1px solid #000"
+                ></canvas>
+                <p>Selected Color: <span id="selectedColor">#FFFFFF</span></p>
+            </section>
+
+            <section class="b1">
+                <h2>Background Color</h2>
+                <div id="color-palette"></div>
+            </section>
+
+            <section class="b1">
+                <h2>Environmental Light</h2>
+                <section>
+                    <h3>Color</h3>
+                </section>
+                <section>
+                    <h3>Warmth</h3>
+                </section>
+                <section>
+                    <h3>Strength</h3>
+                </section>
+            </section>
+
+            <section class="b1">
+                <h2>RESULT COLOR!!!!</h2>
+            </section>
+        </main>
+    </body>
+</html>
